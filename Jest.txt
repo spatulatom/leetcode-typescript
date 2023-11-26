@@ -1,0 +1,23 @@
+In a typical setup, you don't need to add `"type": "module"` in your `package.json` 
+when using Jest with a TypeScript project. The `ts-jest` preset takes care of handling 
+TypeScript files for Jest.
+
+However, if you're using ES modules in your project (i.e., you're using `import` 
+and `export` syntax in your TypeScript files), and you have set `"type": "module"` in your
+ `package.json`, you might face issues because Jest currently does not fully support ES modules.
+
+In this case, you have a couple of options:
+
+1. **Use Babel alongside Jest**: You can add Babel to your project to transpile your 
+code to CommonJS before running the tests. You'll need to install `@babel/preset-typescript`,
+ `@babel/preset-env`, and `babel-jest`, and then configure Babel to use these presets.
+
+2. **Use the `esm` module**: This module enables you to use ES module syntax in Node.js.
+After installing it as a dev dependency, you can run your tests with `node -r 
+esm your-test-script.js`.
+
+Remember, these steps are only necessary if you're using ES modules and have `"type": 
+"module"` in your `package.json`. If you're using TypeScript with the traditional
+ CommonJS syntax (`require` and `module.exports`), then you don't need to worry about this. 
+
+Let me know if you need further clarification or help! 😊
