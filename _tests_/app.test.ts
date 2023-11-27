@@ -26,3 +26,15 @@ it('should merge two arrays with minimum length in non-decreasing order', () => 
 
   expect(nums1).toEqual([1]);
 });
+
+// 80. Remove Duplicates from Sorted Array
+import { removeDuplicates } from '../src/app';
+it('should keep the relative order of the elements the same when there are duplicates', () => {
+  const nums = [1, 1, 1, 2, 2, 3];
+  const expectedNums = [1, 1, 2, 2, 3];
+  const k = removeDuplicates(nums);
+  expect(k).toBe(expectedNums.length);
+  for (let i = 0; i < k; i++) {
+    expect(nums[i]).toBe(expectedNums[i]);
+  }
+});
