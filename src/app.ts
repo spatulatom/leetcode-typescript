@@ -114,12 +114,13 @@ console.log('twoSum', twoSum([3, 2, 4], 6));
  Do not return anything, modify nums1 in-place instead.
  */
 // sol 1, built in methods
-function merge(nums1: number[], m: number, nums2: number[], n: number): void {
+export function merge(nums1: number[], m: number, nums2: number[], n: number): void {
 nums1.splice(m)
 nums1.push(...nums2)
 nums1.sort((a,b)=>a-b)
 nums1.reverse().splice(n+m)
 nums1.reverse()
 }
+
 
 console.log('merge', merge([1,2,3,4,5], 5, [], 0));

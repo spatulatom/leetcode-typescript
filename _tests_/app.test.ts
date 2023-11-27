@@ -10,3 +10,19 @@ it('should return an empty array when the array contains only one element', () =
   expect(twoSum([-3], -3)).toEqual([]);
   expect(twoSum([0], 0)).toEqual([]);
 });
+
+
+import { merge } from '../src/app';
+
+// 88. Merge Sorted Array
+// merges two arrays with minimum length in non-decreasing order
+it('should merge two arrays with minimum length in non-decreasing order', () => {
+  const nums1 = [0];
+  const m = 0;
+  const nums2 = [1];
+  const n = 1;
+
+  merge(nums1, m, nums2, n);
+
+  expect(nums1).toEqual([1]);
+});
