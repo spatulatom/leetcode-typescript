@@ -201,7 +201,7 @@ console.log('merge', merge([1, 2, 3, 4, 5], 5, [], 0));
 //  of the function is O(n + n + n) = O(3n), which simplifies to O(n), because in 
 //  Big O notation, we drop constant factors.
  export function removeDuplicates(nums: number[]): number {
-  const hash: { [key: string]: number } = {};
+  const hash: { [key:number]: number } = {};
   for (let i = 0; i < nums.length; i++) {
     if (!hash[nums[i]]) {
       hash[nums[i]] = 1;
