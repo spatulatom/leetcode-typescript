@@ -185,23 +185,23 @@ console.log('merge', merge([1, 2, 3, 4, 5], 5, [], 0));
 // nums is sorted in non-decreasing order.
 
 // sol 1, O(n)
-// The first loop iterates over each element in the nums array once, so it has a 
+// The first loop iterates over each element in the nums array once, so it has a
 // time complexity of O(n).
 
-// The second loop also iterates over each element in the nums array once, so it 
+// The second loop also iterates over each element in the nums array once, so it
 // also has a time complexity of O(n).
 
-// The splice method inside the second loop could have a time complexity of up to 
-// O(n) in the worst-case scenario (when an element from the beginning or middle 
-//   of the array is removed), because it needs to shift all the 
+// The splice method inside the second loop could have a time complexity of up to
+// O(n) in the worst-case scenario (when an element from the beginning or middle
+//   of the array is removed), because it needs to shift all the
 // following elements to fill the gap.
 
-// However, since these operations are not nested and are performed sequentially, 
+// However, since these operations are not nested and are performed sequentially,
 // we add the time complexities together. Therefore, the overall time complexity
-//  of the function is O(n + n + n) = O(3n), which simplifies to O(n), because in 
+//  of the function is O(n + n + n) = O(3n), which simplifies to O(n), because in
 //  Big O notation, we drop constant factors.
- export function removeDuplicates(nums: number[]): number {
-  const hash: { [key:number]: number } = {};
+export function removeDuplicates(nums: number[]): number {
+  const hash: { [key: number]: number } = {};
   for (let i = 0; i < nums.length; i++) {
     if (!hash[nums[i]]) {
       hash[nums[i]] = 1;
@@ -223,17 +223,15 @@ console.log('merge', merge([1, 2, 3, 4, 5], 5, [], 0));
 
 console.log('removeDuplicates', removeDuplicates([0, 0, 1, 1, 1, 1, 2, 3, 3]));
 
-
-
 // 189. Rotate Array
 // Medium
 // 16.7K
 // 1.8K
 // Companies
-// Given an integer array nums, rotate the array to the right by k steps, 
+// Given an integer array nums, rotate the array to the right by k steps,
 // where k is non-negative.
 
- // Example 1:
+// Example 1:
 
 // Input: nums = [1,2,3,4,5,6,7], k = 3
 // Output: [5,6,7,1,2,3,4]
@@ -245,33 +243,88 @@ console.log('removeDuplicates', removeDuplicates([0, 0, 1, 1, 1, 1, 2, 3, 3]));
 
 // Input: nums = [-1,-100,3,99], k = 2
 // Output: [3,99,-1,-100]
-// Explanation: 
+// Explanation:
 // rotate 1 steps to the right: [99,-1,-100,3]
 // rotate 2 steps to the right: [3,99,-1,-100]
- 
 
 // Constraints:
 
 // 1 <= nums.length <= 105
 // -231 <= nums[i] <= 231 - 1
 // 0 <= k <= 105
- 
 
 // Follow up:
 
-// Try to come up with as many solutions as you can. There are at least three 
+// Try to come up with as many solutions as you can. There are at least three
 // different ways to solve this problem.
 // Could you do it in-place with O(1) extra space?
 
 /**
  Do not return anything, modify nums in-place instead.
  */
- function rotate(nums: number[], k: number): void {
-    for(let i=1;i<=k;i++){
-      const pop:number|undefined = nums.pop()
-      if(pop!==undefined)nums.unshift(pop)
-  
-    }
- };
+function rotate(nums: number[], k: number): void {
+  for (let i = 1; i <= k; i++) {
+    const pop: number | undefined = nums.pop();
+    if (pop !== undefined) nums.unshift(pop);
+  }
+}
 
- console.log('rotate', rotate([1,2,3,4,5,6,7], 3))
+console.log('rotate', rotate([1, 2, 3, 4, 5, 6, 7], 3));
+
+//  55. Jump Game
+// Medium
+// 18.2K
+// 1.1K
+// Companies
+// You are given an integer array nums. You are initially positioned at the
+// array's first index, and each element in the array represents your maximum jump
+//  length at that position.
+
+// Return true if you can reach the last index, or false otherwise.
+
+// Example 1:
+
+// Input: nums = [2,3,1,1,4]
+// Output: true
+// Explanation: Jump 1 step from index 0 to 1, then 3 steps to the last index.
+// Example 2:
+
+// Input: nums = [3,2,1,0,4]
+// Output: false
+// Explanation: You will always arrive at index 3 no matter what. Its maximum jump length
+// is 0, which makes it impossible to reach the last index.
+
+// Constraints:
+
+// 1 <= nums.length <= 104
+// 0 <= nums[i] <= 105
+// Accepted
+// 1.6M
+
+// sol 1, try greedy appraoch, time O(n), spaceO(1)
+function canJump(nums: number[]): boolean {
+  if (nums.length === 1) return true;
+  let jump = nums[0];
+
+  for (let i = 0; i < nums.length; i++) {
+    if (i === jump) {
+      if (nums[i] === 0) return false;
+      jump = nums[i] + i;
+    }
+
+    if (jump >= nums.length - 1) {
+      return true;
+    }
+    // greedy part, updating jump if value > than current jump
+    if (nums[i] + i > jump) {
+      jump = nums[i] + i;
+    }
+  }
+
+  return false;
+}
+console.log('canJump', canJump([0]));
+
+
+
+
