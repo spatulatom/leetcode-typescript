@@ -369,5 +369,26 @@ function maxArea1(height: number[]): number {
   return maxArea;
 }
 
+// sol 2, two pointers, time complexity O(n) sinc ein every
+// scenerion pointers left and right traverse the entire array exaclty once.
+// space complexity is O(1)
+function maxArea(height: number[]): number {
+  let left = 0;
+  let right = height.length - 1;
+  let maxArea = 0;
+  while (left < right) {
+    const area = Math.min(height[left], height[right]) * (right - left);
+    maxArea = Math.max(maxArea, area);
+    if (height[left] > height[right]) {
+      right--;
+    } else if (height[left] < height[right]) {
+      left++;
+    } else if (height[left] === height[right]) {
+      right--;
+    }
+  }
+
+  return maxArea;
+}
 
 console.log('maxArea', maxArea([1, 8, 6, 2, 5, 4, 8, 3, 7]));
