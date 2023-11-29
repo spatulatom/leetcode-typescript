@@ -38,3 +38,21 @@ it('should keep the relative order of the elements the same when there are dupli
     expect(nums[i]).toBe(expectedNums[i]);
   }
 });
+
+
+//  11. Container With Most Water
+import { maxArea } from '../src/app';
+it('should return the correct maximum area for an input with heights at the maximum allowed value', () => {
+  const height = [Math.pow(10, 4), Math.pow(10, 4), Math.pow(10, 4), Math.pow(10, 4), Math.pow(10, 4)];
+  expect(maxArea(height)).toBe(Math.pow(10, 4) * 4);
+});
+
+it('should return 0 for an input with all heights equal to 0', () => {
+  const height = [0, 0, 0, 0, 0];
+  expect(maxArea(height)).toBe(0);
+})
+
+it('should return the correct maximum area for an input with all heights equal to 1', () => {
+  const height = [1, 1, 1, 1, 1];
+  expect(maxArea(height)).toBe(4);
+});

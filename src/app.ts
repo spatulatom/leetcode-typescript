@@ -372,7 +372,7 @@ function maxArea1(height: number[]): number {
 // sol 2, two pointers, time complexity O(n) sinc ein every
 // scenerion pointers left and right traverse the entire array exaclty once.
 // space complexity is O(1)
-function maxArea(height: number[]): number {
+export function maxArea(height: number[]): number {
   let left = 0;
   let right = height.length - 1;
   let maxArea = 0;
@@ -392,3 +392,69 @@ function maxArea(height: number[]): number {
 }
 
 console.log('maxArea', maxArea([1, 8, 6, 2, 5, 4, 8, 3, 7]));
+
+// 209. Minimum Size Subarray Sum
+// Medium
+
+// Given an array of positive integers nums and a positive integer target, return the
+// minimal length of a
+// subarray
+//  whose sum is greater than or equal to target. If there is no such subarray, return 0 instead.
+
+// Example 1:
+
+// Input: target = 7, nums = [2,3,1,2,4,3]
+// Output: 2
+// Explanation: The subarray [4,3] has the minimal length under the problem constraint.
+// Example 2:
+
+// Input: target = 4, nums = [1,4,4]
+// Output: 1
+// Example 3:
+
+// Input: target = 11, nums = [1,1,1,1,1,1,1,1]
+// Output: 0
+
+// Constraints:
+
+// 1 <= target <= 109
+// 1 <= nums.length <= 105
+// 1 <= nums[i] <= 104
+
+// Follow up: If you have figured out the O(n) solution, try coding another solution
+// of which the time complexity is O(n log(n)).
+// Accepted
+// 898K
+// Submissions
+// 1.9M
+
+// sol 1, brute force, times ou on bigger inputs  for ex target=396893380
+function minSubArrayLen(target: number, nums: number[]): number {
+  const all = [];
+  for (let i = 0; i < nums.length; i++) {
+    let sum = nums[i];
+    const arr = [nums[i]];
+    if (sum >= target) {
+      all.push(arr.length);
+      break;
+    } else {
+      for (let j = i + 1; j < nums.length; j++) {
+        sum += nums[j];
+        arr.push(nums[j]);
+
+        if (sum >= target) {
+          all.push(arr.length);
+          break;
+        }
+      }
+    }
+  }
+
+  let min = +Infinity;
+  all.forEach((e) => {
+    min = Math.min(e, min);
+  });
+  return all.length === 0 ? 0 : min;
+}
+
+console.log('minSubArrayLen', minSubArrayLen(11, [1, 2, 3, 4, 5]));
