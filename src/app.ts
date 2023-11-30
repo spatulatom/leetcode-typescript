@@ -479,17 +479,16 @@ function minSubArrayLen(target: number, nums: number[]): number {
 }
 console.log('minSubArrayLen', minSubArrayLen(4, [1, 4, 4]));
 
-
 // 34. Find First and Last Position of Element in Sorted Array
 // Medium
-// Given an array of integers nums sorted in non-decreasing order, find 
+// Given an array of integers nums sorted in non-decreasing order, find
 // the starting and ending position of a given target value.
 
 // If target is not found in the array, return [-1, -1].
 
 // You must write an algorithm with O(log n) runtime complexity.
 
- // Example 1:
+// Example 1:
 
 // Input: nums = [5,7,7,8,8,10], target = 8
 // Output: [3,4]
@@ -501,7 +500,6 @@ console.log('minSubArrayLen', minSubArrayLen(4, [1, 4, 4]));
 
 // Input: nums = [], target = 0
 // Output: [-1,-1]
- 
 
 // Constraints:
 
@@ -510,20 +508,50 @@ console.log('minSubArrayLen', minSubArrayLen(4, [1, 4, 4]));
 // nums is a non-decreasing array.
 // -109 <= target <= 109
 
-
 // sol 1, built in methods, time xomplexity O(n)
+function searchRange1(nums: number[], target: number): number[] {
+  const index = nums.findIndex((e) => e === target);
+  if (index === -1) return [-1, -1];
+  let second = index + 1;
+  const result = [index, index];
+  while (nums[index] === nums[second]) {
+    result[1] = second;
+    second++;
+  }
+
+  return result;
+}
+
+// sol 2, binary, O(log n)
 function searchRange(nums: number[], target: number): number[] {
+  let left = 0;
+  let right = nums.length - 1;
 
-  const index = nums.findIndex(e=>e===target)
-  if(index===-1) return [-1,-1]
-  let second = index+1
-  const result = [index,index]
-   while(nums[index]===nums[second]){
-result[1]=second
-second++
-   }
+  for (; left <= right; ) {
+    const mid = Math.floor((left + right) / 2);
 
-   return result
-};
+    if (nums[mid] === target) {
+      const result = [mid, mid];
+      let left2 = mid - 1;
+      let right2 = mid + 1;
 
-console.log('searchRange', searchRange([1], 1))
+      while (nums[right2] === target) {
+        result[1] = right2;
+        right2++;
+      }
+      while (nums[left2] === target) {
+        result[0] = left2;
+        left2--;
+      }
+
+      return result;
+    } else if (nums[mid] < target) {
+      left = mid + 1;
+    } else {
+      right = mid - 1;
+    }
+  }
+  return [-1, -1];
+}
+
+console.log('searchRange', searchRange([5, 7, 8, 8, 8, 10], 7));
