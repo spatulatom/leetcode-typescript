@@ -429,7 +429,7 @@ console.log('maxArea', maxArea([1, 8, 6, 2, 5, 4, 8, 3, 7]));
 // 1.9M
 
 // sol 1, brute force, times ou on bigger inputs  for ex target=396893380
-function minSubArrayLen(target: number, nums: number[]): number {
+function minSubArrayLen1(target: number, nums: number[]): number {
   const all = [];
   for (let i = 0; i < nums.length; i++) {
     let sum = nums[i];
@@ -457,4 +457,24 @@ function minSubArrayLen(target: number, nums: number[]): number {
   return all.length === 0 ? 0 : min;
 }
 
-console.log('minSubArrayLen', minSubArrayLen(11, [1, 2, 3, 4, 5]));
+// sol 2, sliding window
+
+function minSubArrayLen(target: number, nums: number[]): number {
+  let min = +Infinity;
+  let arr = [];
+  let sum = 0;
+
+  for (let i = 0; i < nums.length; i++) {
+    sum += nums[i];
+    arr.push(nums[i]);
+
+    while (sum >= target) {
+      min = Math.min(arr.length, min);
+      sum -= arr[0];
+      arr.shift();
+    }
+  }
+
+  return min === +Infinity ? 0 : min;
+}
+console.log('minSubArrayLen', minSubArrayLen(4, [1, 4, 4]));
