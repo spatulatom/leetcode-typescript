@@ -50,3 +50,11 @@ it('should return a string representation of the array surrounded by brackets wh
   const wrapper = new ArrayWrapper(nums);
   expect(String(wrapper)).toEqual('[1,2,3]');
 });
+
+it('should return the correct sum when adding two instances of ArrayWrapper with arrays containing the minimum allowed integer value', () => {
+  const nums1 = [Number.MIN_SAFE_INTEGER];
+  const nums2 = [Number.MIN_SAFE_INTEGER];
+  const wrapper1 = new ArrayWrapper(nums1);
+  const wrapper2 = new ArrayWrapper(nums2);
+  expect(wrapper1.valueOf() + wrapper2.valueOf()).toEqual(Number.MIN_SAFE_INTEGER * 2);
+});
