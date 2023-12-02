@@ -604,4 +604,8 @@ function findMedianSortedArrays(nums1: number[], nums2: number[]): number {
    
 };
 
+
+// sol 2, attempt at O(log(m+n))
+// ?
+
 console.log('findMedianSortedArrays',findMedianSortedArrays([1,2], [3,4]))
