@@ -56,3 +56,6 @@ it('should return the correct maximum area for an input with all heights equal t
   const height = [1, 1, 1, 1, 1];
   expect(maxArea(height)).toBe(4);
 });
+
+
+
