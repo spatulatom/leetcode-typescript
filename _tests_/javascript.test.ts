@@ -60,10 +60,29 @@ it('should return the correct sum when adding two instances of ArrayWrapper with
 });
 
 
+// 2677. Chunk Array
 import {chunk} from  '../src/javascript';
 it('should return an empty array when given an empty array and any size', () => {
   const arr:any = [];
   const size = 3;
   const result = chunk(arr, size);
   expect(result).toEqual([]);
+});
+
+
+
+// 2727. Is Object Empty
+import {isEmpty} from  '../src/javascript';
+
+type JSONValu =
+  | null
+  | boolean
+  | number
+  | string
+  | { [key: string]: JSONValu };
+
+it('should return true when given an empty array', () => {
+  const arr:JSONValu[] = [];
+  const result = isEmpty(arr);
+  expect(result).toBe(true);
 });

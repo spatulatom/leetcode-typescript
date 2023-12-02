@@ -638,7 +638,7 @@ type JSONValu =
   | { [key: string]: JSONValu };
 type Ob = Record<string, JSONValu> | JSONValu[];
 
-function isEmpty(obj: Ob): boolean {
+export function isEmpty(obj: Ob): boolean {
   if (Array.isArray(obj)) {
     if (obj.length > 0) return false;
   } else {
