@@ -25,3 +25,16 @@ it('should return false when the classFunction has no prototype', () => {
   // Assert
   expect(result).toBe(false);
 });
+
+// 2695. Array Wrapper
+import { ArrayWrapper } from '../src/javascript';
+
+// Adding two instances of ArrayWrapper with non-empty arrays should return the sum of all elements in both arrays.
+it('should return the sum of all elements in both arrays when adding two instances of ArrayWrapper with non-empty arrays', () => {
+  const nums1 = [1, 2, 3];
+  const nums2 = [4, 5, 6];
+  const wrapper1 = new ArrayWrapper(nums1);
+  const wrapper2 = new ArrayWrapper(nums2);
+  const sum = wrapper1.valueOf() + wrapper2.valueOf();
+  expect(sum).toBe(21);
+});

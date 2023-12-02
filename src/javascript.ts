@@ -369,7 +369,7 @@ console.log(counter.increment());
 // - he valueOf method is called automatically when an object is used in a context
 //  where a primitive value is expected, such as in arithmetic operations
 // - toString is called when String(obj)
-class ArrayWrapper {
+export class ArrayWrapper {
     nums: number[]
 	constructor(nums: number[]) {
         this.nums = nums
@@ -454,15 +454,15 @@ console.log(obj1.toString())
 // 1 <= calls[i].length <= 100
 // 2 <= JSON.stringify(calls).length <= 1000
 
-type JSONValue = null | boolean | number | string | JSONValue[] | { [key: string]: JSONValue };
-type OnceFn = (...args: JSONValue[]) => JSONValue | undefined
+// type JSONValue = null | boolean | number | string | JSONValue[] | { [key: string]: JSONValue };
+// type OnceFn = (...args: JSONValue[]) => JSONValue | undefined
 
-function once(fn: Function): OnceFn {
+// function once(fn: Function): OnceFn {
     
-	return function (...args) {
+// 	return function (...args) {
 		
-	};
-}
+// 	};
+// }
 
 /**
  * let fn = (a,b,c) => (a + b + c)
