@@ -44,3 +44,9 @@ it('should return an object with an empty array when creating an instance of Arr
   const wrapper = new ArrayWrapper(nums);
   expect(wrapper.nums).toEqual([]);
 });
+
+it('should return a string representation of the array surrounded by brackets when calling String() on an instance of ArrayWrapper', () => {
+  const nums = [1, 2, 3];
+  const wrapper = new ArrayWrapper(nums);
+  expect(String(wrapper)).toEqual('[1,2,3]');
+});
