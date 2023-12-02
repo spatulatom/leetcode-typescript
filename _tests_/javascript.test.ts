@@ -38,3 +38,9 @@ it('should return the sum of all elements in both arrays when adding two instanc
   const sum = wrapper1.valueOf() + wrapper2.valueOf();
   expect(sum).toBe(21);
 });
+
+it('should return an object with an empty array when creating an instance of ArrayWrapper with an empty array', () => {
+  const nums: number[] = [];
+  const wrapper = new ArrayWrapper(nums);
+  expect(wrapper.nums).toEqual([]);
+});
