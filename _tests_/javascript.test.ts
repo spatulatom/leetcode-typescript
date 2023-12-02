@@ -58,3 +58,12 @@ it('should return the correct sum when adding two instances of ArrayWrapper with
   const wrapper2 = new ArrayWrapper(nums2);
   expect(wrapper1.valueOf() + wrapper2.valueOf()).toEqual(Number.MIN_SAFE_INTEGER * 2);
 });
+
+
+import {chunk} from  '../src/javascript';
+it('should return an empty array when given an empty array and any size', () => {
+  const arr:any = [];
+  const size = 3;
+  const result = chunk(arr, size);
+  expect(result).toEqual([]);
+});

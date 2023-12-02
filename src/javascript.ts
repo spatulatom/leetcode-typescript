@@ -530,8 +530,8 @@ console.log(onceFn(2, 3, 6));
  * onceFn(2,3,6); // returns undefined without calling fn
  */
 
-// 2677. Chunk Array
 
+// 2677. Chunk Array
 // Given an array arr and a chunk size size, return a chunked array. A chunked array
 // contains the original elements in arr, but consists of subarrays each of length size.
 // The length of the last subarray may be less than size if arr.length is not evenly
@@ -578,7 +578,7 @@ type JSONValuee =
   | { [key: string]: JSONValuee };
 type Obj = Record<string, JSONValue> | Array<JSONValuee>;
 
-function chunk(arr: Obj[], size: number): Obj[][] {
+export function chunk(arr: Obj[], size: number): Obj[][] {
   const result = [];
   let sub = [];
   for (let i = 0; i < arr.length; i++) {
@@ -594,4 +594,4 @@ function chunk(arr: Obj[], size: number): Obj[][] {
   return result;
 }
 
-console.log('chunk', chunk([1, 9, 6, 3, 2], 3));
+// console.log('chunk', chunk([1, 9, 6, 3, 2], 3));
