@@ -317,20 +317,18 @@ console.log(counter.increment());
  * counter.decrement(); // 4
  */
 
-
 // 2695. Array Wrapper
 // Easy
 // 196
 // 29
 // Companies
-// Create a class ArrayWrapper that accepts an array of integers in its constructor. 
+// Create a class ArrayWrapper that accepts an array of integers in its constructor.
 // This class should have two features:
 
-// When two instances of this class are added together with the + operator, the resulting 
+// When two instances of this class are added together with the + operator, the resulting
 // value is the sum of all the elements in both arrays.
-// When the String() function is called on the instance, it will return a comma separated 
+// When the String() function is called on the instance, it will return a comma separated
 // string surrounded by brackets. For example, [1,2,3].
- 
 
 // Example 1:
 
@@ -355,7 +353,6 @@ console.log(counter.increment());
 // const obj1 = new ArrayWrapper([]);
 // const obj2 = new ArrayWrapper([]);
 // obj1 + obj2; // 0
- 
 
 // Constraints:
 
@@ -363,40 +360,38 @@ console.log(counter.increment());
 // 0 <= nums[i] <= 1000
 // Note: nums is the array passed to the constructor
 
-
 // sol 1
 // we are overriding default methods exosting on every object
 // - he valueOf method is called automatically when an object is used in a context
 //  where a primitive value is expected, such as in arithmetic operations
 // - toString is called when String(obj)
 export class ArrayWrapper {
-    nums: number[]
-	constructor(nums: number[]) {
-        this.nums = nums
-        
-    }
+  nums: number[];
+  constructor(nums: number[]) {
+    this.nums = nums;
+  }
 
-	valueOf(): number {
-        let sum = 0
-        this.nums.forEach(e=>sum+=e)
-        return sum
-    }
+  valueOf(): number {
+    let sum = 0;
+    this.nums.forEach((e) => (sum += e));
+    return sum;
+  }
 
-	toString(): string {
-        let string = `[${this.nums}]`
-        // this.nums.flat(Infinity)
-        // this.nums.forEach(e=> string+=e)
-        return string
-    }
-};
-const obj1 = new ArrayWrapper([1,22]);
-console.log(obj1.toString())
+  toString(): string {
+    let string = `[${this.nums}]`;
+    // this.nums.flat(Infinity)
+    // this.nums.forEach(e=> string+=e)
+    return string;
+  }
+}
+const obj1 = new ArrayWrapper([1, 22]);
+console.log(obj1.toString());
 
-// Notes: 
-// When you use an array in a string context (like in a template literal), 
-// JavaScript automatically converts the array to a string by joining its elements 
-// with commas. This is equivalent to calling the array’s join method with a comma as 
-// the argument. The square brackets [] are not included in the string 
+// Notes:
+// When you use an array in a string context (like in a template literal),
+// JavaScript automatically converts the array to a string by joining its elements
+// with commas. This is equivalent to calling the array’s join method with a comma as
+// the argument. The square brackets [] are not included in the string
 // representation of an array.
 
 // Here’s an example:
@@ -416,17 +411,15 @@ console.log(obj1.toString())
  * String(obj2); // "[3,4]"
  */
 
-
 // 2666. Allow One Function Call
 // Easy
 
 // Companies
-// Given a function fn, return a new function that is identical to the original 
+// Given a function fn, return a new function that is identical to the original
 // function except that it ensures fn is called at most once.
 
 // The first time the returned function is called, it should return the same result as fn.
 // Every subsequent time it is called, it should return undefined.
- 
 
 // Example 1:
 
@@ -445,7 +438,6 @@ console.log(obj1.toString())
 // onceFn(5, 7, 4); // 140
 // onceFn(2, 3, 6); // undefined, fn was not called
 // onceFn(4, 6, 8); // undefined, fn was not called
- 
 
 // Constraints:
 
@@ -458,9 +450,9 @@ console.log(obj1.toString())
 // type OnceFn = (...args: JSONValue[]) => JSONValue | undefined
 
 // function once(fn: Function): OnceFn {
-    
+
 // 	return function (...args) {
-		
+
 // 	};
 // }
 
@@ -472,15 +464,13 @@ console.log(obj1.toString())
  * onceFn(2,3,6); // returns undefined without calling fn
  */
 
-
 // 2666. Allow One Function Call
 
-// Given a function fn, return a new function that is identical to the original function 
+// Given a function fn, return a new function that is identical to the original function
 // except that it ensures fn is called at most once.
 
 // The first time the returned function is called, it should return the same result as fn.
 // Every subsequent time it is called, it should return undefined.
- 
 
 // Example 1:
 
@@ -499,7 +489,6 @@ console.log(obj1.toString())
 // onceFn(5, 7, 4); // 140
 // onceFn(2, 3, 6); // undefined, fn was not called
 // onceFn(4, 6, 8); // undefined, fn was not called
- 
 
 // Constraints:
 
@@ -508,25 +497,30 @@ console.log(obj1.toString())
 // 1 <= calls[i].length <= 100
 // 2 <= JSON.stringify(calls).length <= 1000
 
-
-type JSONValue = null | boolean | number | string | JSONValue[] | { [key: string]: JSONValue };
-type OnceFn = (...args: JSONValue[]) => JSONValue | undefined
+type JSONValue =
+  | null
+  | boolean
+  | number
+  | string
+  | JSONValue[]
+  | { [key: string]: JSONValue };
+type OnceFn = (...args: JSONValue[]) => JSONValue | undefined;
 
 function once(fn: Function): OnceFn {
-    let f = fn
-    // console.log(fn)
-	return function (...args){
-        console.log('here',args)
-        let fl =f
-        f= ()=>{}
-    return fl(...args)
-    }
+  let f = fn;
+  // console.log(fn)
+  return function (...args) {
+    // console.log('here',args)
+    let fl = f;
+    f = () => {};
+    return fl(...args);
+  };
 }
-let fn = (a:number,b:number,c:number) => (a + b + c)
-let onceFn = once(fn)
+let fn = (a: number, b: number, c: number) => a + b + c;
+let onceFn = once(fn);
 
-console.log(onceFn(1,2,3))
-console.log(onceFn(2,3,6))
+console.log(onceFn(1, 2, 3));
+console.log(onceFn(2, 3, 6));
 
 /**
  * let fn = (a,b,c) => (a + b + c)
@@ -535,3 +529,69 @@ console.log(onceFn(2,3,6))
  * onceFn(1,2,3); // 6
  * onceFn(2,3,6); // returns undefined without calling fn
  */
+
+// 2677. Chunk Array
+
+// Given an array arr and a chunk size size, return a chunked array. A chunked array
+// contains the original elements in arr, but consists of subarrays each of length size.
+// The length of the last subarray may be less than size if arr.length is not evenly
+// divisible by size.
+
+// You may assume the array is the output of JSON.parse. In other words, it is valid JSON.
+
+// Please solve it without using lodash's _.chunk function.
+
+// Example 1:
+
+// Input: arr = [1,2,3,4,5], size = 1
+// Output: [[1],[2],[3],[4],[5]]
+// Explanation: The arr has been split into subarrays each with 1 element.
+// Example 2:
+
+// Input: arr = [1,9,6,3,2], size = 3
+// Output: [[1,9,6],[3,2]]
+// Explanation: The arr has been split into subarrays with 3 elements. However, only
+// two elements are left for the 2nd subarray.
+// Example 3:
+
+// Input: arr = [8,5,3,2,6], size = 6
+// Output: [[8,5,3,2,6]]
+// Explanation: Size is greater than arr.length thus all elements are in the first subarray.
+// Example 4:
+
+// Input: arr = [], size = 1
+// Output: []
+// Explanation: There are no elements to be chunked so an empty array is returned.
+
+// Constraints:
+
+// arr is a valid JSON array
+// 2 <= JSON.stringify(arr).length <= 105
+// 1 <= size <= arr.length + 1
+
+type JSONValuee =
+  | null
+  | boolean
+  | number
+  | string
+  | JSONValue[]
+  | { [key: string]: JSONValuee };
+type Obj = Record<string, JSONValue> | Array<JSONValuee>;
+
+function chunk(arr: Obj[], size: number): Obj[][] {
+  const result = [];
+  let sub = [];
+  for (let i = 0; i < arr.length; i++) {
+    sub.push(arr[i]);
+    if (sub.length === 3) {
+      result.push(sub);
+      sub = [];
+    } else if (i === arr.length - 1) {
+      result.push(sub);
+    }
+  }
+
+  return result;
+}
+
+console.log('chunk', chunk([1, 9, 6, 3, 2], 3));
