@@ -530,7 +530,6 @@ console.log(onceFn(2, 3, 6));
  * onceFn(2,3,6); // returns undefined without calling fn
  */
 
-
 // 2677. Chunk Array
 // Given an array arr and a chunk size size, return a chunked array. A chunked array
 // contains the original elements in arr, but consists of subarrays each of length size.
@@ -595,3 +594,57 @@ export function chunk(arr: Obj[], size: number): Obj[][] {
 }
 
 // console.log('chunk', chunk([1, 9, 6, 3, 2], 3));
+
+// 2727. Is Object Empty
+// Easy
+// 133
+// 7
+// Companies
+// Given an object or an array, return if it is empty.
+
+// An empty object contains no key-value pairs.
+// An empty array contains no elements.
+// You may assume the object or array is the output of JSON.parse.
+
+// Example 1:
+
+// Input: obj = {"x": 5, "y": 22}
+// Output: false
+// Explanation: The object has 2 key-value pairs so it is not empty.
+// Example 2:
+
+// Input: obj = {}
+// Output: true
+// Explanation: The object doesn't have any key-value pairs so it is empty.
+// Example 3:
+
+// Input: obj = [null, false, 0]
+// Output: false
+// Explanation: The array has 3 elements so it is not empty.
+
+// Constraints:
+
+// obj is a valid JSON object or array
+// 2 <= JSON.stringify(obj).length <= 105
+
+// Can you solve it in O(1) time?
+
+type JSONValu =
+  | null
+  | boolean
+  | number
+  | string
+  | JSONValue[]
+  | { [key: string]: JSONValu };
+type Ob = Record<string, JSONValu> | JSONValu[];
+
+function isEmpty(obj: Ob): boolean {
+  if (Array.isArray(obj)) {
+    if (obj.length > 0) return false;
+  } else {
+    if (Object.keys(obj).length > 0) return false;
+  }
+  return true
+}
+
+console.log('isEmpty', isEmpty({ x: 5, y: 22 }));
