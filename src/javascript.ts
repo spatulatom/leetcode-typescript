@@ -226,19 +226,93 @@ console.log(
 type P = Promise<number>;
 
 async function addTwoPromises(promise1: P, promise2: P): P {
-  const one = await promise1;const two = await promise2
-  return new Promise((resolve)=> resolve(one+two))
+  const one = await promise1;
+  const two = await promise2;
+  return new Promise((resolve) => resolve(one + two));
 }
 
-console.log(
-  'addTwoPromises',
-  addTwoPromises(
-    new Promise((resolve) => setTimeout(() => resolve(2), 20)),
-    new Promise((resolve) => setTimeout(() => resolve(5), 60))
-  ).then(console.log)
-);
+// console.log(
+//   'addTwoPromises',
+//   addTwoPromises(
+//     new Promise((resolve) => setTimeout(() => resolve(2), 20)),
+//     new Promise((resolve) => setTimeout(() => resolve(5), 60))
+//   ).then(console.log)
+// );
 
 /**
  * addTwoPromises(Promise.resolve(2), Promise.resolve(2))
  *   .then(console.log); // 4
+ */
+
+// 2665. Counter II
+// Easy
+// 583
+// 17
+// Companies
+// Write a function createCounter. It should accept an initial integer init.
+// It should return an object with three functions.
+
+// The three functions are:
+
+// increment() increases the current value by 1 and then returns it.
+// decrement() reduces the current value by 1 and then returns it.
+// reset() sets the current value to init and then returns it.
+
+// Example 1:
+
+// Input: init = 5, calls = ["increment","reset","decrement"]
+// Output: [6,5,4]
+// Explanation:
+// const counter = createCounter(5);
+// counter.increment(); // 6
+// counter.reset(); // 5
+// counter.decrement(); // 4
+// Example 2:
+
+// Input: init = 0, calls = ["increment","increment","decrement","reset","reset"]
+// Output: [1,2,1,0,0]
+// Explanation:
+// const counter = createCounter(0);
+// counter.increment(); // 1
+// counter.increment(); // 2
+// counter.decrement(); // 1
+// counter.reset(); // 0
+// counter.reset(); // 0
+
+// Constraints:
+
+// -1000 <= init <= 1000
+// 0 <= calls.length <= 1000
+// calls[i] is one of "increment", "decrement" and "reset"
+
+type ReturnObj = {
+  increment: () => number;
+  decrement: () => number;
+  reset: () => number;
+};
+
+function createCounter(init: number): ReturnObj {
+  let count = init;
+  const obj = {
+    increment: () => ++count,
+    decrement: () => --count,
+    reset: () => {
+      count = init;
+      return count;
+    },
+  };
+
+  return obj;
+}
+const counter = createCounter(2);
+console.log(counter.increment());
+console.log(counter.increment());
+console.log(counter.reset());
+console.log(counter.increment());
+
+/**
+ * const counter = createCounter(5)
+ * counter.increment(); // 6
+ * counter.reset(); // 5
+ * counter.decrement(); // 4
  */
