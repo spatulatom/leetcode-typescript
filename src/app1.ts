@@ -167,7 +167,47 @@ function longestPalindrome(s: string): string {
 
   return all.length === 0 && s.length > 0 ? s[0] : all[longest.index].join('');
 }
-
-
-
 console.log('longestPalindrome', longestPalindrome('abcda'));
+
+// sol 2
+// Instead of using arrays (sub and all) to store substrings, you 
+// can keep track of the start and end indices of the longest palindrome 
+// found so far.
+
+function longestPalindrome2(s:string) {
+  if (s.length === 0) return '';
+
+  let longestStart = 0;
+  let longestEnd = 0;
+
+  for (let i = 0; i < s.length; i++) {
+    // Check for odd-length palindromes
+    let left = i;
+    let right = i;
+    while (left >= 0 && right < s.length && s[left] === s[right]) {
+      left--;
+      right++;
+    }
+    if (right - left - 1 > longestEnd - longestStart) {
+      longestStart = left + 1;
+      longestEnd = right - 1;
+    }
+
+    // Check for even-length palindromes
+    left = i;
+    right = i + 1;
+    while (left >= 0 && right < s.length && s[left] === s[right]) {
+      left--;
+      right++;
+    }
+    if (right - left - 1 > longestEnd - longestStart) {
+      longestStart = left + 1;
+      longestEnd = right - 1;
+    }
+  }
+
+  return s.substring(longestStart, longestEnd + 1);
+}
+
+
+
