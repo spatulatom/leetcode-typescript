@@ -48,7 +48,7 @@ function isSubsequence1(s: string, t: string): boolean {
 
 // sol 2, O(n)
 
-function isSubsequence(s: string, t: string): boolean {
+export function isSubsequence(s: string, t: string): boolean {
     if (s.length === 0) {
       // An empty string is always a subsequence of any string
       return true;
