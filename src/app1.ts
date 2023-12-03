@@ -26,8 +26,8 @@
 // k >= 109, and you want to check one by one to see if t has its subsequence.
 // In this scenario, how would you change your code?
 
-// sol 1, with indexOf method
-function isSubsequence(s: string, t: string): boolean {
+// sol 1, with indexOf method, On*m
+function isSubsequence1(s: string, t: string): boolean {
   let indexes: string[] = [];
   for (let i = 0; i < t.length; i++) {
     if (s.indexOf(t[i]) !== -1) {
@@ -45,5 +45,33 @@ function isSubsequence(s: string, t: string): boolean {
 
   return indexes.join('').includes(s);
 }
+
+// sol 2, O(n)
+
+function isSubsequence(s: string, t: string): boolean {
+    if (s.length === 0) {
+      // An empty string is always a subsequence of any string
+      return true;
+    }
+  
+    let sIndex = 0;
+  
+    for (let i = 0; i < t.length; i++) {
+      if (s[sIndex] === t[i]) {
+        sIndex++;
+      }
+  
+      if (sIndex === s.length) {
+        // All characters of s have been found in t in order
+        return true;
+      }
+    }
+  
+    // Not all characters of s were found in t in order
+    return false;
+  }
+  
+
+
 
 console.log('isSubsequence', isSubsequence('ab', 'babb'));
