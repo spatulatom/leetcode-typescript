@@ -49,3 +49,54 @@ function longestPalindrome(s: string): number {
 }
 
 console.log('longestPalindrome', longestPalindrome('abccccdd'));
+
+// 3. Longest Substring Without Repeating Characters
+// Medium
+// 38K
+// 1.7K
+// Companies
+// Given a string s, find the length of the longest
+// substring
+//  without repeating characters.
+
+// Example 1:
+
+// Input: s = "abcabcbb"
+// Output: 3
+// Explanation: The answer is "abc", with the length of 3.
+// Example 2:
+
+// Input: s = "bbbbb"
+// Output: 1
+// Explanation: The answer is "b", with the length of 1.
+// Example 3:
+
+// Input: s = "pwwkew"
+// Output: 3
+// Explanation: The answer is "wke", with the length of 3.
+// Notice that the answer must be a substring, "pwke" is a subsequence and not a substring.
+
+// Constraints:
+
+// 0 <= s.length <= 5 * 104
+// s consists of English letters, digits, symbols and spaces.
+
+// sol 1, brute force
+function lengthOfLongestSubstring(s: string): number {
+  const allSubs = [];
+
+  for (let i = 0; i < s.length - 1; i++) {
+    const sub = [];
+    sub.push(s[i]);
+    for (let j = i + 1; j < s.length; j++) {
+      if (sub.includes(s[j])) break;
+      sub.push(s[j]);
+    }
+    allSubs.push(sub.length);
+  }
+  let max = 0;
+  allSubs.forEach((e) => (max = Math.max(max, e)));
+  return s.length === 1 ? 1 : max;
+}
+
+console.log('lengthOfLongestSubstring', lengthOfLongestSubstring(' '));
