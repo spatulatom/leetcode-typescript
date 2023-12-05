@@ -100,3 +100,90 @@ function lengthOfLongestSubstring(s: string): number {
 }
 
 console.log('lengthOfLongestSubstring', lengthOfLongestSubstring(' '));
+
+// 76. Minimum Window Substring
+// Hard
+// 16.6K
+// 677
+// Companies
+// Given two strings s and t of lengths m and n respectively, return the minimum window
+// substring
+//  of s such that every character in t (including duplicates) is included in the window.
+//  If there is no such substring, return the empty string "".
+
+// The testcases will be generated such that the answer is unique.
+
+// Example 1:
+
+// Input: s = "ADOBECODEBANC", t = "ABC"
+// Output: "BANC"
+// Explanation: The minimum window substring "BANC" includes 'A', 'B', and 'C' from string t.
+// Example 2:
+
+// Input: s = "a", t = "a"
+// Output: "a"
+// Explanation: The entire string s is the minimum window.
+// Example 3:
+
+// Input: s = "a", t = "aa"
+// Output: ""
+// Explanation: Both 'a's from t must be included in the window.
+// Since the largest window of s only has one 'a', return empty string.
+
+// Constraints:
+
+// m == s.length
+// n == t.length
+// 1 <= m, n <= 105
+// s and t consist of uppercase and lowercase English letters.
+
+// Follow up: Could you find an algorithm that runs in O(m + n) time?
+
+// sol 1, brute
+function minWindow(s: string, t: string): string {
+  const hash: { [key: string]: number } = {};
+  for (let i = 0; i < t.length; i++) {
+    hash[t[i]] = (hash[t[i]] ?? 0) + 1;
+  }
+
+  const allRanges = new Set();
+  for (let i = 0; i < s.length; i++) {
+    const range = [];
+    const copy = { ...hash };
+    let left = i;
+    let right = i;
+
+    while (right <= s.length - 1) {
+      if (copy[s[right]]) {
+        range.push(right);
+        copy[s[right]]--;
+        if (!copy[s[right]]) delete copy[s[right]];
+        right++;
+      } else {
+        right++;
+      }
+      if (Object.keys(copy).length === 0) {
+        let endIndex = range[range.length - 1] + 2;
+
+        if (range.length===1) allRanges.add(s[range[0]]);
+        allRanges.add(s.substring(range[0], endIndex-1));
+
+        break;
+      }
+    }
+  }
+
+  const setIntoArr: any[] = [...allRanges];
+  let min = { len: +Infinity, index: 0 };
+
+  setIntoArr.forEach((e: any, i) => {
+    if (e.length < min.len) {
+      min.len = e.length;
+      min.index = i;
+    }
+  });
+
+  return setIntoArr.length === 0 ? '' : setIntoArr[min.index];
+}
+
+console.log('minWindow', minWindow("abc", "ab"));
