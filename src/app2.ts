@@ -139,8 +139,8 @@ console.log('lengthOfLongestSubstring', lengthOfLongestSubstring(' '));
 
 // Follow up: Could you find an algorithm that runs in O(m + n) time?
 
-// sol 1, brute
-function minWindow(s: string, t: string): string {
+// sol 1, brute, time exceeds at 265/267
+function minWindow1(s: string, t: string): string {
   const hash: { [key: string]: number } = {};
   for (let i = 0; i < t.length; i++) {
     hash[t[i]] = (hash[t[i]] ?? 0) + 1;
@@ -150,13 +150,14 @@ function minWindow(s: string, t: string): string {
   for (let i = 0; i < s.length; i++) {
     const range = [];
     const copy = { ...hash };
-    let left = i;
     let right = i;
+    let counter = 0;
 
     while (right <= s.length - 1) {
       if (copy[s[right]]) {
         range.push(right);
         copy[s[right]]--;
+
         if (!copy[s[right]]) delete copy[s[right]];
         right++;
       } else {
@@ -165,8 +166,8 @@ function minWindow(s: string, t: string): string {
       if (Object.keys(copy).length === 0) {
         let endIndex = range[range.length - 1] + 2;
 
-        if (range.length===1) allRanges.add(s[range[0]]);
-        allRanges.add(s.substring(range[0], endIndex-1));
+        if (range.length === 1) allRanges.add(s[range[0]]);
+        allRanges.add(s.substring(range[0], endIndex - 1));
 
         break;
       }
@@ -186,4 +187,49 @@ function minWindow(s: string, t: string): string {
   return setIntoArr.length === 0 ? '' : setIntoArr[min.index];
 }
 
-console.log('minWindow', minWindow("abc", "ab"));
+// sol 2 , optimized, still time exceeds at 265/267
+
+function minWindow(s: string, t: string): string {
+  const hash: { [key: string]: number } = {};
+  for (let i = 0; i < t.length; i++) {
+    hash[t[i]] = (hash[t[i]] ?? 0) + 1;
+  }
+
+  const allRanges: any = [];
+  for (let i = 0; i < s.length; i++) {
+    const range = [];
+    const copy = { ...hash };
+    let right = i;
+    let counter = 0;
+
+    while (right <= s.length - 1) {
+      if (copy[s[right]]) {
+        range.push(right);
+        copy[s[right]]--;
+        counter++;
+        if (!copy[s[right]]) delete copy[s[right]];
+      }
+      right++;
+      if (counter === t.length) {
+        let endIndex = range[range.length - 1] + 2;
+
+        if (range.length === 1) allRanges[s[range[0]]];
+        if (allRanges[0]) {
+          if (
+            allRanges[0].length > s.substring(range[0], endIndex - 1).length
+          ) {
+            allRanges[0] = s.substring(range[0], endIndex - 1);
+          }
+        } else {
+          allRanges[0] = s.substring(range[0], endIndex - 1);
+        }
+
+        break;
+      }
+    }
+  }
+
+  return allRanges.length > 0 ? allRanges[0] : '';
+}
+
+console.log('minWindow', minWindow('abc', 'ab'));
