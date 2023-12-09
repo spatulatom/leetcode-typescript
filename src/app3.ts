@@ -35,7 +35,7 @@
 
 
 // sol 1, naive, eceeds time
-function divide(dividend: number, divisor: number): number {
+function divide1(dividend: number, divisor: number): number {
   const dividendAbs = Math.abs(dividend);
   const divisorAbs = Math.abs(divisor);
   
@@ -66,5 +66,30 @@ function divide(dividend: number, divisor: number): number {
   if (dividend > 0 && divisor < 0) count = -count;
   return count;
 }
+
+// sol 2, 
+var divide = function(dividend: number, divisor: number): number {
+    const retIsNegative = Math.sign(divisor) !== Math.sign(dividend);
+    dividend = Math.abs(dividend)
+    divisor = Math.abs(divisor)
+    
+    let ret = 0
+    while (divisor <= dividend) {
+        let value = divisor
+        let multiple = 1
+        while (value + value <= dividend) {
+            value += value
+            multiple += multiple
+        }
+        dividend = dividend - value
+        ret += multiple
+    }
+    
+    if (ret > ((2**31) - 1)) {
+        return retIsNegative ? -(2**31) : 2**31 - 1
+    }
+    return retIsNegative ? -ret : ret
+};
+
 
 console.log('divide', divide(2147483647, 1));
