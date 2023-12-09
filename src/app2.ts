@@ -233,3 +233,176 @@ function minWindow(s: string, t: string): string {
 }
 
 console.log('minWindow', minWindow('abc', 'ab'));
+
+// 42. Trapping Rain Water
+// Hard
+// 29.9K
+// 436
+// Companies
+// Given n non-negative integers representing an elevation map where the width of
+// each bar is 1, compute how much water it can trap after raining.
+
+//  Example 1:
+// Input: height = [0,1,0,2,1,0,1,3,2,1,2,1]
+// Output: 6
+// Explanation: The above elevation map (black section) is represented by array
+// [0,1,0,2,1,0,1,3,2,1,2,1]. In this case, 6 units of rain water (blue section) are
+// being trapped.
+// Example 2:
+
+// Input: height = [4,2,0,3,2,5]
+// Output: 9
+
+// Constraints:
+
+// n == height.length
+// 1 <= n <= 2 * 104
+// 0 <= height[i] <= 105
+
+// sol 1
+function trap1(height: number[]): number {
+  let units = 0;
+  let wait = 1;
+  for (let i = 0; i < height.length - 1; i++) {
+    let end = i;
+    for (let k = i + 1; k < height.length; k++) {
+      if (height[k] >= height[i]) {
+        end = k;
+        // console.log('ennnn', i, height[end]);
+        break;
+      } else if (height[k] < height[i] && k === height.length - 1) {
+        end = k;
+      }
+    }
+    if (i >= wait) {
+      wait = i + 1;
+    }
+    if (wait === i + 1) {
+      console.log('ennnn', i, height[end]);
+      let pointer = end - 1;
+      if (end === height.length - 1) {
+        console.log('runs', height[end], height[i]);
+        // while (pointer >= i + 1) {
+        //   units = units + (height[end] - height[pointer]);
+        //   console.log('whileeeee')
+        //   pointer--;
+        // }
+        // break
+      } else {
+        for (let j = i + 1; j <= end; j++) {
+          //   console.log('second', height[end]);
+
+          if (height[i] > height[j]) {
+            //   console.log('i', i, height[i], 'j', j, height[j]);
+            units = units + (height[i] - height[j]);
+          }
+          if (j === end) {
+            // console.log('here')
+            wait = j;
+          }
+        }
+      }
+    }
+  }
+
+  if (!units) {
+    console.log('REVERSE');
+    const reverse = height.reverse();
+    let wait2 = 1;
+    for (let i = 0; i < reverse.length - 1; i++) {
+      let end = i;
+      for (let k = i + 1; k < reverse.length; k++) {
+        if (reverse[k] >= reverse[i]) {
+          end = k;
+          break;
+        }
+      }
+      if (i >= wait2) {
+        wait2 = i + 1;
+      }
+      if (wait2 === i + 1) {
+        for (let j = i + 1; j <= end; j++) {
+          if (reverse[i] > reverse[j]) {
+            //   console.log('i', i, reverse[i], 'j', j, reverse[j]);
+            units = units + (reverse[i] - reverse[j]);
+          }
+          if (j === end) {
+            //   console.log('here')
+            wait2 = j;
+          }
+        }
+      }
+    }
+  }
+
+  return units;
+}
+
+// sol 2
+
+function trap(height: number[]): number {
+  // const height = heigh.reverse()
+  let units = 0;
+  let wait = 1;
+  const jumps: any = {};
+  for (let i = 0; i < height.length; i++) {
+    for (let j = i + 1; j < height.length; j++) {
+      if (height[j] > height[i]) {
+        if (j === i + 1) break;
+        // console.log('units1',i,j,j-i, units)
+        let pointer = j - 1;
+        while (pointer > i) {
+          units = units + height[i] - height[pointer];
+          // console.log('here','i:',  height[i],  'j:',height[j], 'units:', units);
+          pointer--;
+        }
+
+        i = j - 1;
+        console.log('ni', i);
+        let m = i;
+        jumps[j] = height[j];
+        break;
+      }
+    }
+  }
+  // reverse
+  const reverse = height.reverse();
+  const jumps2: any = {};
+  for (let i = 0; i < reverse.length; i++) {
+    console.log('HERRRRRR', i);
+    for (let j = i; j < reverse.length; j++) {
+      if (reverse[j] > reverse[i]) {
+        if (j === i + 1) break;
+        // console.log('units1',i,j,j-i, units)
+        // let left = j-1
+        // while(left>i){
+        //     if(reverse[left]<reverse[i])
+        // }
+        let pointer = j - 1;
+        while (pointer > i) {
+          units = units + reverse[i] - reverse[pointer];
+          console.log('here','i:',i,  height[i], 'j:',j,height[j], 'units:', units);
+          pointer--;
+        }
+
+        i = reverse.length;
+
+        let m = i;
+        jumps2[j] = height[j];
+        break;
+      }
+    }
+  }
+
+  return [jumps, jumps2,units];
+}
+
+// console.log('trap', trap([0,1,0,2,1,0,1,3,2,1,2,1]));
+console.log(
+  'trap',
+  trap([
+    6, 4, 2, 0, 3, 2, 0, 3, 1, 4, 5, 3, 2, 7, 5, 3, 0, 1, 2, 1, 3, 4, 6, 8, 1,
+    3,
+  ])
+);
+console.log('trap',trap([4,2,0,3,2,5]))
