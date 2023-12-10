@@ -48,7 +48,7 @@ function reverseVowels1(s: string): string {
 
 // sol 2, runtime O(n)
 
-function reverseVowels(s: string): string {
+export function reverseVowels(s: string): string {
   const array = s.split('');
   const vowels = ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'];
   let vowelObject: { [key: string]: string } = {};
