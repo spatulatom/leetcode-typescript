@@ -63,11 +63,11 @@ export function reverseVowels(s: string): string {
       array[i] = '';
     }
   }
-let count = vowelsInArray.length-1
+  let count = vowelsInArray.length - 1;
   for (let i = 0; i < s.length; i++) {
     if (array[i] === '') {
       array[i] = vowelsInArray[count];
-      count--
+      count--;
     }
   }
   return array.join('');
