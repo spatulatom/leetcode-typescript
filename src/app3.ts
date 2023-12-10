@@ -128,13 +128,13 @@ console.log('divide', divide(30, 3));
 // 34.9%
 
 // sol 1, brute force, O(n^2), space complexity O(n)
-function maxProduct(nums: number[]): number {
+function maxProduct1(nums: number[]): number {
   const allSums = new Set();
- if(nums.length===1) return nums[0]
- 
+  if (nums.length === 1) return nums[0];
+
   for (let i = 0; i < nums.length; i++) {
-    if(nums[i]===0)continue
-    let sum = 1
+    if (nums[i] === 0) continue;
+    let sum = 1;
     let length;
     if (i === 0) {
       length = nums.length - 2;
@@ -143,9 +143,8 @@ function maxProduct(nums: number[]): number {
     }
     length = nums.length - 1;
     for (let j = i; j < nums.length; j++) {
-       
       sum *= nums[j];
-      console.log('sum', sum, nums[j])
+      console.log('sum', sum, nums[j]);
       allSums.add(sum);
     }
   }
@@ -153,7 +152,24 @@ function maxProduct(nums: number[]): number {
   const sum = [...allSums].forEach((e: any) => {
     max = Math.max(max, e);
   });
-  return max
+  return max;
 }
 
-console.log('maxProduct', maxProduct([0,2]));
+// sol 2
+
+function maxProduct(nums: number[]): number {
+  let max: number = -Infinity;
+  if (nums.length === 1) return nums[0];
+
+  for (let i = 0; i < nums.length; i++) {
+    if (nums[i] === 0) continue;
+    let sum = 1;
+    for (let j = i; j < nums.length; j++) {
+      sum *= nums[j];
+      max = Math.max(max, sum);
+    }
+  }
+
+  return max;
+}
+console.log('maxProduct', maxProduct([2,3,-2,4]));
