@@ -157,7 +157,7 @@ function maxProduct1(nums: number[]): number {
 
 // sol 2
 
-function maxProduct(nums: number[]): number {
+function maxProduct2(nums: number[]): number {
   let max: number = -Infinity;
   if (nums.length === 1) return nums[0];
 
@@ -172,6 +172,23 @@ function maxProduct(nums: number[]): number {
 
   return max;
 }
+ 
+// sol 3, runtime O(n) 
+// i can not use dynamic approach like below 53. Maximum Subarray sol 2
+// becuse over there when sum goes below zero we should start then a new count
+// of the sum, in here sum might go below zero and when it encounters negative element in the array
+// like -2, it will go way above zero
+function maxProduct(nums: number[]): number {
+    let max: number = -Infinity;
+    if (nums.length === 1) return nums[0];
+  
+    for (let i = 0; i < nums.length; i++) {
+    
+    }
+  
+    return max;
+  }
+
 console.log('maxProduct', maxProduct([2,3,-2,4]));
 
 
@@ -284,7 +301,7 @@ console.log('productExceptSelf',productExceptSelf( [1,2,3,4]))
 // the divide and conquer approach, which is more subtle.
 
 // sol 1, brute force O(n^2)
-function maxSubArray(nums: number[]): number {
+function maxSubArray1(nums: number[]): number {
     let max: number = -Infinity;
     if (nums.length === 1) return nums[0];
   
@@ -298,6 +315,25 @@ function maxSubArray(nums: number[]): number {
   
     return max;
     
+};
+
+// sol 2, runtime O(n)
+
+var maxSubArray = function(nums: number[]): number {
+    // Initialize the max sum...
+    let maxSum = nums[0];
+    // Traverse all the element through the loop...
+    for (let i = 1; i < nums.length; i++) {
+        // nums[i] represents the largest sum of all subarrays ending with index i...
+        // then its value should be the larger one between nums[i]...
+        // nums[i-1] + nums[i] (largest sum plus current number with using prefix)...
+        // calculate nums[0], nums[1]…, nums[n] while comparing each one with current largest sum...
+        nums[i] = Math.max(0, nums[i - 1]) + nums[i];
+        // if nums[i] > maxSum then maxSum = nums[i]...
+        if (nums[i] > maxSum)
+            maxSum = nums[i];
+    }
+    return maxSum;      // return the contiguous subarray which has the largest sum...
 };
 
 console.log('maxSubArray',maxSubArray([-2,1,-3,4,-1,2,1,-5,4]))
