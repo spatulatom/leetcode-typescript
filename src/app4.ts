@@ -8,8 +8,6 @@
 // The vowels are 'a', 'e', 'i', 'o', and 'u', and they can appear in
 //  both lower and upper cases, more than once.
 
- 
-
 // Example 1:
 
 // Input: s = "hello"
@@ -18,15 +16,33 @@
 
 // Input: s = "leetcode"
 // Output: "leotcede"
- 
 
 // Constraints:
 
 // 1 <= s.length <= 3 * 105
 // s consist of printable ASCII characters.
 
+// sol 1, brute force O(nm)
 function reverseVowels(s: string): string {
-    
-};
+  const array = s.split('');
+  const vowels = ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'];
+  const vowelsInArray = [];
+  for (let i = 0; i < s.length; i++) {
+    for (let j = 0; j < vowels.length; j++) {
+      if (s[i] === vowels[j]) {
+        vowelsInArray.push(s[i]);
+        array[i] = '';
+      }
+    }
+  }
 
-console.log(reverseVowels,reverseVowels())
+  for (let i = 0; i < s.length; i++) {
+    if (array[i] === '') {
+      array[i] = vowelsInArray[vowelsInArray.length - 1];
+      vowelsInArray.pop();
+    }
+  }
+  return array.join('');
+}
+
+console.log('reverseVowels', reverseVowels('hello'));
