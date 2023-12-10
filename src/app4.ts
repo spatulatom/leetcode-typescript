@@ -23,7 +23,7 @@
 // s consist of printable ASCII characters.
 
 // sol 1, brute force O(nm)
-function reverseVowels(s: string): string {
+function reverseVowels1(s: string): string {
   const array = s.split('');
   const vowels = ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'];
   const vowelsInArray = [];
@@ -32,6 +32,7 @@ function reverseVowels(s: string): string {
       if (s[i] === vowels[j]) {
         vowelsInArray.push(s[i]);
         array[i] = '';
+        break;
       }
     }
   }
@@ -40,6 +41,33 @@ function reverseVowels(s: string): string {
     if (array[i] === '') {
       array[i] = vowelsInArray[vowelsInArray.length - 1];
       vowelsInArray.pop();
+    }
+  }
+  return array.join('');
+}
+
+// sol 2, runtime O(n)
+
+function reverseVowels(s: string): string {
+  const array = s.split('');
+  const vowels = ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'];
+  let vowelObject: { [key: string]: string } = {};
+  vowels.forEach((vowel) => {
+    vowelObject[vowel] = vowel;
+  });
+
+  const vowelsInArray: string[] = [];
+  for (let i = 0; i < s.length; i++) {
+    if (vowelObject[s[i]]) {
+      vowelsInArray.push(s[i]);
+      array[i] = '';
+    }
+  }
+let count = vowelsInArray.length-1
+  for (let i = 0; i < s.length; i++) {
+    if (array[i] === '') {
+      array[i] = vowelsInArray[count];
+      count--
     }
   }
   return array.join('');
