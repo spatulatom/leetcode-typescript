@@ -372,100 +372,105 @@ console.log('maxSubArray', maxSubArray([-2, 1, -3, 4, -1, 2, 1, -5, 4]));
 /**
  Do not return anything, modify nums in-place instead.
  */
+
+//  sol 1, brute force , Wrong Answer 18 / 266 testcases passed
 function nextPermutation(nums: number[]): void {
-  const results: any = [];
-  let length = nums.length
-  let copy = [...nums]
-  backtrack(results, 0, [], copy, length);
-  results.sort();
-  
-
-  const index = results.lastIndexOf(nums.join(''));
-
-  if (results[index + 1]) {
-    nums.forEach((e, i) => {
-      nums[i] = results[index + 1].split('')[i];
-    });
-  } else {
-    nums.forEach((e, i) => {
-      nums[i] = results[0].split('')[i];
-    });
+  const results: string|any [] = [];
+  const countMap = new Map();
+  // Count the occurrences of each number in nums
+  for (let num of nums) {
+    if (countMap.has(num)) {
+      countMap.set(num, countMap.get(num) + 1);
+    } else {
+      countMap.set(num, 1);
+    }
   }
-  return results
+  backtrack(results, [], nums.length, countMap);
+const index = results.findIndex(e=> e===nums.join(''))
 
-  // return results[index+1]? results[index+1].split(''): results[0]
+let flag = true
+for(let i=0;i<nums.length-1;i++){
+   if(nums[i]>nums[i+1]){
+    flag = false
+   }else{
+    break
+   }
+}
+   if(flag&&nums.length>1&&results.length>2){
+    for(let i=0;i<nums.length;i++){
+        nums[i]=results[index+1][i]
+    }
+   }else{
+    nums.sort()
+   }
+
+
 
   function backtrack(
-    results: string[],
-    index: number,
-    current: number[],
-    copy: number[],
-    length: number
+    results: any,
+    current: any,
+    remaining: any,
+    countMap: any
   ) {
-    // if (current.length > nums.length) {
-    //   return;
-    // } - not needed
-    if (current.length === length) {
-      // becuse what is said below it is important to copy
-      // current but only we we do 'or 2:' approach
+    if (remaining === 0) {
       results.push(current.join(''));
       return;
     }
-
-    for (let i = index; i < length; i++) {
-      // if (current.includes(nums[i])) {
-      //   continue;
-      // } else {
-      const cur = [...current, copy[i]];
-      
-      
-      backtrack(results, index, cur, copy, length);
-    //   copy.push(copy[i])
-      
-
-      // or 2:
-      // current.push(nums[i]);
-      // backtrack(results, i, current, nums);
-      // current.pop()
-      // }
-
-      //   console.log('here', i, current);
+    for (let [num, count] of countMap.entries()) {
+      if (count > 0) {
+        current.push(num);
+        countMap.set(num, count - 1);
+        backtrack(results, current, remaining - 1, countMap);
+        current.pop();
+        countMap.set(num, count);
+      }
     }
   }
 }
 
-console.log('nextPermutation', nextPermutation([1, 2,3]));
+console.log('nextPermutation', nextPermutation([1]));
 
 
-var permute = function(nums:any) {
-    const results:any = [];
-    const countMap = new Map();
-    // Count the occurrences of each number in nums
-    for (let num of nums) {
-        if (countMap.has(num)) {
-            countMap.set(num, countMap.get(num) + 1);
-        } else {
-            countMap.set(num, 1);
-        }
+
+
+// SEPERATE EXERCISE :
+// how to create permuttion of the array without reaping its elelemnts
+// - if they are alredy repeated in the array the can be used as many times
+// as in the array:
+var permute = function (nums: any) {
+  const results: any = [];
+  const countMap = new Map();
+  // Count the occurrences of each number in nums
+  for (let num of nums) {
+    if (countMap.has(num)) {
+      countMap.set(num, countMap.get(num) + 1);
+    } else {
+      countMap.set(num, 1);
     }
-    backtrack(results, [], nums.length, countMap);
-    return results;
+  }
+  backtrack(results, [], nums.length, countMap);
+  return results;
 };
 
-function backtrack(results:any, current:any, remaining:any, countMap:any) {
-    if (remaining === 0) {
-        results.push([...current]);
-        return;
+function backtrack(results: any, current: any, remaining: any, countMap: any) {
+  if (remaining === 0) {
+    results.push([...current]);
+    return;
+  }
+  for (let [num, count] of countMap.entries()) {
+    if (count > 0) {
+      current.push(num);
+      countMap.set(num, count - 1);
+      backtrack(results, current, remaining - 1, countMap);
+      current.pop();
+      countMap.set(num, count);
+      // This ensures that the countMap is in the correct state for the next iteration
+      // of the loop in the
+      // current stack frame, even though it was modified in the recursive call.
+      // So, even though countMap is passed by reference, the way we’re using it in the code
+      // ensures that each function call works with the correct counts.
     }
-    for (let [num, count] of countMap.entries()) {
-        if (count > 0) {
-            current.push(num);
-            countMap.set(num, count - 1);
-            backtrack(results, current, remaining - 1, countMap);
-            current.pop();
-            countMap.set(num, count);
-        }
-    }
+  }
 }
 
-console.log('permute', permute([1, 2,3]));
+// console.log('permute', permute([1, 2, 3]));
