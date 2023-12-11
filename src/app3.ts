@@ -172,25 +172,22 @@ function maxProduct2(nums: number[]): number {
 
   return max;
 }
- 
-// sol 3, runtime O(n) 
+
+// sol 3, runtime O(n)
 // i can not use dynamic approach like below 53. Maximum Subarray sol 2
 // becuse over there when sum goes below zero we should start then a new count
 // of the sum, in here sum might go below zero and when it encounters negative element in the array
 // like -2, it will go way above zero
 function maxProduct(nums: number[]): number {
-    let max: number = -Infinity;
-    if (nums.length === 1) return nums[0];
-  
-    for (let i = 0; i < nums.length; i++) {
-    
-    }
-  
-    return max;
-  }
+  let max: number = -Infinity;
+  if (nums.length === 1) return nums[0];
 
-console.log('maxProduct', maxProduct([2,3,-2,4]));
+  for (let i = 0; i < nums.length; i++) {}
 
+  return max;
+}
+
+console.log('maxProduct', maxProduct([2, 3, -2, 4]));
 
 // 238. Product of Array Except Self
 // Medium
@@ -200,10 +197,10 @@ console.log('maxProduct', maxProduct([2,3,-2,4]));
 // Given an integer array nums, return an array answer such that answer[i]
 //  is equal to the product of all the elements of nums except nums[i].
 
-// The product of any prefix or suffix of nums is guaranteed to fit in a 
+// The product of any prefix or suffix of nums is guaranteed to fit in a
 // 32-bit integer.
 
-// You must write an algorithm that runs in O(n) time and without using the 
+// You must write an algorithm that runs in O(n) time and without using the
 // division operation.
 
 //  Example 1:
@@ -214,19 +211,16 @@ console.log('maxProduct', maxProduct([2,3,-2,4]));
 
 // Input: nums = [-1,1,0,-3,3]
 // Output: [0,0,9,0,0]
- 
 
 // Constraints:
 
 // 2 <= nums.length <= 105
 // -30 <= nums[i] <= 30
-// The product of any prefix or suffix of nums is guaranteed to fit in 
+// The product of any prefix or suffix of nums is guaranteed to fit in
 // a 32-bit integer.
- 
 
-// Follow up: Can you solve the problem in O(1) extra space complexity? 
+// Follow up: Can you solve the problem in O(1) extra space complexity?
 // (The output array does not count as extra space for space complexity analysis.)
-
 
 /*
   The idea is to initialize an array of the size nums.length
@@ -239,40 +233,38 @@ console.log('maxProduct', maxProduct([2,3,-2,4]));
 
 // sol 1, O(n)
 function productExceptSelf(nums: number[]): number[] {
-    // No division operator
-    // Time complexity: O(n)
-    // Space complexity: O(1)
-      
-    let product = 1;
-    let result = new Array(nums.length);
-      
-    // Modify from start to end
-    for (let i = 0; i < nums.length; i += 1) {
-      result[i] = product;
-      product *= nums[i];
-    }
-    // Modify from end to start
-    product = 1;
-    for (let i = nums.length - 1; i >= 0; i -= 1) {
-      result[i] *= product;
-      product *= nums[i];
-    }
-      
-    return result;
-  }
-console.log('productExceptSelf',productExceptSelf( [1,2,3,4]))
+  // No division operator
+  // Time complexity: O(n)
+  // Space complexity: O(1)
 
+  let product = 1;
+  let result = new Array(nums.length);
+
+  // Modify from start to end
+  for (let i = 0; i < nums.length; i += 1) {
+    result[i] = product;
+    product *= nums[i];
+  }
+  // Modify from end to start
+  product = 1;
+  for (let i = nums.length - 1; i >= 0; i -= 1) {
+    result[i] *= product;
+    product *= nums[i];
+  }
+
+  return result;
+}
+console.log('productExceptSelf', productExceptSelf([1, 2, 3, 4]));
 
 // 53. Maximum Subarray
 // Medium
 // 32.7K
 // 1.4K
 // Companies
-// Given an integer array nums, find the 
+// Given an integer array nums, find the
 // subarray
 //  with the largest sum, and return its sum.
 
- 
 // Example 1:
 
 // Input: nums = [-2,1,-3,4,-1,2,1,-5,4]
@@ -288,83 +280,76 @@ console.log('productExceptSelf',productExceptSelf( [1,2,3,4]))
 // Input: nums = [5,4,-1,7,8]
 // Output: 23
 // Explanation: The subarray [5,4,-1,7,8] has the largest sum 23.
- 
 
 // Constraints:
 
 // 1 <= nums.length <= 105
 // -104 <= nums[i] <= 104
- 
 
-// Follow up: If you have figured out the O(n) solution, try coding another 
-// solution using 
+// Follow up: If you have figured out the O(n) solution, try coding another
+// solution using
 // the divide and conquer approach, which is more subtle.
 
 // sol 1, brute force O(n^2)
 function maxSubArray1(nums: number[]): number {
-    let max: number = -Infinity;
-    if (nums.length === 1) return nums[0];
-  
-    for (let i = 0; i < nums.length; i++) {
-      let sum = 0;
-      for (let j = i; j < nums.length; j++) {
-        sum += nums[j];
-        max = Math.max(max, sum);
-      }
+  let max: number = -Infinity;
+  if (nums.length === 1) return nums[0];
+
+  for (let i = 0; i < nums.length; i++) {
+    let sum = 0;
+    for (let j = i; j < nums.length; j++) {
+      sum += nums[j];
+      max = Math.max(max, sum);
     }
-  
-    return max;
-    
-};
+  }
+
+  return max;
+}
 
 // sol 2, runtime O(n)
 
-var maxSubArray = function(nums: number[]): number {
-    // Initialize the max sum...
-    let maxSum = nums[0];
-    // Traverse all the element through the loop...
-    for (let i = 1; i < nums.length; i++) {
-        // nums[i] represents the largest sum of all subarrays ending with index i...
-        // then its value should be the larger one between nums[i]...
-        // nums[i-1] + nums[i] (largest sum plus current number with using prefix)...
-        // calculate nums[0], nums[1]…, nums[n] while comparing each one with current largest sum...
-        nums[i] = Math.max(0, nums[i - 1]) + nums[i];
-        // if nums[i] > maxSum then maxSum = nums[i]...
-        if (nums[i] > maxSum)
-            maxSum = nums[i];
-    }
-    return maxSum;      // return the contiguous subarray which has the largest sum...
+var maxSubArray = function (nums: number[]): number {
+  // Initialize the max sum...
+  let maxSum = nums[0];
+  // Traverse all the element through the loop...
+  for (let i = 1; i < nums.length; i++) {
+    // nums[i] represents the largest sum of all subarrays ending with index i...
+    // then its value should be the larger one between nums[i]...
+    // nums[i-1] + nums[i] (largest sum plus current number with using prefix)...
+    // calculate nums[0], nums[1]…, nums[n] while comparing each one with current largest sum...
+    nums[i] = Math.max(0, nums[i - 1]) + nums[i];
+    // if nums[i] > maxSum then maxSum = nums[i]...
+    if (nums[i] > maxSum) maxSum = nums[i];
+  }
+  return maxSum; // return the contiguous subarray which has the largest sum...
 };
 
-console.log('maxSubArray',maxSubArray([-2,1,-3,4,-1,2,1,-5,4]))
-
+console.log('maxSubArray', maxSubArray([-2, 1, -3, 4, -1, 2, 1, -5, 4]));
 
 // 31. Next Permutation
 // Medium
 // 17.4K
 // 4.4K
 // Companies
-// A permutation of an array of integers is an arrangement of its members 
+// A permutation of an array of integers is an arrangement of its members
 // into a sequence or linear order.
 
-// For example, for arr = [1,2,3], the following are all the permutations of 
+// For example, for arr = [1,2,3], the following are all the permutations of
 // arr: [1,2,3], [1,3,2], [2, 1, 3], [2, 3, 1], [3,1,2], [3,2,1].
-// The next permutation of an array of integers is the next lexicographically 
-// greater permutation of its integer. More formally, if all the permutations 
-// of the array are sorted in one container according to their lexicographical 
-// order, then the next permutation of that array is the permutation that follows 
+// The next permutation of an array of integers is the next lexicographically
+// greater permutation of its integer. More formally, if all the permutations
+// of the array are sorted in one container according to their lexicographical
+// order, then the next permutation of that array is the permutation that follows
 // it in the sorted container. If such arrangement is not possible, the array
 //  must be rearranged as the lowest possible order (i.e., sorted in ascending order).
 
 // For example, the next permutation of arr = [1,2,3] is [1,3,2].
 // Similarly, the next permutation of arr = [2,3,1] is [3,1,2].
-// While the next permutation of arr = [3,2,1] is [1,2,3] because [3,2,1] 
+// While the next permutation of arr = [3,2,1] is [1,2,3] because [3,2,1]
 // does not have a lexicographical larger rearrangement.
 // Given an array of integers nums, find the next permutation of nums.
 
 // The replacement must be in place and use only constant extra memory.
-
- 
 
 // Example 1:
 
@@ -378,19 +363,109 @@ console.log('maxSubArray',maxSubArray([-2,1,-3,4,-1,2,1,-5,4]))
 
 // Input: nums = [1,1,5]
 // Output: [1,5,1]
- 
 
 // Constraints:
 
 // 1 <= nums.length <= 100
 // 0 <= nums[i] <= 100
 
-
 /**
  Do not return anything, modify nums in-place instead.
  */
- function nextPermutation(nums: number[]): void {
-    
- };
+function nextPermutation(nums: number[]): void {
+  const results: any = [];
+  let length = nums.length
+  let copy = [...nums]
+  backtrack(results, 0, [], copy, length);
+  results.sort();
+  
 
- console.log('nextPermutation',nextPermutation([1,2,3]))
+  const index = results.lastIndexOf(nums.join(''));
+
+  if (results[index + 1]) {
+    nums.forEach((e, i) => {
+      nums[i] = results[index + 1].split('')[i];
+    });
+  } else {
+    nums.forEach((e, i) => {
+      nums[i] = results[0].split('')[i];
+    });
+  }
+  return results
+
+  // return results[index+1]? results[index+1].split(''): results[0]
+
+  function backtrack(
+    results: string[],
+    index: number,
+    current: number[],
+    copy: number[],
+    length: number
+  ) {
+    // if (current.length > nums.length) {
+    //   return;
+    // } - not needed
+    if (current.length === length) {
+      // becuse what is said below it is important to copy
+      // current but only we we do 'or 2:' approach
+      results.push(current.join(''));
+      return;
+    }
+
+    for (let i = index; i < length; i++) {
+      // if (current.includes(nums[i])) {
+      //   continue;
+      // } else {
+      const cur = [...current, copy[i]];
+      
+      
+      backtrack(results, index, cur, copy, length);
+    //   copy.push(copy[i])
+      
+
+      // or 2:
+      // current.push(nums[i]);
+      // backtrack(results, i, current, nums);
+      // current.pop()
+      // }
+
+      //   console.log('here', i, current);
+    }
+  }
+}
+
+console.log('nextPermutation', nextPermutation([1, 2,3]));
+
+
+var permute = function(nums:any) {
+    const results:any = [];
+    const countMap = new Map();
+    // Count the occurrences of each number in nums
+    for (let num of nums) {
+        if (countMap.has(num)) {
+            countMap.set(num, countMap.get(num) + 1);
+        } else {
+            countMap.set(num, 1);
+        }
+    }
+    backtrack(results, [], nums.length, countMap);
+    return results;
+};
+
+function backtrack(results:any, current:any, remaining:any, countMap:any) {
+    if (remaining === 0) {
+        results.push([...current]);
+        return;
+    }
+    for (let [num, count] of countMap.entries()) {
+        if (count > 0) {
+            current.push(num);
+            countMap.set(num, count - 1);
+            backtrack(results, current, remaining - 1, countMap);
+            current.pop();
+            countMap.set(num, count);
+        }
+    }
+}
+
+console.log('permute', permute([1, 2,3]));
