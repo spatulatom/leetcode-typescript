@@ -373,9 +373,9 @@ console.log('maxSubArray', maxSubArray([-2, 1, -3, 4, -1, 2, 1, -5, 4]));
  Do not return anything, modify nums in-place instead.
  */
 
-//  sol 1, brute force , Wrong Answer 18 / 266 testcases passed
+//  sol 1, brute force, time exceeds on bigger arrays
 function nextPermutation(nums: number[]): void {
-  const results: string|any [] = [];
+  const results: string | any[] = [];
   const countMap = new Map();
   // Count the occurrences of each number in nums
   for (let num of nums) {
@@ -386,26 +386,25 @@ function nextPermutation(nums: number[]): void {
     }
   }
   backtrack(results, [], nums.length, countMap);
-const index = results.findIndex(e=> e===nums.join(''))
 
-let flag = true
-for(let i=0;i<nums.length-1;i++){
-   if(nums[i]>nums[i+1]){
-    flag = false
-   }else{
-    break
-   }
-}
-   if(flag&&nums.length>1&&results.length>2){
-    for(let i=0;i<nums.length;i++){
-        nums[i]=results[index+1][i]
+//  deafult sorting array makes it lexicographically sorted
+  results.sort();
+  const index = results.findIndex((e) => e === nums.join(''));
+
+
+  if (index === results.length - 1) {
+    //   if nums is the last array in results then the next one 
+    // is the very first one
+    for (let i = 0; i < nums.length; i++) {
+      nums[i] = results[0][i];
     }
-   }else{
-    nums.sort()
-   }
+  } else {
+    for (let i = 0; i < nums.length; i++) {
+      nums[i] = results[index + 1][i];
+    }
+  }
 
-
-
+  // return nums
   function backtrack(
     results: any,
     current: any,
@@ -414,8 +413,16 @@ for(let i=0;i<nums.length-1;i++){
   ) {
     if (remaining === 0) {
       results.push(current.join(''));
+      console.log('RESULTS', results)
       return;
     }
+    // by using Map we are countin if our array has alredy used 
+    // a digit from nums - since in permutation there can only be 
+    // as many digits like in nums, for example nums [1,2,3] can not 
+    // have in permutations 1,2 or three repeated but when nums [1,1,2]
+    // 1 can be repeted.
+    // for that reason simply check for inclusion like if(cuurrent.includes(nums[i]))
+    //  is not enough and count is needed
     for (let [num, count] of countMap.entries()) {
       if (count > 0) {
         current.push(num);
@@ -428,12 +435,9 @@ for(let i=0;i<nums.length-1;i++){
   }
 }
 
-console.log('nextPermutation', nextPermutation([1]));
+console.log('nextPermutation', nextPermutation([6,7,5]));
 
-
-
-
-// SEPERATE EXERCISE :
+// SEPERATE EXERCISE:
 // how to create permuttion of the array without reaping its elelemnts
 // - if they are alredy repeated in the array the can be used as many times
 // as in the array:
@@ -455,6 +459,7 @@ var permute = function (nums: any) {
 function backtrack(results: any, current: any, remaining: any, countMap: any) {
   if (remaining === 0) {
     results.push([...current]);
+    console.log('results', results)
     return;
   }
   for (let [num, count] of countMap.entries()) {
@@ -473,4 +478,4 @@ function backtrack(results: any, current: any, remaining: any, countMap: any) {
   }
 }
 
-// console.log('permute', permute([1, 2, 3]));
+// console.log('permute', permute([6,7,5,3,5,6,2,9,1,2,7,0,9]));
