@@ -387,14 +387,17 @@ function nextPermutation(nums: number[]): void {
   }
   backtrack(results, [], nums.length, countMap);
 
-//  deafult sorting array makes it lexicographically sorted
+  //  deafult sorting array makes it lexicographically sorted
   results.sort();
   const index = results.findIndex((e) => e === nums.join(''));
 
-
   if (index === results.length - 1) {
-    //   if nums is the last array in results then the next one 
+    //   if nums is the last array in results then the next one
     // is the very first one
+    // its called stricly decreasing , menas its the last on
+    // (also we can have stricly decreasing section in a string like [3,1,3,2,1]
+    // so this part 3,2,1 is strickly deacrising and all permutaion in that part
+    // afe exausted, now for next permuation we need to permutate nr before which is 1
     for (let i = 0; i < nums.length; i++) {
       nums[i] = results[0][i];
     }
@@ -413,12 +416,12 @@ function nextPermutation(nums: number[]): void {
   ) {
     if (remaining === 0) {
       results.push(current.join(''));
-      console.log('RESULTS', results)
+      console.log('RESULTS', results);
       return;
     }
-    // by using Map we are countin if our array has alredy used 
-    // a digit from nums - since in permutation there can only be 
-    // as many digits like in nums, for example nums [1,2,3] can not 
+    // by using Map we are countin if our array has alredy used
+    // a digit from nums - since in permutation there can only be
+    // as many digits like in nums, for example nums [1,2,3] can not
     // have in permutations 1,2 or three repeated but when nums [1,1,2]
     // 1 can be repeted.
     // for that reason simply check for inclusion like if(cuurrent.includes(nums[i]))
@@ -435,10 +438,15 @@ function nextPermutation(nums: number[]): void {
   }
 }
 
-console.log('nextPermutation', nextPermutation([6,7,5]));
+// sol 2, time O(n), space O(1)
+// check out this vide on analizing how bactracking works to create next permutation
+// and on those bases find next pemutaion in O(n) time
+// https://www.youtube.com/watch?v=quAS1iydq7U&t=97s
+
+console.log('nextPermutation', nextPermutation([1, 2, 3]));
 
 // SEPERATE EXERCISE:
-// how to create permuttion of the array without reaping its elelemnts
+// how to create permuttion of the array without repeating its elelemnts
 // - if they are alredy repeated in the array the can be used as many times
 // as in the array:
 var permute = function (nums: any) {
@@ -459,7 +467,7 @@ var permute = function (nums: any) {
 function backtrack(results: any, current: any, remaining: any, countMap: any) {
   if (remaining === 0) {
     results.push([...current]);
-    console.log('results', results)
+    console.log('results', results);
     return;
   }
   for (let [num, count] of countMap.entries()) {
