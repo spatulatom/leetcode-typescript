@@ -75,14 +75,13 @@ export function reverseVowels(s: string): string {
 
 console.log('reverseVowels', reverseVowels('hello'));
 
-
 // 6. Zigzag Conversion
 // Medium
 // 7K
 // 13.8K
 // Companies
-// The string "PAYPALISHIRING" is written in a zigzag pattern on a 
-// given number of rows like this: (you may want to display this pattern in a 
+// The string "PAYPALISHIRING" is written in a zigzag pattern on a
+// given number of rows like this: (you may want to display this pattern in a
 //     fixed font for better legibility)
 
 // P   A   H   N
@@ -90,11 +89,10 @@ console.log('reverseVowels', reverseVowels('hello'));
 // Y   I   R
 // And then read line by line: "PAHNAPLSIIGYIR"
 
-// Write the code that will take a string and make this conversion given a 
+// Write the code that will take a string and make this conversion given a
 // number of rows:
 
 // string convert(string s, int numRows);
- 
 
 // Example 1:
 
@@ -113,7 +111,6 @@ console.log('reverseVowels', reverseVowels('hello'));
 
 // Input: s = "A", numRows = 1
 // Output: "A"
- 
 
 // Constraints:
 
@@ -128,63 +125,48 @@ console.log('reverseVowels', reverseVowels('hello'));
 // 46.5%
 
 
+// sol 1, 2Darray,  O(n), space O(n)
 function convert(s: string, numRows: number): string {
-    
-};
+    if(s.length===numRows) return s
+  const arr: string[][] = new Array(numRows).fill(null).map((e) => {
+    return new Array();
+  });
+  let pointer = 0;
+  let up = false;
+  let down = true;
+  for (let i = 0; i < arr.length; i++) {
+    if (up) {
+      if (i !== 0 && i !== arr.length - 1) {
+        let m = arr.length - 2;
+        while (m > 0) {
+          arr[m].push(s[pointer]);
+        //   console.log('mmmmm', m)
+          m--;
+          pointer++;
+          if(pointer>=s.length)break
+        }
+    i= arr.length - 1
+      }
+    } else if (down) {
+      arr[i].push(s[pointer]);
+      pointer++;
+    }
 
-console.log('convert:', convert("PAYPALISHIRING", 3))
+    // console.log('here', s[pointer], 'i:', i,arr[i], pointer, 'down:', down, 'up:', up)
 
+    if (i === arr.length - 1) {
+      i = -1;
+      if (down) {
+        (up = true), (down = false);
+      } else if (up) {
+        (down = true), (up = false);
+      }
+    }
 
+    if (pointer === s.length) break;
+  }
 
+  return arr.flat().join('')
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+console.log('convert:', convert('PAYPA', 4));
