@@ -394,7 +394,7 @@ function trap(height: number[]): number {
     }
   }
 
-  return [jumps, jumps2,units];
+  return units
 }
 
 // console.log('trap', trap([0,1,0,2,1,0,1,3,2,1,2,1]));

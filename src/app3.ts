@@ -449,7 +449,7 @@ console.log('nextPermutation', nextPermutation([1, 2, 3]));
 // how to create permuttion of the array without repeating its elelemnts
 // - if they are alredy repeated in the array the can be used as many times
 // as in the array:
-var permute = function (nums: any) {
+var permute1 = function (nums: any) {
   const results: any = [];
   const countMap = new Map();
   // Count the occurrences of each number in nums
