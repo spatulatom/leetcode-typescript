@@ -1,48 +1,53 @@
 // backtracking on a 1D array:
-function permute0(str:string[], l:number, r:number) {
-    if (l === r) {
-        console.log(str.join(''));
-    } else {
-        for (let i = l; i <= r; i++) {
-            [str[l], str[i]] = [str[i], str[l]]; // swap
-            permute0(str, l + 1, r); // recurse
-            [str[l], str[i]] = [str[i], str[l]]; // backtrack
-        }
+function permute0(str: string[], l: number, r: number) {
+  if (l === r) {
+    console.log(str.join(''));
+  } else {
+    for (let i = l; i <= r; i++) {
+      [str[l], str[i]] = [str[i], str[l]]; // swap
+      permute0(str, l + 1, r); // recurse
+      [str[l], str[i]] = [str[i], str[l]]; // backtrack
     }
+  }
 }
-// The “value we’re keeping track of” in this case is the starting index l. 
-// As we recurse, we increment l (i.e., move forward in the string). As we backtrack, 
+// The “value we’re keeping track of” in this case is the starting index l.
+// As we recurse, we increment l (i.e., move forward in the string). As we backtrack,
 // we restore l to its original value (i.e., move backward in the string).
-// Using the index and swapping elements is a common pattern in backtracking algorithms 
-// for permutations and combinations because it helps in avoiding unnecessary duplicate 
-// computations. It's an optimization technique that can significantly 
+// Using the index and swapping elements is a common pattern in backtracking algorithms
+// for permutations and combinations because it helps in avoiding unnecessary duplicate
+// computations. It's an optimization technique that can significantly
 // improve the performance of the algorithm.
 
-// this exapmple below attemps to do the same but 
+// this exapmple below attemps to do the same but
 // 1. it fails sinc eswoping indexex is hard to mimic
-// 2. dosent track its index (like above l+1) so the amount of bactracking === all 
+// 2. dosent track its index (like above l+1) so the amount of bactracking === all
 // possible combinations
 
-function permute(str: string[], arr: string[] = [], set: Set<string> = new Set()) {
-    if (arr.length === str.length) {
-        set.add(arr.join(''));
-        console.log(arr.join(''), arr);
-    } else {
-        for (let i = 0; i < str.length; i++) {
-            if (arr.indexOf(str[i]) === -1 || arr.lastIndexOf(str[i]) === i) {
-                arr.push(str[i]);
-                permute(str, arr, set);
-                arr.pop();
-            }
-        }
+function permute(
+  str: string[],
+  arr: string[] = [],
+  set: Set<string> = new Set()
+) {
+  if (arr.length === str.length) {
+    set.add(arr.join(''));
+    // console.log(arr.join(''), arr);
+  } else {
+    for (let i = 0; i < str.length; i++) {
+      if (arr.indexOf(str[i]) === -1 || arr.lastIndexOf(str[i]) === i) {
+        arr.push(str[i]);
+        permute(str, arr, set);
+        arr.pop();
+      }
     }
+  }
 }
 
-
-const str = "AAB";
+const str = 'AAB';
 const set = new Set<string>();
 permute(str.split(''), [], set);
 console.log('set', set);
+
+
 // 79. Word Search
 // Medium
 // 14.7K
@@ -77,33 +82,105 @@ console.log('set', set);
 
 // Follow up: Could you use search pruning to make your solution faster with a larger board?
 
+// sol 1, backtracking sol
 function exist(board: string[][], word: string): boolean {
-    const string2 = board.flat();
-    const word2 = word.split('');
-    let rows = 0;
-  
-    let match = '';
-    for (let i = 0; i < string2.length; i++) {
-      match += string2[i];
-      const partial = word2.slice(0, match.length).join('');
-      if (match === word)
-        if (match !== partial) {
-          match = '';
+    const rows = board.length;
+    const cols = board[0].length;
+
+    function backtrack(row: number, col: number, index: number): boolean {
+        // Base case: Word found
+        if (index === word.length) {
+            return true;
+        }
+
+        // Check boundaries and character match
+        if (row < 0 || row >= rows || col < 0 || col >= cols || board[row][col] !== word[index]) {
+            return false;
+        }
+
+        // Mark the current cell as visited
+        const originalChar = board[row][col];
+        board[row][col] = '*';
+
+        // Explore adjacent cells
+        const found = (
+            backtrack(row + 1, col, index + 1) ||
+            backtrack(row - 1, col, index + 1) ||
+            backtrack(row, col + 1, index + 1) ||
+            backtrack(row, col - 1, index + 1)
+        );
+
+        // Backtrack: Restore the original value of the cell
+        board[row][col] = originalChar;
+
+        return found;
+    }
+
+    // Iterate through each cell in the board
+    for (let row = 0; row < rows; row++) {
+        for (let col = 0; col < cols; col++) {
+            // Start the backtracking process from each cell
+            if (backtrack(row, col, 0)) {
+                return true;
+            }
         }
     }
-  
-    return true;
-  
+
+    // Word not found in the entire board
+    return false;
 }
 
-console.log(
-  'exist:',
-  exist(
-    [
-      ['A', 'B', 'C', 'E'],
-      ['S', 'F', 'C', 'S'],
-      ['A', 'D', 'E', 'E'],
-    ],
-    'ABCCED'
-  )
-);
+// Example usage:
+const board = [
+    ['A', 'B', 'C', 'E'],
+    ['S', 'F', 'C', 'S'],
+    ['A', 'D', 'E', 'E']
+];
+
+const word = "ABCCED";
+const result = exist(board, word);
+console.log(result); // Output: true
+
+
+// sol 2
+// dynmic sol
+function exist2(board: string[][], word: string): boolean {
+    const rows = board.length;
+    const cols = board[0].length;
+
+    function dfs(row: number, col: number, index: number): boolean {
+        if (index === word.length) {
+            return true; // Word found
+        }
+
+        if (row < 0 || row >= rows || col < 0 || col >= cols || board[row][col] !== word[index]) {
+            return false; // Out of bounds or mismatch
+        }
+
+        const originalChar = board[row][col];
+        board[row][col] = '*'; // Mark the cell as visited
+
+        // Explore adjacent cells
+        const found = (
+            dfs(row + 1, col, index + 1) ||
+            dfs(row - 1, col, index + 1) ||
+            dfs(row, col + 1, index + 1) ||
+            dfs(row, col - 1, index + 1)
+        );
+
+        board[row][col] = originalChar; // Backtrack
+
+        return found;
+    }
+
+    for (let row = 0; row < rows; row++) {
+        for (let col = 0; col < cols; col++) {
+            if (dfs(row, col, 0)) {
+                return true; // Word found starting from this cell
+            }
+        }
+    }
+
+    return false; // Word not found in the entire board
+}
+
