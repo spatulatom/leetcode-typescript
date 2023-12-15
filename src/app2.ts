@@ -259,7 +259,48 @@ console.log('minWindow', minWindow('abc', 'ab'));
 // 1 <= n <= 2 * 104
 // 0 <= height[i] <= 105
 
-// sol 1
+
+// sol 0, two pointers
+
+function trap(height: number[]): number {
+  if (height.length === 0) {
+      return 0;
+  }
+
+  let left = 0;
+  let right = height.length - 1;
+  let leftMax = 0;
+  let rightMax = 0;
+  let result = 0;
+
+  while (left < right) {
+      if (height[left] < height[right]) {
+          // Update leftMax and calculate trapped water on the left
+          leftMax = Math.max(leftMax, height[left]);
+          result += Math.max(0, leftMax - height[left]);
+          left++;
+      } else {
+          // Update rightMax and calculate trapped water on the right
+          rightMax = Math.max(rightMax, height[right]);
+          result += Math.max(0, rightMax - height[right]);
+          right--;
+      }
+  }
+
+  return result;
+}
+
+// console.log('trap', trap([0,1,0,2,1,0,1,3,2,1,2,1]));
+console.log(
+  'trap',
+  trap([
+    6, 4, 2, 0, 3, 2, 0, 3, 1, 4, 5, 3, 2, 7, 5, 3, 0, 1, 2, 1, 3, 4, 6, 8, 1,
+    3,
+  ])
+);
+console.log('trap',trap([4,2,0,3,2,5]))
+
+// sol 1, not working
 function trap1(height: number[]): number {
   let units = 0;
   let wait = 1;
@@ -338,9 +379,9 @@ function trap1(height: number[]): number {
   return units;
 }
 
-// sol 2
+// sol 2, not working
 
-function trap(height: number[]): number {
+function trap2(height: number[]): number {
   // const height = heigh.reverse()
   let units = 0;
   let wait = 1;
@@ -397,12 +438,4 @@ function trap(height: number[]): number {
   return units
 }
 
-// console.log('trap', trap([0,1,0,2,1,0,1,3,2,1,2,1]));
-console.log(
-  'trap',
-  trap([
-    6, 4, 2, 0, 3, 2, 0, 3, 1, 4, 5, 3, 2, 7, 5, 3, 0, 1, 2, 1, 3, 4, 6, 8, 1,
-    3,
-  ])
-);
-console.log('trap',trap([4,2,0,3,2,5]))
+
