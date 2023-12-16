@@ -47,7 +47,6 @@ const set = new Set<string>();
 permute(str.split(''), [], set);
 console.log('set', set);
 
-
 // 79. Word Search
 // Medium
 // 14.7K
@@ -84,114 +83,121 @@ console.log('set', set);
 
 // sol 1, backtracking sol
 function exist(board: string[][], word: string): boolean {
-    const rows = board.length;
-    const cols = board[0].length;
+  const rows = board.length;
+  const cols = board[0].length;
 
-    function backtrack(row: number, col: number, index: number): boolean {
-        // Base case: Word found
-        if (index === word.length) {
-            return true;
-        }
-
-        // Check boundaries and character match
-        if (row < 0 || row >= rows || col < 0 || col >= cols || board[row][col] !== word[index]) {
-            return false;
-        }
-
-        // Mark the current cell as visited
-        const originalChar = board[row][col];
-        board[row][col] = '*';
-
-        // Explore adjacent cells
-        const found = (
-            backtrack(row + 1, col, index + 1) ||
-            backtrack(row - 1, col, index + 1) ||
-            backtrack(row, col + 1, index + 1) ||
-            backtrack(row, col - 1, index + 1)
-        );
-
-        // Backtrack: Restore the original value of the cell
-        board[row][col] = originalChar;
-
-        return found;
+  function backtrack(row: number, col: number, index: number): boolean {
+    // Base case: Word found
+    if (index === word.length) {
+      return true;
     }
 
-    // Iterate through each cell in the board
-    for (let row = 0; row < rows; row++) {
-        for (let col = 0; col < cols; col++) {
-            // Start the backtracking process from each cell
-            if (backtrack(row, col, 0)) {
-                return true;
-            }
-        }
+    // Check boundaries and character match
+    if (
+      row < 0 ||
+      row >= rows ||
+      col < 0 ||
+      col >= cols ||
+      board[row][col] !== word[index]
+    ) {
+      return false;
     }
 
-    // Word not found in the entire board
-    return false;
+    // Mark the current cell as visited
+    const originalChar = board[row][col];
+    board[row][col] = '*';
+
+    // Explore adjacent cells
+    const found =
+      backtrack(row + 1, col, index + 1) ||
+      backtrack(row - 1, col, index + 1) ||
+      backtrack(row, col + 1, index + 1) ||
+      backtrack(row, col - 1, index + 1);
+
+    // Backtrack: Restore the original value of the cell
+    board[row][col] = originalChar;
+
+    return found;
+  }
+
+  // Iterate through each cell in the board
+  for (let row = 0; row < rows; row++) {
+    for (let col = 0; col < cols; col++) {
+      // Start the backtracking process from each cell
+      if (backtrack(row, col, 0)) {
+        return true;
+      }
+    }
+  }
+
+  // Word not found in the entire board
+  return false;
 }
 
 // Example usage:
 const board = [
-    ['A', 'B', 'C', 'E'],
-    ['S', 'F', 'C', 'S'],
-    ['A', 'D', 'E', 'E']
+  ['A', 'B', 'C', 'E'],
+  ['S', 'F', 'C', 'S'],
+  ['A', 'D', 'E', 'E'],
 ];
 
-const word = "ABCCED";
+const word = 'ABCCED';
 const result = exist(board, word);
 console.log(result); // Output: true
-
 
 // sol 2
 // dynmic sol
 function exist2(board: string[][], word: string): boolean {
-    const rows = board.length;
-    const cols = board[0].length;
+  const rows = board.length;
+  const cols = board[0].length;
 
-    function dfs(row: number, col: number, index: number): boolean {
-        if (index === word.length) {
-            return true; // Word found
-        }
-
-        if (row < 0 || row >= rows || col < 0 || col >= cols || board[row][col] !== word[index]) {
-            return false; // Out of bounds or mismatch
-        }
-
-        const originalChar = board[row][col];
-        board[row][col] = '*'; // Mark the cell as visited
-
-        // Explore adjacent cells
-        const found = (
-            dfs(row + 1, col, index + 1) ||
-            dfs(row - 1, col, index + 1) ||
-            dfs(row, col + 1, index + 1) ||
-            dfs(row, col - 1, index + 1)
-        );
-
-        board[row][col] = originalChar; // Backtrack
-
-        return found;
+  function dfs(row: number, col: number, index: number): boolean {
+    if (index === word.length) {
+      return true; // Word found
     }
 
-    for (let row = 0; row < rows; row++) {
-        for (let col = 0; col < cols; col++) {
-            if (dfs(row, col, 0)) {
-                return true; // Word found starting from this cell
-            }
-        }
+    if (
+      row < 0 ||
+      row >= rows ||
+      col < 0 ||
+      col >= cols ||
+      board[row][col] !== word[index]
+    ) {
+      return false; // Out of bounds or mismatch
     }
 
-    return false; // Word not found in the entire board
+    const originalChar = board[row][col];
+    board[row][col] = '*'; // Mark the cell as visited
+
+    // Explore adjacent cells
+    const found =
+      dfs(row + 1, col, index + 1) ||
+      dfs(row - 1, col, index + 1) ||
+      dfs(row, col + 1, index + 1) ||
+      dfs(row, col - 1, index + 1);
+
+    board[row][col] = originalChar; // Backtrack
+
+    return found;
+  }
+
+  for (let row = 0; row < rows; row++) {
+    for (let col = 0; col < cols; col++) {
+      if (dfs(row, col, 0)) {
+        return true; // Word found starting from this cell
+      }
+    }
+  }
+
+  return false; // Word not found in the entire board
 }
-
-
 
 // 73. Set Matrix Zeroes
 // Medium
 // 13.6K
 // 680
 // Companies
-// Given an m x n integer matrix matrix, if an element is 0, set its entire 
+// Given an m x n integer matrix matrix, if an element is 0, set its entire
 // row and column to 0's.
 
 // You must do it in place.
@@ -201,10 +207,8 @@ function exist2(board: string[][], word: string): boolean {
 // Output: [[1,0,1],[0,0,0],[1,0,1]]
 // Example 2:
 
-
 // Input: matrix = [[0,1,2,0],[3,4,5,2],[1,3,1,5]]
 // Output: [[0,0,0,0],[0,4,5,0],[0,3,1,0]]
- 
 
 // Constraints:
 
@@ -212,7 +216,6 @@ function exist2(board: string[][], word: string): boolean {
 // n == matrix[0].length
 // 1 <= m, n <= 200
 // -231 <= matrix[i][j] <= 231 - 1
- 
 
 // Follow up:
 
@@ -227,8 +230,37 @@ function exist2(board: string[][], word: string): boolean {
 /**
  Do not return anything, modify matrix in-place instead.
  */
- function setZeroes(matrix: number[][]): void {
-    
- };
+// sol 1
+function setZeroes(matrix: number[][]): void {
+  // traverse matrix and mark we are zeros
+  const zeros: { [key: string]: string } = {};
+  let key = 0;
+  for (let i = 0; i < matrix.length; i++) {
+    for (let j = 0; j < matrix[0].length; j++) {
+      // console.log(i, j)
+      if (matrix[i][j] === 0) {
+        console.log(i, j);
+        zeros[key] = `${[i]}${[j]}`;
+        key++;
+      }
+    }
+  }
+  const zerosArr = Object.values(zeros);
 
- console.log('setZeroes', setZeroes())
+  for (let i = 0; i < matrix.length; i++) {
+    for (let j = 0; j < matrix[0].length; j++) {
+      if (`${[i]}${[j]}` === zerosArr[0]) {
+        console.log('here');
+      }
+    }
+  }
+}
+
+console.log(
+  'setZeroes',
+  setZeroes([
+    [0, 1, 2, 0],
+    [3, 4, 0, 2],
+    [1, 3, 1, 5],
+  ])
+);
