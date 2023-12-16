@@ -291,3 +291,9 @@ console.log(
 // Space Complexity: The space complexity of your solution is O(n*m), as you mentioned.
 //  This is because in the worst case, every cell in the matrix could be zero, and 
 //  you would store each of these cells in the zeros object.
+
+// so bascally we can say that the time complxity is On^2?
+// In the context of your “Set Matrix Zeroes” function, the time complexity is 
+// indeed O(n²), where n is the total number of elements in the matrix. This is 
+// because for each element in the matrix, 
+// you might have to traverse the entire matrix again
