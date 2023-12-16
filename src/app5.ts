@@ -239,7 +239,7 @@ function setZeroes(matrix: number[][]): void {
     for (let j = 0; j < matrix[0].length; j++) {
       // console.log(i, j)
       if (matrix[i][j] === 0) {
-        console.log(i, j);
+        // console.log(i, j);
         zeros[`${[i]}+${[j]}`] = true;
         key++;
       }
@@ -260,7 +260,6 @@ function setZeroes(matrix: number[][]): void {
       }
     }
   }
-  
 }
 
 console.log(
@@ -283,17 +282,105 @@ console.log(
 
 // As for the time and space complexity:
 
-// Time Complexity: The time complexity of your solution is O((nm)²), not O(nmm). 
+// Time Complexity: The time complexity of your solution is O((nm)²), not O(nmm).
 // This is because you have two nested loops to traverse the matrix (which is O(nm)),
-//  and for each cell, you might 
-// have to traverse the matrix again to set the entire row and column to zero (which 
+//  and for each cell, you might
+// have to traverse the matrix again to set the entire row and column to zero (which
 //   is also O(nm)). Therefore, the total time complexity is O((nm)²).
 // Space Complexity: The space complexity of your solution is O(n*m), as you mentioned.
-//  This is because in the worst case, every cell in the matrix could be zero, and 
+//  This is because in the worst case, every cell in the matrix could be zero, and
 //  you would store each of these cells in the zeros object.
 
 // so bascally we can say that the time complxity is On^2?
-// In the context of your “Set Matrix Zeroes” function, the time complexity is 
-// indeed O(n²), where n is the total number of elements in the matrix. This is 
-// because for each element in the matrix, 
+// In the context of your “Set Matrix Zeroes” function, the time complexity is
+// indeed O(n²), where n is the total number of elements in the matrix. This is
+// because for each element in the matrix,
 // you might have to traverse the entire matrix again
+
+// 48. Rotate Image
+// Medium
+// 16.7K
+// 743
+// Companies
+// You are given an n x n 2D matrix representing an image, rotate the image by 90
+// degrees (clockwise).
+
+// You have to rotate the image in-place, which means you have to modify the input 2D matrix
+// directly. DO NOT allocate another 2D matrix and do the rotation.
+
+// Example 1:
+// Input: matrix = [[1,2,3],[4,5,6],[7,8,9]]
+// Output: [[7,4,1],[8,5,2],[9,6,3]]
+// Example 2:
+
+// Input: matrix = [[5,1,9,11],[2,4,8,10],[13,3,6,7],[15,14,12,16]]
+// Output: [[15,13,2,5],[14,3,4,1],[12,6,8,9],[16,7,10,11]]
+
+// Constraints:
+
+// n == matrix.length == matrix[i].length
+// 1 <= n <= 20
+// -1000 <= matrix[i][j] <= 1000
+// Accepted
+// 1.5M
+// Submissions
+// 2.1M
+// Acceptance Rate
+// 73.2%
+
+/**
+ Do not return anything, modify matrix in-place instead.
+ */
+
+//  sol 1, O(n^2)
+function rotate(matrix: number[][]): void {
+  // const copy = [...matrix]; // this line will only create shallow copy
+  const copy = matrix.map((inner) => [...inner]);
+  matrix[2][2] = 10;
+
+  let inner = 0;
+  for (let i = 0; i < matrix.length; i++) {
+    let outer = matrix.length - 1;
+    for (let j = 0; j < matrix.length; j++) {
+      // if(i===0&&j===0) matrix[i][j]=copy[matrix.length-1][0]
+      // if(i===0&&j===1) matrix[i][j]=copy[matrix.length-2][0]
+      // if(i===0&&j===2) matrix[i][j]=copy[matrix.length-3][0]
+      // if(i===1&&j===0) matrix[i][j]=copy[2][1]
+      // if(i===1&&j===1) matrix[i][j]=copy[1][1]
+      // if(i===1&&j===2) matrix[i][j]=copy[0][1]
+      // if(i===2&&j===0) matrix[i][j]=copy[2][2]
+      // if(i===2&&j===1) matrix[i][j]=copy[1][2]
+      // if(i===2&&j===2) matrix[i][j]=copy[0][2]
+      console.log('inner', inner);
+      matrix[i][j] = copy[outer][inner];
+      outer--;
+    }
+    inner++;
+  }
+  // return [matrix, copy]
+}
+
+console.log(
+  'rotate',
+  rotate([
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9],
+  ])
+);
+
+// about 2D arrays and inputs , the are very often considered n^2 so 
+// going one is alrady O(n^2)
+// In the case of a 2D matrix, it’s common to define the input size as n² if the matrix 
+// is of size n x n, because that’s the total number of elements in the matrix. This is 
+// why we say the time complexity is O(n²) when we need to visit every element in the matrix.
+
+// However, if we were to consider the matrix as one long array of size n² (by concatenating 
+//   all the rows, for example), then we could indeed say that the time complexity is O(n),
+//    where n is the total number of elements in the “long array”.
+
+// Both are valid ways to describe the time complexity, and the choice between them often 
+// depends on the context and how the problem is framed. In the context of 2D matrices, 
+// it’s more common to use the former approach (O(n²) for visiting every element), but the 
+// latter approach (O(n) for a “long array”) is equally valid if we consider the 
+// matrix as a single, flat structure.
