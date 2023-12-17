@@ -62,3 +62,10 @@ it('should insert new interval at the end of the intervals list', () => {
   const result = insert(intervals, newInterval);
   expect(result).toEqual([[1,3],[6,9],[10,12]]);
 });
+
+it('should return new interval as is if it does not overlap with any existing intervals', () => {
+  const intervals = [[1,3],[6,9]];
+  const newInterval = [4,5];
+  const result = insert(intervals, newInterval);
+  expect(result).toEqual([[1,3],[4,5],[6,9]]);
+});
