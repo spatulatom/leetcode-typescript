@@ -23,7 +23,7 @@
 // 0 <= starti <= endi <= 104
 
 // sol 1, time complexity O(n log m), space O(1) - don’t use any additional space
-function merge(intervals: number[][]): number[][] {
+export function merge(intervals: number[][]): number[][] {
   intervals.sort((a: any, b: any) => {
     return a[0] - b[0];
   });
