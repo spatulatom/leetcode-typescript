@@ -332,16 +332,16 @@ console.log(
  Do not return anything, modify matrix in-place instead.
  */
 
-//  sol 1, O(n^2)
+//  sol 1, O(n^2), space O(n^2)
 function rotate(matrix: number[][]): void {
   // const copy = [...matrix]; // this line will only create shallow copy
   const copy = matrix.map((inner) => [...inner]);
-  matrix[2][2] = 10;
+  const n = matrix.length;
 
-  let inner = 0;
-  for (let i = 0; i < matrix.length; i++) {
-    let outer = matrix.length - 1;
-    for (let j = 0; j < matrix.length; j++) {
+  let inner = 0;//accually i can use i for inner
+  for (let i = 0; i < n; i++) {
+    let outer = n - 1;
+    for (let j = 0; j < n; j++) {
       // if(i===0&&j===0) matrix[i][j]=copy[matrix.length-1][0]
       // if(i===0&&j===1) matrix[i][j]=copy[matrix.length-2][0]
       // if(i===0&&j===2) matrix[i][j]=copy[matrix.length-3][0]
