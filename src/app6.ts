@@ -88,8 +88,8 @@ console.log(
 // 0 <= start <= end <= 105
 
 
-function insert(intervals: number[][], newInterval: number[]): number[][] {
+export function insert(intervals: number[][], newInterval: number[]): number[][] {
     
 };
 
-console.log(insert, insert([[1,3],[6,9]], [2,5]))
+console.log('insert', insert([[1,3],[6,9]], [2,5]))

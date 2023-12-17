@@ -1,5 +1,5 @@
 // 56. Merge Intervals
-import { merge56 } from '../src/app6';
+import { insert, merge56 } from '../src/app6';
 
 it('should merge overlapping intervals and return non-overlapping intervals', () => {
   const intervals = [
@@ -45,4 +45,13 @@ it('should return same array for non-overlapping intervals', () => {
     [8, 10],
     [15, 18],
   ]);
+});
+
+
+// 57. Insert Interval
+it('should correctly insert new interval between two existing intervals', () => {
+  const intervals = [[1,3],[6,9]];
+  const newInterval = [2,5];
+  const result = insert(intervals, newInterval);
+  expect(result).toEqual([[1,5],[6,9]]);
 });
