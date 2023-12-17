@@ -13,3 +13,9 @@ it('should merge overlapping intervals and return non-overlapping intervals', ()
     const result = merge56(intervals);
     expect(result).toEqual([[1,4]]);
   });
+
+  it('should return same array for single interval input', () => {
+    const intervals = [[1,4]];
+    const result = merge56(intervals);
+    expect(result).toEqual([[1,4]]);
+  });
