@@ -55,3 +55,10 @@ it('should correctly insert new interval between two existing intervals', () => 
   const result = insert(intervals, newInterval);
   expect(result).toEqual([[1,5],[6,9]]);
 });
+
+it('should insert new interval at the end of the intervals list', () => {
+  const intervals = [[1,3],[6,9]];
+  const newInterval = [10,12];
+  const result = insert(intervals, newInterval);
+  expect(result).toEqual([[1,3],[6,9],[10,12]]);
+});
