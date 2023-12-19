@@ -66,4 +66,5 @@ function findMax(arr:any, start:any, end:any) :any{
   
 // 1.Divide: We find the middle index to split the array into two halves.
 // 2. Conquer: We recursively find the maximum element in the left and right subarrays.
-// 3. Combine: We combine the results by comparing the maximum elements from the left and right subarrays.
+// 3. Combine: We combine the results by comparing the maximum elements from the 
+// left and right subarrays.

@@ -117,9 +117,8 @@ export function insert(
       flag = true;
     }
   }
-  
 
-  // If the current interval overlaps with the new interval, you merge them by updating the 
+  // If the current interval overlaps with the new interval, you merge them by updating the
   // current interval’s start and end times to
   //  the merged interval’s start and end times.
   for (let i = 0; i < intervals.length - 1; i++) {
@@ -139,7 +138,7 @@ export function insert(
     if (intervals[i].length === 1) intervals.splice(i, 1);
   }
 
-  // If the new interval was not merged with any existing interval, you find the correct position 
+  // If the new interval was not merged with any existing interval, you find the correct position
   // to insert it and add it to the intervals array.
   if (!flag) {
     const sum = newInterval[0] + newInterval[1];
@@ -167,18 +166,16 @@ console.log(
   )
 );
 
-
 // 139. Word Break
 // Medium
 // 16.5K
 // 724
 // Companies
-// Given a string s and a dictionary of strings wordDict, return true if s can be 
+// Given a string s and a dictionary of strings wordDict, return true if s can be
 // segmented into a space-separated sequence of one or more dictionary words.
 
 // Note that the same word in the dictionary may be reused multiple times in the segmentation.
 
- 
 // Example 1:
 
 // Input: s = "leetcode", wordDict = ["leet","code"]
@@ -194,7 +191,6 @@ console.log(
 
 // Input: s = "catsandog", wordDict = ["cats","dog","sand","and","cat"]
 // Output: false
- 
 
 // Constraints:
 
@@ -203,3 +199,42 @@ console.log(
 // 1 <= wordDict[i].length <= 20
 // s and wordDict[i] consist of only lowercase English letters.
 // All the strings of wordDict are unique.
+
+// sol 1, bactracking, exceeds time
+function wordBreak(s: string, wordDict: string[]): boolean {
+  // if(s==="aaaaaaa") return true
+
+  let main: string[][] = [];
+
+  bactrack(0, '', []);
+
+  function bactrack(index: number, el: string, el2: string[]) {
+    // console.log('hi', el2.join('').length, s.length);
+    if(el2.join('').length===9){
+      // console.log(el2.join(''))
+    }
+    if (el2.join('') === s) {
+      // console.log('herer', el2.join(''));
+      main.push([...el2]);
+      return;
+    }
+    if (el2.join('').length > s.length) {
+      // console.log('hereeee', el2.join('').length, s.length)
+      return;
+    }
+    for (let j = 0; j < wordDict.length; j++) {
+      
+      el2.push(wordDict[j]);
+      // console.log(wordDict[j], el2.join(''))
+      bactrack(0, '', el2);
+      el2.pop();
+    }
+  }
+
+  return main.length===0? false: true
+}
+
+console.log(
+  'wordBreak',
+  wordBreak('catsandog', ['cats', 'dog', 'sand', 'and', 'cat'])
+);
