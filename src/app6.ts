@@ -274,13 +274,14 @@ function wordBreak(s: string, wordDict: string[]): boolean {
   return main;
 }
 
-console.log('wordBreak', wordBreak('leetcode', ['leet', 'code']));
+// console.log('wordBreak', wordBreak('leetcode', ['leet', 'code']));
 
 // sol 3, memoization
 function wordBreak2(s: string, wordDict: string[]): boolean {
   const wordSet = new Set(wordDict);
   const memo = new Array(s.length + 1).fill(-1);
   memo[s.length] = true;
+
 
   function backtrack(start: number): boolean {
     if (memo[start] !== -1) {
@@ -298,3 +299,4 @@ function wordBreak2(s: string, wordDict: string[]): boolean {
 
   return backtrack(0);
 }
+console.log('wordBreak2', wordBreak2('leetcode', ['leet', 'code']));
