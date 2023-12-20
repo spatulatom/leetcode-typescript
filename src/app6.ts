@@ -201,7 +201,7 @@ console.log(
 // All the strings of wordDict are unique.
 
 // sol 1, bactracking, exceeds time
-function wordBreak(s: string, wordDict: string[]): boolean {
+function wordBreak1(s: string, wordDict: string[]): boolean {
   // if(s==="aaaaaaa") return true
 
   let main: string[][] = [];
@@ -210,7 +210,7 @@ function wordBreak(s: string, wordDict: string[]): boolean {
 
   function bactrack(index: number, el: string, el2: string[]) {
     // console.log('hi', el2.join('').length, s.length);
-    if(el2.join('').length===9){
+    if (el2.join('').length === 9) {
       // console.log(el2.join(''))
     }
     if (el2.join('') === s) {
@@ -223,7 +223,6 @@ function wordBreak(s: string, wordDict: string[]): boolean {
       return;
     }
     for (let j = 0; j < wordDict.length; j++) {
-      
       el2.push(wordDict[j]);
       // console.log(wordDict[j], el2.join(''))
       bactrack(0, '', el2);
@@ -231,10 +230,71 @@ function wordBreak(s: string, wordDict: string[]): boolean {
     }
   }
 
-  return main.length===0? false: true
+  return main.length === 0 ? false : true;
 }
 
-console.log(
-  'wordBreak',
-  wordBreak('catsandog', ['cats', 'dog', 'sand', 'and', 'cat'])
-);
+// sol 2, optimiza sol 1
+function wordBreak(s: string, wordDict: string[]): boolean {
+  // if(s==="aaaaaaa") return true
+
+  let main: boolean = false;
+
+  bactrack(0, []);
+
+  function bactrack(index: number, el2: string[]) {
+    console.log('hi', el2.join(''), s.length);
+
+    if (el2.join('') === s) {
+      // console.log('herer', el2.join(''));
+      main = true;
+      return;
+    }
+    if (el2.join('').length > s.length) {
+      // console.log('hereeee', el2.join('').length, s.length)
+      return;
+    }
+    for (let j = 0; j < wordDict.length; j++) {
+      if (el2.join('').length + wordDict[j].length > s.length) {
+        continue;
+      }
+      // console.log(wordDict[j], 'equal', el2.join('')+wordDict[j], el2.join('')+wordDict[j]!==s)
+      if (
+        el2.join('').length + wordDict[j].length === s.length &&
+        el2.join('') + wordDict[j] !== s
+      ) {
+        continue;
+      }
+      el2.push(wordDict[j]);
+      // console.log(wordDict[j], el2.join(''))
+      bactrack(0, el2);
+      el2.pop();
+    }
+  }
+
+  return main;
+}
+
+console.log('wordBreak', wordBreak('leetcode', ['leet', 'code']));
+
+// sol 3, memoization
+function wordBreak2(s: string, wordDict: string[]): boolean {
+  const wordSet = new Set(wordDict);
+  const memo = new Array(s.length + 1).fill(-1);
+  memo[s.length] = true;
+
+  function backtrack(start: number): boolean {
+    if (memo[start] !== -1) {
+      return memo[start];
+    }
+    for (let end = start + 1; end <= s.length; end++) {
+      if (wordSet.has(s.slice(start, end)) && backtrack(end)) {
+        memo[start] = true;
+        return true;
+      }
+    }
+    memo[start] = false;
+    return false;
+  }
+
+  return backtrack(0);
+}
