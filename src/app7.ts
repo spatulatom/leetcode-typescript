@@ -30,14 +30,21 @@
 // Follow up: If you have figured out the O(n) solution, try coding another solution using
 // the divide and conquer approach, which is more subtle.
 
+
+// sol 1, brute force, 205/210 test tie linit eceeded
 function maxSubArray0(nums: number[]): number {
-let sum = 0
-let pointer = 
-    for(let i=0;i<nums.length;i++){
-        
+let max = -Infinity
+// let pointer = 
+    for (let i=0;i<nums.length;i++){
+        let sum = 0
+        for (let j=i;j<nums.length;j++){
+            sum+=nums[j]
+            // console.log(sum, j)
+            max= Math.max(max, sum)
+        }
     }
 
-  return 1;
+  return max;
 }
 
-console.log('maxSubArray', maxSubArray0([-2, 1, -3, 4, -1, 2, 1, -5, 4]));
+console.log('maxSubArray', maxSubArray0([-2]));
