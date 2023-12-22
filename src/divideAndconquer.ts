@@ -35,9 +35,11 @@ function binarySearch(arr:any, target:number) {
   
   console.log(`Index of ${targetValue}: ${result1}`);
 // 1. Divide: Compare the middle element of the array with the target value.
-// 2. Conquer: If the middle element is equal to the target, you've found it. If the target is smaller, 
+// 2. Conquer: If the middle element is equal to the target, you've found it. 
+// If the target is smaller, 
 // search in the left half of the array; if larger, search in the right half.
-// 3. Combine: Repeat the process recursively until the target is found or the search space is empty
+// 3. Combine: Repeat the process recursively until the target is found or the 
+// search space is empty
   
 
 // Divide and Conquer: finding the maximum element in an array
