@@ -49,11 +49,10 @@ function maxSubArray0(nums: number[]): number {
 
 // sol 2, time complexity O(n), space complexity O(1)
 function maxSubArray00(nums: number[]): number {
-  if (nums.length === 1) return nums[0];
   let sum = nums[0];
   let max = -Infinity;
   max = Math.max(max, sum);
-  // let pointer =
+
   for (let i = 1; i < nums.length; i++) {
     max = Math.max(max, nums[i]);
     if (sum + nums[i] >= nums[i - 1] + nums[i]) {
@@ -69,3 +68,32 @@ function maxSubArray00(nums: number[]): number {
 }
 
 console.log('maxSubArray', maxSubArray00([-1, -2]));
+
+// You're correct that for the Maximum Subarray problem, an O(n^2) solution might be
+// more straightforward to implement but can be costly in terms of time complexity,
+// especially for large inputs.
+
+// As for O(n) solutions, there are indeed a few different approaches one could take:
+
+// 1. **Kadane's Algorithm**: This is the most well-known O(n) solution. It involves
+// initializing two variables, `max_so_far` and `max_ending_here`, to the first element
+// of the array. Then, for each element in the array, `max_ending_here` is updated as
+// the maximum of the current element and the sum of `max_ending_here` and the current element.
+// If `max_ending_here` is greater than `max_so_far`, then `max_so_far` is updated.
+// Finally, `max_so_far` is returned as the maximum subarray sum.
+
+// 2. **Divide and Conquer**: This approach involves dividing the array into two
+// halves and finding the maximum subarray sum in each half recursively. The
+//  maximum subarray sum is the maximum of the maximum subarray sum in the left
+//  half, the right half, and the maximum subarray sum crossing the midpoint.
+
+// 3. **Your Approach**: Your approach is another interesting O(n) solution. It
+// cleverly compares the sum of the current and previous elements with the sum of
+// the current and next elements to decide whether to extend the current subarray
+// or start a new one.
+
+// Each of these approaches has its own advantages and nuances, and the best one
+// to use can depend on the specific requirements of the problem and the characteristics
+// of the input data. It's always beneficial to understand multiple approaches to a
+// problem, as it can give you a deeper understanding of the problem and help you become
+// a better problem solver. Keep up the great work! 😊
