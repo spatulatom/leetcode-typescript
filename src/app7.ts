@@ -30,21 +30,42 @@
 // Follow up: If you have figured out the O(n) solution, try coding another solution using
 // the divide and conquer approach, which is more subtle.
 
-
-// sol 1, brute force, 205/210 test tie linit eceeded
+// sol 1, brute force, 205/210 test tie linit eceeded,
+// time complexity On^2, space complexity O(1)
 function maxSubArray0(nums: number[]): number {
-let max = -Infinity
-// let pointer = 
-    for (let i=0;i<nums.length;i++){
-        let sum = 0
-        for (let j=i;j<nums.length;j++){
-            sum+=nums[j]
-            // console.log(sum, j)
-            max= Math.max(max, sum)
-        }
+  let max = -Infinity;
+  // let pointer =
+  for (let i = 0; i < nums.length; i++) {
+    let sum = 0;
+    for (let j = i; j < nums.length; j++) {
+      sum += nums[j];
+      // console.log(sum, j)
+      max = Math.max(max, sum);
     }
+  }
 
   return max;
 }
 
-console.log('maxSubArray', maxSubArray0([-2]));
+// sol 2, time complexity O(n), space complexity O(1)
+function maxSubArray00(nums: number[]): number {
+  if (nums.length === 1) return nums[0];
+  let sum = nums[0];
+  let max = -Infinity;
+  max = Math.max(max, sum);
+  // let pointer =
+  for (let i = 1; i < nums.length; i++) {
+    max = Math.max(max, nums[i]);
+    if (sum + nums[i] >= nums[i - 1] + nums[i]) {
+      sum += nums[i];
+      max = Math.max(max, sum);
+    } else if (nums[i - 1] + nums[i] > nums[i]) {
+      sum = nums[i - 1] + nums[i];
+      max = Math.max(max, sum);
+    }
+  }
+
+  return max;
+}
+
+console.log('maxSubArray', maxSubArray00([-1, -2]));
