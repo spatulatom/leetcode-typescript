@@ -102,18 +102,11 @@ console.log('maxSubArray', maxSubArray00([-1, -2]));
 
 // 322. Coin Change
 // Medium
-// 18.1K
-// 421
-// Companies
 // You are given an integer array coins representing coins of different denominations 
 // and an integer amount representing a total amount of money.
-
 // Return the fewest number of coins that you need to make up that amount. If that 
 // amount of money cannot be made up by any combination of the coins, return -1.
-
-// You may assume that you have an infinite number of each kind of coin.
-
- 
+// You may assume that you have an infinite number of each kind of coin. 
 
 // Example 1:
 
@@ -131,16 +124,31 @@ console.log('maxSubArray', maxSubArray00([-1, -2]));
  
 
 // Constraints:
-
 // 1 <= coins.length <= 12
 // 1 <= coins[i] <= 231 - 1
 // 0 <= amount <= 104
 
-// sol 1, brute force 
+// sol 1, greedy approach, it will fail for this test:
+// coinChange([186,419,83,408],6249), expected 20
+// 1. coins will get sorted into  [419, 408, 186, 83]
+// 2. amount -419*14 and amount -186*2 , amount is equal to 11 (count is 16)
+// 3. we cleqrly need different approach then greedy that will try a few 
+// 'branches' and picj the min amount
 function coinChange(coins: number[], amount: number): number {
+    coins.sort((a,b)=>b-a)
+    // return coins
+    let count =0
+    let pointer = 0
     for(let i=0;i<coins.length;i++){
-        
+
+        while(amount-coins[i]>=0){
+            console.log(coins[i])
+amount-=coins[i]
+count++
+        }
     }
+return count
+    return amount?-1:count
 };
 
-console.log('coinChange', coinChange([1,2,5],11))
+console.log('coinChange', coinChange([186,419,83,408],6249))
