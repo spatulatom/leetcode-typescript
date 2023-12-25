@@ -98,15 +98,13 @@ console.log('maxSubArray', maxSubArray00([-1, -2]));
 // problem, as it can give you a deeper understanding of the problem and help you become
 // a better problem solver. Keep up the great work!
 
-
-
 // 322. Coin Change
 // Medium
-// You are given an integer array coins representing coins of different denominations 
+// You are given an integer array coins representing coins of different denominations
 // and an integer amount representing a total amount of money.
-// Return the fewest number of coins that you need to make up that amount. If that 
+// Return the fewest number of coins that you need to make up that amount. If that
 // amount of money cannot be made up by any combination of the coins, return -1.
-// You may assume that you have an infinite number of each kind of coin. 
+// You may assume that you have an infinite number of each kind of coin.
 
 // Example 1:
 
@@ -121,7 +119,6 @@ console.log('maxSubArray', maxSubArray00([-1, -2]));
 
 // Input: coins = [1], amount = 0
 // Output: 0
- 
 
 // Constraints:
 // 1 <= coins.length <= 12
@@ -132,23 +129,86 @@ console.log('maxSubArray', maxSubArray00([-1, -2]));
 // coinChange([186,419,83,408],6249), expected 20
 // 1. coins will get sorted into  [419, 408, 186, 83]
 // 2. amount -419*14 and amount -186*2 , amount is equal to 11 (count is 16)
-// 3. we cleqrly need different approach then greedy that will try a few 
+// 3. we cleqrly need different approach then greedy that will try a few
 // 'branches' and picj the min amount
-function coinChange(coins: number[], amount: number): number {
-    coins.sort((a,b)=>b-a)
-    // return coins
-    let count =0
-    let pointer = 0
-    for(let i=0;i<coins.length;i++){
-
-        while(amount-coins[i]>=0){
-            console.log(coins[i])
-amount-=coins[i]
-count++
-        }
+function coinChange1(coins: number[], amount: number): number {
+  coins.sort((a, b) => b - a);
+  let count = 0;
+  for (let i = 0; i < coins.length; i++) {
+    while (amount - coins[i] >= 0) {
+      console.log(coins[i]);
+      amount -= coins[i];
+      count++;
     }
-return count
-    return amount?-1:count
-};
+  }
+  return amount ? -1 : count;
+}
 
-console.log('coinChange', coinChange([186,419,83,408],6249))
+// sol 2, backtracking, time complexity is O(n*n)
+function coinChange2(coins: number[], amount: number): number {
+  coins.sort((a, b) => b - a);
+  // return coins
+
+  let min = Infinity;
+//   this is how you stop bactracking function by throwing an error
+// the first solution is found we are stopping the whole backtrack 'machine'
+// - yet this is just another version of greed approch only more complex 
+// with backtracking
+  try {
+    backtrack(0, amount);
+  } catch (e) {
+    return min
+    // Caught the exception, do nothing here
+  }
+
+  function backtrack(count: number, amount: number) {
+    if (amount === 0) {
+      min = Math.min(min, count);
+      console.log('min', min)
+      throw new Error("Min number of coins found");
+    }
+    if (amount < 0) {
+      return;
+    }
+    for (let i = 0; i < coins.length; i++) {
+      if (amount - coins[i] < 0) continue;
+      if (amount - coins[i] >= 0) {
+        
+        count++;
+        backtrack(count, amount - coins[i]);
+        count--;
+      }
+    }
+  }
+
+  return -1
+}
+// inttuition was that since array is sorted in descending ored the first solution
+// should be the correct one - it is not the case apparently using biiger coins first will 
+// result in this case // Wrong Answer
+// 36 / 189 testcases passed
+// Editorial
+// Input
+// coins =
+// [186,419,83,408]
+// amount =
+// 6249
+
+// Use Testcase
+// Output
+// 26
+// Expected
+// 20
+// 3 coins of 186 (3 * 186 = 558)
+// 5 coins of 419 (5 * 419 = 2095)
+// 4 coins of 83 (4 * 83 = 332)
+// 8 coins of 408 (8 * 408 = 3264)
+
+
+
+// sol 3, dynamic solution
+
+
+
+console.log('coinChange', coinChange([186,419,83,408],6249));
+
