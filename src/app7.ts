@@ -126,7 +126,7 @@ console.log('maxSubArray', maxSubArray00([-1, -2]));
 // 0 <= amount <= 104
 
 // sol 1, greedy approach, it will fail for this test:
-// coinChange([186,419,83,408],6249), expected 20
+// ([186,419,83,408],6249), expected 20
 // 1. coins will get sorted into  [419, 408, 186, 83]
 // 2. amount -419*14 and amount -186*2 , amount is equal to 11 (count is 16)
 // 3. we cleqrly need different approach then greedy that will try a few
@@ -207,8 +207,54 @@ function coinChange2(coins: number[], amount: number): number {
 
 
 // sol 3, dynamic solution
+function coinChange3(coins:number[], amount:number) {
+    let dp = new Array(amount + 1).fill(amount + 1);
+    
+    dp[0] = 0;
+    for (let i = 0; i <= amount; i++) {
+        for (let j = 0; j < coins.length; j++) {
+            if (coins[j] <= i) {
+                dp[i] = Math.min(dp[i], dp[i - coins[j]] + 1);
+            }
+        }
+    }
+    return dp
+    return dp[amount] > amount ? -1 : dp[amount];
+}
 
 
 
-console.log('coinChange', coinChange([186,419,83,408],6249));
+console.log('coinChange', coinChange3([1,2,5], 11));
 
+
+// Breakdown:  input `coins = [1,2,5]` and `amount = 11`.
+
+// Here's a step-by-step breakdown:
+
+// 1. **Initialization**: We start by initializing an array `dp` of size `amount + 1`
+//  and fill it with `amount + 1`. This is because the maximum number of coins to make 
+//  up the amount can't be more than `amount` (when each coin is 1). So, `amount + 1` 
+//  effectively represents infinity in this context. We also set `dp[0] = 0` because
+//   no coins are needed for `0` amount.
+
+// 2. **Filling the dp array**: We then iterate over each amount from `0` to `amount` 
+// (inclusive). For each amount `i`, we check each coin. If the coin value is less 
+// than or equal to `i`, we update `dp[i]` as `min(dp[i], dp[i - coin] + 1)`. This 
+// means we're trying to see if using this coin would minimize the number of coins
+//  needed for amount `i`.
+
+// Let's see how `dp` array changes for your input:
+
+// - Start: `dp = [0, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12]`
+// - After first coin (1): `dp = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]`
+// - After second coin (2): `dp = [0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6]`
+// - After third coin (5): `dp = [0, 1, 1, 2, 2, 1, 2, 2, 3, 3, 2, 3]`
+
+// 3. **Returning the result**: Finally, we return `dp[amount]` if `dp[amount] <= amount`, 
+// else `-1`. This is because if `dp[amount]` is still greater than `amount`, it 
+// means we couldn't find any combination of coins that sums up to `amount`.
+
+// So, for your input, the minimum number of coins to make up amount `11` is `3` 
+// (five coin twice and one coin once).
+
+// I hope this helps! If you have any more questions, feel free to ask. 😊
