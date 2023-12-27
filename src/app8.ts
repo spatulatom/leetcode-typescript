@@ -28,7 +28,7 @@
 // 1. how to calulate [x] floor division, concept in mathematics represents
 // gretest integer less than or equal to x;
 // in our case we want x= n-length of the array , /3, and rounding down
-function majorityElement(nums: number[]): number[] {
+function majorityElement1(nums: number[]): number[] {
   // lets calculte floor division:
   const floorDivision = Math.floor(nums.length / 3);
   // lets calculate frequency of eleemnts appearence:
@@ -42,6 +42,49 @@ function majorityElement(nums: number[]): number[] {
     }
   }
   return Object.keys(frequencyHash).map(Number);
+}
+
+
+// sol 2, attempt at O(1) space
+// Boyer-Moore Voting Algorithm. This algorithm is designed to find majority elements in a 
+// sequence in linear time and constant space.
+// The key insight is that if a number appears more than n/3 times in an array,
+//  there can be at most 2 such numbers.
+
+function majorityElement(nums: number[]): number[] {
+    let count1 = 0, count2 = 0, candidate1 = 0, candidate2 = 1;
+
+    for (let num of nums) {
+        if (num === candidate1) {
+            count1++;
+        } else if (num === candidate2) {
+            count2++;
+        } else if (count1 === 0) {
+            candidate1 = num;
+            count1 = 1;
+        } else if (count2 === 0) {
+            candidate2 = num;
+            count2 = 1;
+        } else {
+            count1--;
+            count2--;
+        }
+    }
+
+    let result:number[] = [];
+    [candidate1, candidate2].forEach(candidate => {
+        let count = 0;
+        for (let num of nums) {
+            if (num === candidate) {
+                count++;
+            }
+        }
+        if (count > Math.floor(nums.length / 3)) {
+            result.push(candidate);
+        }
+    });
+
+    return result;
 }
 
 console.log('majorityElement', majorityElement([3, 2, 3]));
