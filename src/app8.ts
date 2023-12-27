@@ -27,6 +27,15 @@
 
 // Follow up: Could you solve the problem in linear time and in O(1) space?
 
+
+// sol 1
+// 1. how to calulate [x] floor division, concept in mathematics represents
+// gretest integer less than or equal to x;
+// in our case we want x= n-length of the array , /3, and rounding down
 function majorityElement(nums: number[]): number[] {
-    
+// lets calculte floor division:
+const floorDivision = Math.floor(nums.length/3)
+    return floorDivision
 };
+
+console.log('majorityElement', majorityElement([3,2,3]))
