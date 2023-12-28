@@ -44,58 +44,59 @@ function majorityElement1(nums: number[]): number[] {
   return Object.keys(frequencyHash).map(Number);
 }
 
-
 // sol 2, attempt at O(1) space
-// Boyer-Moore Voting Algorithm. This algorithm is designed to find majority elements in a 
+// Boyer-Moore Voting Algorithm. This algorithm is designed to find majority elements in a
 // sequence in linear time and constant space.
 // The key insight is that if a number appears more than n/3 times in an array,
 //  there can be at most 2 such numbers.
 
 function majorityElement(nums: number[]): number[] {
-    let count1 = 0, count2 = 0, candidate1 = 0, candidate2 = 1;
+  let count1 = 0,
+    count2 = 0,
+    candidate1 = 0,
+    candidate2 = 1;
 
-    for (let num of nums) {
-        if (num === candidate1) {
-            count1++;
-        } else if (num === candidate2) {
-            count2++;
-        } else if (count1 === 0) {
-            candidate1 = num;
-            count1 = 1;
-        } else if (count2 === 0) {
-            candidate2 = num;
-            count2 = 1;
-        } else {
-            count1--;
-            count2--;
-        }
+  for (let num of nums) {
+    if (num === candidate1) {
+      count1++;
+    } else if (num === candidate2) {
+      count2++;
+    } else if (count1 === 0) {
+      candidate1 = num;
+      count1 = 1;
+    } else if (count2 === 0) {
+      candidate2 = num;
+      count2 = 1;
+    } else {
+      count1--;
+      count2--;
     }
+  }
 
-    let result:number[] = [];
-    [candidate1, candidate2].forEach(candidate => {
-        let count = 0;
-        for (let num of nums) {
-            if (num === candidate) {
-                count++;
-            }
-        }
-        if (count > Math.floor(nums.length / 3)) {
-            result.push(candidate);
-        }
-    });
+  let result: number[] = [];
+  [candidate1, candidate2].forEach((candidate) => {
+    let count = 0;
+    for (let num of nums) {
+      if (num === candidate) {
+        count++;
+      }
+    }
+    if (count > Math.floor(nums.length / 3)) {
+      result.push(candidate);
+    }
+  });
 
-    return result;
+  return result;
 }
 
 console.log('majorityElement', majorityElement([3, 2, 3]));
-
 
 // 300. Longest Increasing Subsequence
 // Medium
 // 19.3K
 // 366
 // Companies
-// Given an integer array nums, return the length of the longest strictly increasing 
+// Given an integer array nums, return the length of the longest strictly increasing
 // subsequence
 // .
 
@@ -103,7 +104,7 @@ console.log('majorityElement', majorityElement([3, 2, 3]));
 
 // Input: nums = [10,9,2,5,3,7,101,18]
 // Output: 4
-// Explanation: The longest increasing subsequence is [2,3,7,101], 
+// Explanation: The longest increasing subsequence is [2,3,7,101],
 // therefore the length is 4.
 // Example 2:
 
@@ -113,11 +114,46 @@ console.log('majorityElement', majorityElement([3, 2, 3]));
 
 // Input: nums = [7,7,7,7,7,7,7]
 // Output: 1
- 
 
 // Constraints:
 // 1 <= nums.length <= 2500
 // -104 <= nums[i] <= 104
- 
 
 // Follow up: Can you come up with an algorithm that runs in O(n log(n)) time complexity?
+
+
+// sol 1 , fails 
+function lengthOfLIS(nums: number[]): number {
+  let max = 0;
+  for (let i = 0; i < nums.length - 1; i++) {
+    let count: number[] = [];
+
+    count.push(nums[i]);
+    for (let j = i + 1; j < nums.length; j++) {
+      if (nums[i] < nums[j]) {
+        if (count.length) {
+          const copy = [...count];
+          copy.pop();
+          let pointer = j;
+          while (pointer < nums.length) {
+            if (copy[copy.length - 1] < nums[pointer]) {
+              copy.push(nums[pointer]);
+              max = Math.max(max, copy.length);
+            } 
+            pointer++;
+            console.log('copy', copy)
+          }
+          if (count[count.length - 1] < nums[j]) {
+            // console.log('iiii', i, count[0])
+            count.push(nums[j]);
+          }
+        }
+      }
+    }
+    // console.log('count', count, count.length);
+    max = Math.max(max, count.length);
+  }
+  return nums.length === 1 ? 1 : max;
+}
+
+console.log('lengthOfLIS', lengthOfLIS([3,5,6,2,5,4,19,5,6,7,12]));
