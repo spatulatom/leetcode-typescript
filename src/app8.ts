@@ -121,9 +121,8 @@ console.log('majorityElement', majorityElement([3, 2, 3]));
 
 // Follow up: Can you come up with an algorithm that runs in O(n log(n)) time complexity?
 
-
-// sol 1 , fails 
-function lengthOfLIS(nums: number[]): number {
+// sol 1 , fails
+function lengthOfLIS1(nums: number[]): number {
   let max = 0;
   for (let i = 0; i < nums.length - 1; i++) {
     let count: number[] = [];
@@ -139,9 +138,9 @@ function lengthOfLIS(nums: number[]): number {
             if (copy[copy.length - 1] < nums[pointer]) {
               copy.push(nums[pointer]);
               max = Math.max(max, copy.length);
-            } 
+            }
             pointer++;
-            console.log('copy', copy)
+            console.log('copy', copy);
           }
           if (count[count.length - 1] < nums[j]) {
             // console.log('iiii', i, count[0])
@@ -156,4 +155,57 @@ function lengthOfLIS(nums: number[]): number {
   return nums.length === 1 ? 1 : max;
 }
 
-console.log('lengthOfLIS', lengthOfLIS([3,5,6,2,5,4,19,5,6,7,12]));
+// sol 2, fails [0,1,0,3,2,3] output 2, expected 4
+function lengthOfLIS2(nums: number[]): number {
+    if(nums.length===1)return 1
+  let max = 0;
+  for (let i = 0; i < nums.length - 1; i++) {
+    let count: number[] = [];
+
+    count.push(nums[i]);
+    for (let j = i + 1; j < nums.length; j++) {
+      // console.log('count', count, count[count.length-1], nums[j], count[count.length-1]<nums[j])
+      if (count[count.length - 1] < nums[j]) {
+        // console.log('COUN3ff3',count, nums[j])
+        count.push(nums[j]);
+        // console.log('COUN33',count)
+        max = Math.max(max, count.length);
+      }
+      const copy =[...count]
+      
+      let pointer = j
+      while (pointer<nums.length) {
+                console.log('COUN33',copy)
+        while(copy[copy.length - 1] > nums[pointer]){
+            copy.pop()
+        }
+        if(copy[copy.length - 1] < nums[pointer]){
+            copy.push(nums[pointer])
+            max = Math.max(max, copy.length);
+        }
+        count = [...copy]
+pointer++
+      }
+      max = Math.max(max, count.length);
+    }
+    console.log('COUNT2', count);
+  }
+  return max;
+}
+
+// sol 3, dp solution, O(n^2)
+function lengthOfLIS(nums: number[]): number {
+    let dp = Array(nums.length).fill(1);
+    let max = 1;
+    for (let i = 1; i < nums.length; i++) {
+        for (let j = 0; j < i; j++) {
+            if (nums[i] > nums[j]) {
+                dp[i] = Math.max(dp[i], dp[j] + 1);
+            }
+        }
+        max = Math.max(max, dp[i]);
+    }
+    return max;
+}
+
+console.log('lengthOfLIS', lengthOfLIS([0,1,0,3,2,3]));
