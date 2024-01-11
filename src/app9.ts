@@ -37,25 +37,24 @@ function hasGroupsSizeX(deck: number[]): boolean {
   }
 
   let values = Object.values(hash);
- 
+
   const divisors = [];
   for (let i = 0; i < values.length; i++) {
-    const arr = Array.from({ length: values[i] }, (v, i) => i+2);
+    const arr = Array.from({ length: values[i] }, (v, i) => i + 2);
     const subDivisors = [];
     for (let j = 0; j < arr.length; j++) {
       if (values[i] % arr[j] === 0) {
         subDivisors.push(arr[j]);
-        // console.log(arr[j]);
       }
     }
     divisors.push(subDivisors);
   }
-if(divisors.length===1) return true
-  //   create an array of common divisors for entry 0 and 1 of divisors array
+  if (divisors.length === 1) return true;
+
   let left = divisors[0].length - 1;
   let right = divisors[1].length - 1;
-  let common:any = [];
-  
+  let common: number[] = [];
+
   while (left >= 0 && right >= 0) {
     if (divisors[0][left] === divisors[1][right]) {
       common.push(divisors[0][left]);
@@ -67,10 +66,9 @@ if(divisors.length===1) return true
       right--;
     }
   }
- common.reverse()
+  common.reverse();
   for (let i = 2; i < divisors.length; i++) {
-
-    let left: any = common.length - 1;
+    let left = common.length - 1;
     let right = divisors[i].length - 1;
     const tempCommon = [];
     while (left >= 0 && right >= 0) {
@@ -84,14 +82,9 @@ if(divisors.length===1) return true
         right--;
       }
     }
-    common = tempCommon.reverse()
-    // console.log('temp', common, tempCommon);
+    common = tempCommon.reverse();
   }
 
-//   return [values, 'max:', max, divisors, 'common', common];
-  return common[common.length-1]?true:false
+  return common[common.length - 1] ? true : false;
 }
-console.log(
-  'hasGroupsSizeX',
-  hasGroupsSizeX([1,1])
-);
+console.log('hasGroupsSizeX', hasGroupsSizeX([1, 1]));
