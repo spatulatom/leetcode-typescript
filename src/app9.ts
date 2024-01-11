@@ -28,7 +28,7 @@
 // 1 <= deck.length <= 104
 // 0 <= deck[i] < 104
 
-// sol 1, time complexity O(n^m)
+// sol 1, time complexity O(n^2) (or O(m * sqrt(m))?).
 function hasGroupsSizeX(deck: number[]): boolean {
   if (deck.length < 2) return false;
   const hash: { [key: number]: number } = {};
