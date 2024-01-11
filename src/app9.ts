@@ -28,6 +28,7 @@
 // 1 <= deck.length <= 104
 // 0 <= deck[i] < 104
 
+// sol 1, time complexity O(n^m)
 function hasGroupsSizeX(deck: number[]): boolean {
   if (deck.length < 2) return false;
   const hash: { [key: number]: number } = {};
@@ -35,35 +36,62 @@ function hasGroupsSizeX(deck: number[]): boolean {
     hash[deck[i]] = (hash[deck[i]] ?? 0) + 1;
   }
 
-  const values = Object.values(hash);
-  //   find max
-  let max = -Infinity;
+  let values = Object.values(hash);
+ 
+  const divisors = [];
   for (let i = 0; i < values.length; i++) {
-    max = Math.max(max, values[i]);
+    const arr = Array.from({ length: values[i] }, (v, i) => i+2);
+    const subDivisors = [];
+    for (let j = 0; j < arr.length; j++) {
+      if (values[i] % arr[j] === 0) {
+        subDivisors.push(arr[j]);
+        // console.log(arr[j]);
+      }
+    }
+    divisors.push(subDivisors);
   }
-return [hash, 'max:', max]
+if(divisors.length===1) return true
+  //   create an array of common divisors for entry 0 and 1 of divisors array
+  let left = divisors[0].length - 1;
+  let right = divisors[1].length - 1;
+  let common:any = [];
+  
+  while (left >= 0 && right >= 0) {
+    if (divisors[0][left] === divisors[1][right]) {
+      common.push(divisors[0][left]);
+      left--;
+      right--;
+    } else if (divisors[0][left] > divisors[1][right]) {
+      left--;
+    } else {
+      right--;
+    }
+  }
+ common.reverse()
+  for (let i = 2; i < divisors.length; i++) {
 
-// find greatest common divisor (that will be equal with maximun number of players): gtd
-// - gtd must be between var max and each number for ex: 8 nad 4
-// gtd is 4 (there can be maximum 4 players each holding 3 cards, but
-// there can also be 2 players each holding 6 cards but at his stage
-// we need only maximun  number of players and gcd will help us achieve that)
+    let left: any = common.length - 1;
+    let right = divisors[i].length - 1;
+    const tempCommon = [];
+    while (left >= 0 && right >= 0) {
+      if (common[left] === divisors[i][right]) {
+        tempCommon.push(common[left]);
+        left--;
+        right--;
+      } else if (common[left] > divisors[i][right]) {
+        left--;
+      } else {
+        right--;
+      }
+    }
+    common = tempCommon.reverse()
+    // console.log('temp', common, tempCommon);
+  }
 
-// so now we will look for gcd between max and each number, say we have
-// max = 8, and numbers are [8, 2, 4]
-// 1. max and 8, gcd =8
-// 2. max and 2, gcd = 2
-// 3. max and 4, now we can not go higher than 2, so we need to check if
-// 2 might be gcd, it can becuse 4%2===0. Lets assume that 2 would not be gcd and 
-// if we go under 2, do we need to backtrack and see if our new gcd is also good 
-// for previous numbers?
-
-for(let i=0; i<values.length;i++){
-
-}
-  return true;
+//   return [values, 'max:', max, divisors, 'common', common];
+  return common[common.length-1]?true:false
 }
 console.log(
   'hasGroupsSizeX',
-  hasGroupsSizeX([0, 0, 0, 1, 1, 1, 1, 1, 1, 2, 2, 2, 3, 3, 3])
+  hasGroupsSizeX([1,1])
 );
