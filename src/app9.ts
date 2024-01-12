@@ -29,13 +29,12 @@
 // 0 <= deck[i] < 104
 
 // sol 1
-// The problem 914 can be seen as finding GDC but that is only once there are 
+// The problem 914 can be seen as finding GDC but that is only once there are
 // two types of cards in the deck. If there is type of card in the deck, like deck=[2,2,2,2,2]
 // then we only need to check for divisors > 1.
 // But even when there is more types of cards in the deck we can check for common divisors (CD)
 // not necessrly greates common divisor (GTC).  If common divisors exist that means that cards
 // can be divided evenly.
-
 
 function hasGroupsSizeX(deck: number[]): boolean {
   // if only one card in the deck or deck is empty there can't be two or
@@ -50,7 +49,7 @@ function hasGroupsSizeX(deck: number[]): boolean {
   // make an array out of that hash, values = [1,2]
   let values = Object.values(hash);
 
-//  1. checking for divisors of every type of card.
+  //  1. checking for divisors of every type of card.
   // for each entry in values create an array that counts all integers starting from 2
   // and equal the value. we setting up the ground for checking possible divisors of
   // that value, we dont want 1 as a divisor (since there are at leat tweo players)
@@ -77,7 +76,7 @@ function hasGroupsSizeX(deck: number[]): boolean {
   // surley card can be divided between players
   if (divisors.length === 1) return true;
 
-//   2. Checking for common divisors.
+  //   2. Checking for common divisors.
   // at this stage surly divisors.length=>2 for our deck=[1,2,2] we have divisors =[[],[2]]
   // a) and the logic below first checks common divisors of entry 0 and 1 in divisors
   // and creates new array 'common' with common divisors of those two entries:
@@ -89,8 +88,8 @@ function hasGroupsSizeX(deck: number[]): boolean {
   let common: number[] = [];
 
   while (left >= 0 && right >= 0) {
-    console.log('here');
     if (divisors[0][left] === divisors[1][right]) {
+      common.push(divisors[0][left]);
       left--;
       right--;
     } else if (divisors[0][left] > divisors[1][right]) {
@@ -124,110 +123,107 @@ function hasGroupsSizeX(deck: number[]): boolean {
   // so card can be divided between players.
   return common[common.length - 1] ? true : false;
 }
-console.log('hasGroupsSizeX', hasGroupsSizeX([1,2,3,4,4,3,2,1]));
-console.log('hasGroupsSizeX', hasGroupsSizeX1([1,2,3,4,4,3,2,1]));
-
-
-
+console.log('hasGroupsSizeX', hasGroupsSizeX([1, 2, 3, 4, 4, 3, 2, 1]));
+console.log('hasGroupsSizeX', hasGroupsSizeX1([1, 2, 3, 4, 4, 3, 2, 1]));
 
 // ### Time Complexity:
-// 1. **Building the Hash Map (`hash`):** This operation takes O(n), where n is the 
+// 1. **Building the Hash Map (`hash`):** This operation takes O(n), where n is the
 // number of elements in the `deck`.
 
 // 2. **Finding Divisors (`divisors` array):** For each unique count in the `hash`
-// map, you find its divisors. Suppose 
-// the maximum count is m. The worst-case time complexity for finding divisors 
-// could be considered O(m * sqrt(m)) because, in the worst case, you check divisors 
+// map, you find its divisors. Suppose
+// the maximum count is m. The worst-case time complexity for finding divisors
+// could be considered O(m * sqrt(m)) because, in the worst case, you check divisors
 // up to the square root of m.
 
-// 3. **Finding Common Divisors (`common` array):** You iterate through the `divisors` 
-// array multiple times, each time checking for common divisors. Let's say there 
-// are k unique counts. In the worst case, you might compare the divisors k times. 
+// 3. **Finding Common Divisors (`common` array):** You iterate through the `divisors`
+// array multiple times, each time checking for common divisors. Let's say there
+// are k unique counts. In the worst case, you might compare the divisors k times.
 // If the maximum count is m, this step could be considered O(k * m).
 
-// Combining these steps, your overall time complexity could be expressed as 
-// O(n + m * sqrt(m) + k * m). In the worst case, the most significant factor is 
+// Combining these steps, your overall time complexity could be expressed as
+// O(n + m * sqrt(m) + k * m). In the worst case, the most significant factor is
 // likely the finding divisors step (O(m * sqrt(m)).
 
 // ### Space Complexity:
-// 1. **Hash Map (`hash`):** O(n) space is used to store the counts of each element 
+// 1. **Hash Map (`hash`):** O(n) space is used to store the counts of each element
 // in the `deck`.
 
-// 2. **Subdivisors Array (`subDivisors`):** O(m * sqrt(m)) space is used in 
-// the worst case, where m is the maximum count. This is because, for each count, 
+// 2. **Subdivisors Array (`subDivisors`):** O(m * sqrt(m)) space is used in
+// the worst case, where m is the maximum count. This is because, for each count,
 // you may store up to sqrt(m) divisors.
 
-// 3. **Divisors Array (`divisors`):** O(m * sqrt(m)) space is used for storing 
+// 3. **Divisors Array (`divisors`):** O(m * sqrt(m)) space is used for storing
 // the divisors for each count in the `hash`.
 
-// 4. **Array of Integers (`arr`):** O(m) space is used in the worst case to 
+// 4. **Array of Integers (`arr`):** O(m) space is used in the worst case to
 // store integers starting from 2 up to the maximum count.
 
-// 5. **Common Array (`common`):** O(k * m) space is used in the worst case for 
+// 5. **Common Array (`common`):** O(k * m) space is used in the worst case for
 // storing common divisors.
 
-// Overall, the space complexity is dominated by the divisors and common arrays. 
+// Overall, the space complexity is dominated by the divisors and common arrays.
 // Therefore, the overall space complexity could be expressed as O(n + m * sqrt(m) + k * m).
 
-// Keep in mind that these are worst-case complexities, and the actual performance 
+// Keep in mind that these are worst-case complexities, and the actual performance
 // may vary based on the characteristics of the input data.
 
 // no comments version
 function hasGroupsSizeX1(deck: number[]): boolean {
-    if (deck.length < 2) return false;
-    const hash: { [key: number]: number } = {};
-    for (let i = 0; i < deck.length; i++) {
-      hash[deck[i]] = (hash[deck[i]] ?? 0) + 1;
-    }
-  
-    let values = Object.values(hash);
-  
-    const divisors = [];
-    for (let i = 0; i < values.length; i++) {
-      const arr = Array.from({ length: values[i] }, (v, i) => i + 2);
-      const subDivisors = [];
-      for (let j = 0; j < arr.length; j++) {
-        if (values[i] % arr[j] === 0) {
-          subDivisors.push(arr[j]);
-        }
+  if (deck.length < 2) return false;
+  const hash: { [key: number]: number } = {};
+  for (let i = 0; i < deck.length; i++) {
+    hash[deck[i]] = (hash[deck[i]] ?? 0) + 1;
+  }
+
+  let values = Object.values(hash);
+
+  const divisors = [];
+  for (let i = 0; i < values.length; i++) {
+    const arr = Array.from({ length: values[i] }, (v, i) => i + 2);
+    const subDivisors = [];
+    for (let j = 0; j < arr.length; j++) {
+      if (values[i] % arr[j] === 0) {
+        subDivisors.push(arr[j]);
       }
-      divisors.push(subDivisors);
     }
-    if (divisors.length === 1) return true;
-  
-    let left = divisors[0].length - 1;
-    let right = divisors[1].length - 1;
-    let common: number[] = [];
-  
+    divisors.push(subDivisors);
+  }
+  if (divisors.length === 1) return true;
+
+  let left = divisors[0].length - 1;
+  let right = divisors[1].length - 1;
+  let common: number[] = [];
+
+  while (left >= 0 && right >= 0) {
+    if (divisors[0][left] === divisors[1][right]) {
+      common.push(divisors[0][left]);
+      left--;
+      right--;
+    } else if (divisors[0][left] > divisors[1][right]) {
+      left--;
+    } else {
+      right--;
+    }
+  }
+  common.reverse();
+  for (let i = 2; i < divisors.length; i++) {
+    let left = common.length - 1;
+    let right = divisors[i].length - 1;
+    const tempCommon = [];
     while (left >= 0 && right >= 0) {
-      if (divisors[0][left] === divisors[1][right]) {
-        common.push(divisors[0][left]);
+      if (common[left] === divisors[i][right]) {
+        tempCommon.push(common[left]);
         left--;
         right--;
-      } else if (divisors[0][left] > divisors[1][right]) {
+      } else if (common[left] > divisors[i][right]) {
         left--;
       } else {
         right--;
       }
     }
-    common.reverse();
-    for (let i = 2; i < divisors.length; i++) {
-      let left = common.length - 1;
-      let right = divisors[i].length - 1;
-      const tempCommon = [];
-      while (left >= 0 && right >= 0) {
-        if (common[left] === divisors[i][right]) {
-          tempCommon.push(common[left]);
-          left--;
-          right--;
-        } else if (common[left] > divisors[i][right]) {
-          left--;
-        } else {
-          right--;
-        }
-      }
-      common = tempCommon.reverse();
-    }
-  
-    return common[common.length - 1] ? true : false;
+    common = tempCommon.reverse();
   }
+
+  return common[common.length - 1] ? true : false;
+}
