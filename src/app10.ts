@@ -153,3 +153,60 @@ function numIdenticalPairs(nums: number[]): number {
 }
 
 console.log('numIdenticalPairs', numIdenticalPairs([1, 2, 3, 1, 1, 3]));
+
+// 1353. Maximum Number of Events That Can Be Attended
+// Medium
+// 2.9K
+// 390
+// Companies
+// You are given an array of events where events[i] = [startDayi, endDayi].
+// Every event i starts at startDayi and ends at endDayi.
+
+// You can attend an event i at any day d where startTimei <= d <= endTimei.
+// You can only attend one event at any time d.
+
+// Return the maximum number of events you can attend.
+
+// Example 1:
+// Input: events = [[1,2],[2,3],[3,4]]
+// Output: 3
+// Explanation: You can attend all the three events.
+// One way to attend them all is as shown.
+// Attend the first event on day 1.
+// Attend the second event on day 2.
+// Attend the third event on day 3.
+// Example 2:
+
+// Input: events= [[1,2],[2,3],[3,4],[1,2]]
+// Output: 4
+
+// Constraints:
+
+// 1 <= events.length <= 105
+// events[i].length == 2
+// 1 <= startDayi <= endDayi <= 105
+
+function maxEvents(events: number[][]): number {
+  const obj = {start:+Infinity, end:0}
+  let count = 0
+  for (let i = 0; i < events.length; i++) {
+    if(events[i][0]<obj.start){
+obj.start = events[i][0]
+count++
+    }
+    if(events[i][1]>obj.end){
+      obj.end = events[i][1]
+      count++
+    }
+  }
+  // return count
+  const diff = obj.end -obj.start+1
+  return diff
+  
+  return events.length<count? events.length: count
+}
+
+console.log(
+  'maxEvents',
+  maxEvents([[1,4],[4,4],[2,2],[3,4],[1,1]])
+);
