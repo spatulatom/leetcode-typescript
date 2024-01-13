@@ -71,3 +71,18 @@ console.log(
   'mostCommonWord',
   mostCommonWord("a, a, a, a, b,b,b,c, c", ["a"])
 );
+
+// Wrong Answer
+// 47 / 48 testcases passed
+// Editorial
+// Input
+// paragraph =
+// "a, a, a, a, b,b,b,c, c"
+// banned =
+// ["a"]
+
+// Use Testcase
+// Output
+// "b,b,b,c"
+// Expected
+// "b"
