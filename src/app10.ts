@@ -187,26 +187,88 @@ console.log('numIdenticalPairs', numIdenticalPairs([1, 2, 3, 1, 1, 3]));
 // 1 <= startDayi <= endDayi <= 105
 
 function maxEvents(events: number[][]): number {
-  const obj = {start:+Infinity, end:0}
-  let count = 0
+  const obj = { start: +Infinity, end: 0 };
+
+  let count = 0;
   for (let i = 0; i < events.length; i++) {
-    if(events[i][0]<obj.start){
-obj.start = events[i][0]
-count++
+    if (events[i][0] < obj.start) {
+      obj.start = events[i][0];
+      count++;
     }
-    if(events[i][1]>obj.end){
-      obj.end = events[i][1]
-      count++
+    if (events[i][1] > obj.end) {
+      obj.end = events[i][1];
+      count++;
     }
   }
-  // return count
-  const diff = obj.end -obj.start+1
-  return diff
-  
-  return events.length<count? events.length: count
+  obj.start--;
+  obj.end++;
+  const copyObj = { ...obj };
+  events.sort((a, b) => {
+    return a[0] - b[0];
+  });
+  const groups = [];
+  let subGroup = [events[0]];
+  for (let i = 1; i < events.length; i++) {
+    if (events[i][0] === events[i - 1][0]) {
+      subGroup.push(events[i]);
+    } else if (events[i][0] !== events[i - 1][0]) {
+      groups.push([...subGroup]);
+      subGroup = [];
+      subGroup.push(events[i]);
+    }
+    if (i === events.length - 1 && subGroup.length > 0) {
+      groups.push([...subGroup]);
+    }
+  }
+  for (let i = 0; i < groups.length; i++) {
+    if (groups[i].length > 1) {
+      groups[i].sort((a, b) => {
+        return a[1] - b[1];
+      });
+    }
+  }
+  for (let i = 0; i < groups.length; i++) {
+    if (groups[i].length > 1) {
+      for (let j = 0; j < groups[i].length; j++) {
+        if (groups[i][j][0] > obj.start) {
+          obj.start++;
+        } else if (groups[i][j][1] < obj.end) {
+          obj.end--;
+        }
+      }
+    } else if (groups[i].length === 1) {
+      if (groups[i][0][0] > obj.start) {
+        obj.start++;
+      } else if (groups[i][0][1] < obj.end) {
+        obj.end--;
+      }
+    }
+  }
+  const nr = obj.start - (copyObj.start) + (copyObj.end) - obj.end;
+return [obj, copyObj, nr]
+  if (obj.end - obj.start < 0) {
+    return events.length;
+  } else {
+    const nr = obj.start - (copyObj.start) + (copyObj.end) - obj.end;
+    return nr;
+  }
 }
 
 console.log(
   'maxEvents',
   maxEvents([[1,4],[4,4],[2,2],[3,4],[1,1]])
 );
+
+
+// Wrong Answer
+// 27 / 44 testcases passed
+// Editorial
+// Input
+// events =
+// [[1,4],[4,4],[2,2],[3,4],[1,1]]
+
+// Use Testcase
+// Output
+// 5
+// Expected
+// 4
