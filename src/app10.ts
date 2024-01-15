@@ -186,18 +186,27 @@ console.log('numIdenticalPairs', numIdenticalPairs([1, 2, 3, 1, 1, 3]));
 // events[i].length == 2
 // 1 <= startDayi <= endDayi <= 105
 
-function maxEvents(events: number[][]): number {
+// sol 1
+function maxEvents1(events: number[][]): number {
+  const str = [
+    [1, 2],
+    [1, 2],
+    [1, 6],
+    [1, 2],
+    [1, 2],
+  ].toString();
+
+  // if(events.toString()==='1,2,1,2,1,6,1,2,1,2')return 3
+  if (events.length === 1) return 1;
+
   const obj = { start: +Infinity, end: 0 };
 
-  let count = 0;
   for (let i = 0; i < events.length; i++) {
     if (events[i][0] < obj.start) {
       obj.start = events[i][0];
-      count++;
     }
     if (events[i][1] > obj.end) {
       obj.end = events[i][1];
-      count++;
     }
   }
   obj.start--;
@@ -220,55 +229,181 @@ function maxEvents(events: number[][]): number {
       groups.push([...subGroup]);
     }
   }
+  // [[1,1],[1,2],[1,3],[1,4],[1,5],[1,6],[1,7]], expected 7
+  // so second sort below is needed:
+  // (but then when it come to this test:[[1,2],[1,2],[1,6],[1,2],[1,2]], exp: 3,
+  // when [1,6] is sorted to be at position 0, we get overall result as 5 )
   for (let i = 0; i < groups.length; i++) {
     if (groups[i].length > 1) {
       groups[i].sort((a, b) => {
-        return a[1] - b[1];
+        return b[1] - a[1];
       });
     }
   }
+
   for (let i = 0; i < groups.length; i++) {
     if (groups[i].length > 1) {
       for (let j = 0; j < groups[i].length; j++) {
-        if (groups[i][j][0] > obj.start) {
+        console.log('hererer', groups[i][j][0] > obj.start);
+        if (groups[i][j][0] >= obj.start) {
+          console.log('hererer1', groups[i][j][0] > obj.start);
           obj.start++;
-        } else if (groups[i][j][1] < obj.end) {
+          if (obj.start > obj.end) obj.start--;
+        } else if (groups[i][j][1] <= obj.end) {
+          console.log('hererer2', groups[i][j][1] < obj.end, groups[i][j][1]);
           obj.end--;
+          if (obj.start > obj.end) obj.end++;
         }
       }
     } else if (groups[i].length === 1) {
       if (groups[i][0][0] > obj.start) {
         obj.start++;
+        if (obj.start > obj.end) obj.start--;
       } else if (groups[i][0][1] < obj.end) {
         obj.end--;
+        if (obj.start > obj.end) obj.end++;
       }
     }
   }
-  const nr = obj.start - (copyObj.start) + (copyObj.end) - obj.end;
-return [obj, copyObj, nr]
+  // return groups
+  const nr = obj.start - copyObj.start + (copyObj.end - obj.end);
+  return [obj, copyObj, nr, 'groups', groups, nr];
   if (obj.end - obj.start < 0) {
-    return events.length;
+    return events.length - 1;
+  } else if (obj.end - obj.start === 0) {
+    return nr - 1;
   } else {
-    const nr = obj.start - (copyObj.start) + (copyObj.end) - obj.end;
     return nr;
   }
 }
 
+// sol 2
+function maxEvents(events: number[][]): number {
+  if (events.length === 1) return 1;
+
+  const obj = { start: +Infinity, end: 0 };
+
+  for (let i = 0; i < events.length; i++) {
+    if (events[i][0] < obj.start) {
+      obj.start = events[i][0];
+    }
+    if (events[i][1] > obj.end) {
+      obj.end = events[i][1];
+    }
+  }
+  obj.start--;
+  obj.end++;
+
+  events.sort((a, b) => {
+    return a[0] - b[0];
+  });
+
+  const objRange: { [key: number]: number | null } = {};
+  for (let i = obj.start + 1; i < obj.end; i++) {
+    objRange[i] = i;
+  }
+
+  // first sort:
+  const groups = [];
+  let subGroup = [events[0]];
+  for (let i = 1; i < events.length; i++) {
+    if (events[i][0] === events[i - 1][0]) {
+      subGroup.push(events[i]);
+    } else if (events[i][0] !== events[i - 1][0]) {
+      groups.push([...subGroup]);
+      subGroup = [];
+      subGroup.push(events[i]);
+    }
+    if (i === events.length - 1 && subGroup.length > 0) {
+      groups.push([...subGroup]);
+    }
+  }
+  // second sort:
+  // [[1,1],[1,2],[1,3],[1,4],[1,5],[1,6],[1,7]], expected 7
+  // so second sort below is needed:
+  // (but then when it come to this test:[[1,2],[1,2],[1,6],[1,2],[1,2]], exp: 3,
+  // when [1,6] is sorted to be at position 0, we get overall result as 5 )
+  // for (let i = 0; i < groups.length; i++) {
+  //   if (groups[i].length > 1) {
+  //     groups[i].sort((a, b) => {
+  //       return a[1] - b[1];
+  //     });
+  //   }
+  // }
+  
+
+  for (let i = 0; i < groups.length; i++) {
+    if (groups[i].length > 1) {
+      for (let j = 0; j < groups[i].length; j++) {
+        // console.log('hererer', groups[i][j][0] > obj.start);
+        if (objRange[groups[i][j][0]] === groups[i][j][0]) {
+          console.log('hererer1', groups[i][j][0] > obj.start);
+          objRange[groups[i][j][0]] = null;
+        } else if (objRange[groups[i][j][1]] === groups[i][j][1]) {
+          objRange[groups[i][j][1]] = null;
+          console.log('hererer2', groups[i][j][1] < obj.end, groups[i][j][1]);
+        } else {
+          let pointer = groups[i][j][1] - 1;
+          // console.log('while1', pointer,groups[i][j][1])
+          while (pointer > groups[i][j][0]) {
+            console.log('while1', groups[i][j][0], objRange[pointer]);
+            if (objRange[pointer] === pointer) {
+              objRange[pointer] = null;
+              break;
+            }
+            pointer--;
+          }
+        }
+      }
+    } else if (groups[i].length === 1) {
+      if (objRange[groups[i][0][0]] === groups[i][0][0]) {
+        objRange[groups[i][0][0]] = null;
+      } else if (objRange[groups[i][0][1]] === groups[i][0][1]) {
+        objRange[groups[i][0][1]] = null;
+      } else {
+        let pointer = groups[i][0][1] - 1;
+        console.log('while2', pointer, groups[i][0][1]);
+        while (pointer > groups[i][0][0]) {
+          if (objRange[pointer] === pointer) {
+            objRange[pointer] = null;
+            break;
+          }
+          pointer--;
+        }
+      }
+    }
+  }
+  // return objRange
+  const result = Object.values(objRange).filter((e) => e === null);
+  return result.length;
+}
+
 console.log(
   'maxEvents',
-  maxEvents([[1,4],[4,4],[2,2],[3,4],[1,1]])
+  maxEvents([
+    [7, 11],
+    [7, 11],
+    [7, 11],
+    [9, 10],
+    [9, 11],
+  ])
 );
 
-
 // Wrong Answer
-// 27 / 44 testcases passed
+// 32 / 44 testcases passed
 // Editorial
 // Input
 // events =
-// [[1,4],[4,4],[2,2],[3,4],[1,1]]
+// [[7,11],[7,11],[7,11],[9,10],[9,11]]
 
 // Use Testcase
+// Stdout
+// hererer1 true
+// hererer2 true 11
+// while1 7 10
+// hererer1 true
+// while1 9 null
 // Output
-// 5
-// Expected
 // 4
+// Expected
+// 5
