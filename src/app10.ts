@@ -407,3 +407,26 @@ console.log(
 // 4
 // Expected
 // 5
+
+
+// sol 3, flails 42/44 on big input array
+function maxEvents3(events:number[]) {
+  // Sort the events by end time, then by start time
+  events.sort((a, b) => a[1] - b[1] || a[0] - b[0]);
+
+  let count = 0;
+  let days = new Array(100001).fill(false);
+
+  for (let event of events) {
+      for (let day = event[0]; day <= event[1]; day++) {
+          if (!days[day]) {
+              days[day] = true;
+              count++;
+              break;
+          }
+      }
+  }
+
+  return count;
+}
+
