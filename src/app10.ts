@@ -410,7 +410,7 @@ console.log(
 
 
 // sol 3, flails 42/44 on big input array
-function maxEvents3(events:number[]) {
+function maxEvents3(events: [number, number][]): number {
   // Sort the events by end time, then by start time
   events.sort((a, b) => a[1] - b[1] || a[0] - b[0]);
 
@@ -429,4 +429,6 @@ function maxEvents3(events:number[]) {
 
   return count;
 }
-
+// function maxEvents3(events: [number, number][]): number {
+// In this version, events is an array of tuples, where each tuple is a pair of numbers. 
+// The function returns a number. 
