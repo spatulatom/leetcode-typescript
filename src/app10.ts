@@ -267,7 +267,7 @@ function maxEvents1(events: number[][]): number {
   }
   // return groups
   const nr = obj.start - copyObj.start + (copyObj.end - obj.end);
-  return [obj, copyObj, nr, 'groups', groups, nr];
+  // return [obj, copyObj, nr, 'groups', groups, nr];
   if (obj.end - obj.start < 0) {
     return events.length - 1;
   } else if (obj.end - obj.start === 0) {
