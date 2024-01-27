@@ -1,14 +1,9 @@
 // 139. Word Break
-// Solved
-// Medium
-// Topics
-// Companies
-// Given a string s and a dictionary of strings wordDict, return true if s can be 
+
+// Given a string s and a dictionary of strings wordDict, return true if s can be
 // segmented into a space-separated sequence of one or more dictionary words.
 
 // Note that the same word in the dictionary may be reused multiple times in the segmentation.
-
- 
 
 // Example 1:
 
@@ -25,7 +20,6 @@
 
 // Input: s = "catsandog", wordDict = ["cats","dog","sand","and","cat"]
 // Output: false
- 
 
 // Constraints:
 
@@ -36,16 +30,46 @@
 // All the strings of wordDict are unique.
 
 function wordBreak(s: string, wordDict: string[]): boolean {
-
-    let output = false
-    backtrack1()
-    return output
-
-    function backtrack1(){
-
+    let main: boolean = false;
+  
+    // this is how you stop a backctracking function:
+    try {
+      bactrack(0, []);
+    } catch (e) {
+      if (e === 'found') {
+        main = true;
+      } else {
+        throw e;
+      }
     }
-    
-};
+  const memo ={}
+    function bactrack(index: number, el2: string[]) {
+      if (el2.join('') === s) {
+        // originaly here i had main= true; return - nut this was stoping 
+        // only one branch
+        throw 'found';
+      }
+      if (el2.join('').length > s.length) {
+        return;
+      }
+      for (let j = 0; j < wordDict.length; j++) {
+        if (el2.join('').length + wordDict[j].length > s.length) {
+          continue;
+        }
+        if (
+          el2.join('').length + wordDict[j].length === s.length &&
+          el2.join('') + wordDict[j] !== s
+        ) {
+          continue;
+        }
+        el2.push(wordDict[j]);
+        bactrack(0, el2);
+        el2.pop();
+      }
+    }
+  
+    return main;
+  }
+  
 
-console.log('wordBreak', wordBreak("leetcode",  ["leet","code"]))
- 
+console.log('wordBreak', wordBreak('leetcode', ['leet', 'code']));
