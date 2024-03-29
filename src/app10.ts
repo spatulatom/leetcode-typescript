@@ -140,7 +140,7 @@ console.log('mostCommonWord', mostCommonWord('a, a, a, a, b,b,b,c, c', ['a']));
 // 1 <= nums[i] <= 100
 
 // sol 1, time complexity O (n^2), space complexity O(1)
-function numIdenticalPairs(nums: number[]): number {
+export function numIdenticalPairs(nums: number[]): number {
   let count = 0;
   for (let i = 0; i < nums.length - 1; i++) {
     for (let j = i + 1; j < nums.length; j++) {
