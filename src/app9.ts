@@ -36,7 +36,7 @@
 // not necessrly greates common divisor (GTC).  If common divisors exist that means that cards
 // can be divided evenly.
 
-function hasGroupsSizeX(deck: number[]): boolean {
+export function hasGroupsSizeX(deck: number[]): boolean {
   // if only one card in the deck or deck is empty there can't be two or
   // more players so return false
   if (deck.length < 2) return false;
