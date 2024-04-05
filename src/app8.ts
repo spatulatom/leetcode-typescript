@@ -28,7 +28,7 @@
 // 1. how to calulate [x] floor division, concept in mathematics represents
 // gretest integer less than or equal to x;
 // in our case we want x= n-length of the array , /3, and rounding down
-function majorityElement1(nums: number[]): number[] {
+export function majorityElement1(nums: number[]): number[] {
   // lets calculte floor division:
   const floorDivision = Math.floor(nums.length / 3);
   // lets calculate frequency of eleemnts appearence:
