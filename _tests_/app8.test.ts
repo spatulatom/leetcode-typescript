@@ -5,3 +5,9 @@ it('should return an array with the majority element when it appears more than n
     const result = majorityElement1(nums);
     expect(result).toEqual([3]);
   });
+
+  it('should return an empty array when the input array is empty', () => {
+    const nums: number[] = [];
+    const result = majorityElement1(nums);
+    expect(result).toEqual([]);
+  });
