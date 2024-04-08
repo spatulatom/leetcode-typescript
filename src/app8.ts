@@ -194,7 +194,7 @@ pointer++
 }
 
 // sol 3, dp solution, O(n^2)
-function lengthOfLIS(nums: number[]): number {
+export function lengthOfLIS(nums: number[]): number {
     let dp = Array(nums.length).fill(1);
     let max = 1;
     for (let i = 1; i < nums.length; i++) {
