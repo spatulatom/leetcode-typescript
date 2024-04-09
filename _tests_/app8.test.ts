@@ -1,3 +1,4 @@
+// 229. Majority Element II
 import { majorityElement1 } from "../src/app8";
 
 it('should return an array with the majority element when it appears more than n/3 times', () => {
@@ -18,10 +19,18 @@ it('should return an array with the majority element when it appears more than n
     expect(result).toEqual([1]);
   });
 
+
+  // 300. Longest Increasing Subsequence
   import { lengthOfLIS } from "../src/app8";
 
   it('should return the correct length of the longest increasing subsequence', () => {
     const nums = [10, 9, 2, 5, 3, 7, 101, 18];
     const result = lengthOfLIS(nums);
     expect(result).toBe(4);
+  });
+
+  it('should return 1 when given an array with all elements equal to 0', () => {
+    const nums = [0, 0, 0, 0, 0];
+    const result = lengthOfLIS(nums);
+    expect(result).toBe(1);
   });
