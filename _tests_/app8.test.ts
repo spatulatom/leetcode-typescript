@@ -34,3 +34,9 @@ it('should return an array with the majority element when it appears more than n
     const result = lengthOfLIS(nums);
     expect(result).toBe(1);
   });
+
+  it('should return 1 when given an empty array', () => {
+    const nums:any = [];
+    const result = lengthOfLIS(nums);
+    expect(result).toBe(1);
+  });
