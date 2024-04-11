@@ -40,3 +40,9 @@ it('should return an array with the majority element when it appears more than n
     const result = lengthOfLIS(nums);
     expect(result).toBe(1);
   });
+
+  it('should return the correct length when given an array with some elements in increasing order and some in decreasing order', () => {
+    const nums = [3, 4, 2, 8, 1, 5, 6];
+    const result = lengthOfLIS(nums);
+    expect(result).toBe(4);
+  });
