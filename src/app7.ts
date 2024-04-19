@@ -48,7 +48,7 @@ function maxSubArray0(nums: number[]): number {
 }
 
 // sol 2, time complexity O(n), space complexity O(1)
-function maxSubArray00(nums: number[]): number {
+export function maxSubArray00(nums: number[]): number {
   let sum = nums[0];
   let max = -Infinity;
   max = Math.max(max, sum);
