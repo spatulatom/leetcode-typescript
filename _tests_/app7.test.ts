@@ -12,3 +12,10 @@ it('should return the maximum sum of a contiguous subarray when the array has po
     const result = maxSubArray00(nums);
     expect(result).toBe(6);
   });
+
+  it('should return the element itself when the array has only one element', () => {
+    const nums = [5];
+    const result = maxSubArray00(nums);
+    expect(result).toBe(5);
+  });
+
