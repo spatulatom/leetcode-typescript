@@ -19,3 +19,15 @@ it('should return the maximum sum of a contiguous subarray when the array has po
     expect(result).toBe(5);
   });
 
+  it('should return the correct maximum sum for an array with all negative integers', () => {
+    const nums = [-2, -3, -1, -4, -5];
+    const result = maxSubArray00(nums);
+    expect(result).toBe(-1);
+  });
+
+  it('should return the correct maximum sum for an array with positive integers', () => {
+    const nums = [1, 2, 3, 4, 5];
+    const result = maxSubArray00(nums);
+    expect(result).toBe(15);
+  })
+
