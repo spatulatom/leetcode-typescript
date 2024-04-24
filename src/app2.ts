@@ -24,7 +24,7 @@
 // 1 <= s.length <= 2000
 // s consists of lowercase and/or uppercase English letters only.
 
-function longestPalindrome(s: string): number {
+export function longestPalindrome(s: string): number {
   type hash = {
     [key: string]: number;
   };
