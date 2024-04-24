@@ -56,33 +56,27 @@ it('should return the correct sum when adding two instances of ArrayWrapper with
   const nums2 = [Number.MIN_SAFE_INTEGER];
   const wrapper1 = new ArrayWrapper(nums1);
   const wrapper2 = new ArrayWrapper(nums2);
-  expect(wrapper1.valueOf() + wrapper2.valueOf()).toEqual(Number.MIN_SAFE_INTEGER * 2);
+  expect(wrapper1.valueOf() + wrapper2.valueOf()).toEqual(
+    Number.MIN_SAFE_INTEGER * 2
+  );
 });
 
-
 // 2677. Chunk Array
-import {chunk} from  '../src/javascript';
+import { chunk } from '../src/javascript';
 it('should return an empty array when given an empty array and any size', () => {
-  const arr:any = [];
+  const arr: any = [];
   const size = 3;
   const result = chunk(arr, size);
   expect(result).toEqual([]);
 });
 
-
-
 // 2727. Is Object Empty
-import {isEmpty} from  '../src/javascript';
+import { isEmpty } from '../src/javascript';
 
-type JSONValu =
-  | null
-  | boolean
-  | number
-  | string
-  | { [key: string]: JSONValu };
+type JSONValu = null | boolean | number | string | { [key: string]: JSONValu };
 
 it('should return true when given an empty array', () => {
-  const arr:JSONValu[] = [];
+  const arr: JSONValu[] = [];
   const result = isEmpty(arr);
   expect(result).toBe(true);
 });
