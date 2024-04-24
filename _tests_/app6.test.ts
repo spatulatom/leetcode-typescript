@@ -47,25 +47,44 @@ it('should return same array for non-overlapping intervals', () => {
   ]);
 });
 
-
 // 57. Insert Interval
 it('should correctly insert new interval between two existing intervals', () => {
-  const intervals = [[1,3],[6,9]];
-  const newInterval = [2,5];
+  const intervals = [
+    [1, 3],
+    [6, 9],
+  ];
+  const newInterval = [2, 5];
   const result = insert(intervals, newInterval);
-  expect(result).toEqual([[1,5],[6,9]]);
+  expect(result).toEqual([
+    [1, 5],
+    [6, 9],
+  ]);
 });
 
 it('should insert new interval at the end of the intervals list', () => {
-  const intervals = [[1,3],[6,9]];
-  const newInterval = [10,12];
+  const intervals = [
+    [1, 3],
+    [6, 9],
+  ];
+  const newInterval = [10, 12];
   const result = insert(intervals, newInterval);
-  expect(result).toEqual([[1,3],[6,9],[10,12]]);
+  expect(result).toEqual([
+    [1, 3],
+    [6, 9],
+    [10, 12],
+  ]);
 });
 
 it('should return new interval as is if it does not overlap with any existing intervals', () => {
-  const intervals = [[1,3],[6,9]];
-  const newInterval = [4,5];
+  const intervals = [
+    [1, 3],
+    [6, 9],
+  ];
+  const newInterval = [4, 5];
   const result = insert(intervals, newInterval);
-  expect(result).toEqual([[1,3],[4,5],[6,9]]);
+  expect(result).toEqual([
+    [1, 3],
+    [4, 5],
+    [6, 9],
+  ]);
 });
