@@ -80,3 +80,4 @@ it('should return true when given an empty array', () => {
   const result = isEmpty(arr);
   expect(result).toBe(true);
 });
+
