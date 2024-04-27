@@ -302,7 +302,7 @@ console.log('rotate', rotate([1, 2, 3, 4, 5, 6, 7], 3));
 // 1.6M
 
 // sol 1, try greedy appraoch, time O(n), spaceO(1)
-function canJump(nums: number[]): boolean {
+export function canJump(nums: number[]): boolean {
   if (nums.length === 1) return true;
   let jump = nums[0];
 
