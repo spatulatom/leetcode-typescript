@@ -61,6 +61,7 @@ it('should return the correct maximum area for an input with all heights equal t
   expect(maxArea(height)).toBe(4);
 });
 
+// 55. Jump Game
 import { canJump } from '../src/app';
 it('should return true when given an array with a single element', () => {
   const nums = [5];
@@ -69,6 +70,17 @@ it('should return true when given an array with a single element', () => {
 });
 it('should return false when given an empty array', () => {
   const nums: any = [];
+  const result = canJump(nums);
+  expect(result).toBe(false);
+});
+it('should return true when given an array with multiple elements and the last index is reachable with the minimum number of jumps', () => {
+  const nums = [2, 1, 1, 1, 1];
+  const result = canJump(nums);
+  expect(result).toBe(true);
+});
+
+it('should return false when given an array with multiple elements and it is not possible to reach the last index', () => {
+  const nums = [3, 2, 1, 0, 4];
   const result = canJump(nums);
   expect(result).toBe(false);
 });
