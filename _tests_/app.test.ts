@@ -84,3 +84,13 @@ it('should return false when given an array with multiple elements and it is not
   const result = canJump(nums);
   expect(result).toBe(false);
 });
+it('should return true when all elements in the array are equal', () => {
+  const nums = [3, 3, 3, 3, 3];
+  const result = canJump(nums);
+  expect(result).toBe(true);
+});
+it('should return true when the last index is reachable with an average number of jumps', () => {
+  const nums = [2, 3, 1, 1, 2, 1];
+  const result = canJump(nums);
+  expect(result).toBe(true);
+});
