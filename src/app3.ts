@@ -34,7 +34,7 @@
 // divisor != 0
 
 // sol 1, naive, eceeds time
-function divide1(dividend: number, divisor: number): number {
+export function divide1(dividend: number, divisor: number): number {
   const dividendAbs = Math.abs(dividend);
   const divisorAbs = Math.abs(divisor);
 
