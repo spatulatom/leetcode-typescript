@@ -27,3 +27,8 @@ it('should return the correct quotient when dividend and divisor are negative', 
   expect(divide1(-15, -5)).toBe(3);
   expect(divide1(-20, -4)).toBe(5);
 });
+it('should return 0 when dividend is 0', () => {
+    expect(divide1(0, 3)).toBe(0);
+    expect(divide1(0, -5)).toBe(0);
+    expect(divide1(0, 1)).toBe(0);
+  });
