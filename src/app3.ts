@@ -128,7 +128,7 @@ console.log('divide', divide(30, 3));
 // 34.9%
 
 // sol 1, brute force, O(n^2), space complexity O(n)
-function maxProduct1(nums: number[]): number {
+export function maxProduct1(nums: number[]): number {
   const allSums = new Set();
   if (nums.length === 1) return nums[0];
 
