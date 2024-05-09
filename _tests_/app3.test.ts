@@ -53,3 +53,7 @@ it('should return the correct maximum product when the input is [-2,-3,-4,-5]', 
 it('should return the correct maximum product when the input is [-2,3,-4,5]', () => {
   expect(maxProduct1([-2, 3, -4, 5])).toBe(120);
 });
+it('should return the correct maximum product when the input is [1]', () => {
+    expect(maxProduct1([1])).toBe(1);
+  });
+ 
