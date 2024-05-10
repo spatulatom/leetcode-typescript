@@ -232,7 +232,7 @@ console.log('maxProduct', maxProduct([2, 3, -2, 4]));
 */
 
 // sol 1, O(n)
-function productExceptSelf(nums: number[]): number[] {
+export function productExceptSelf(nums: number[]): number[] {
   // No division operator
   // Time complexity: O(n)
   // Space complexity: O(1)

@@ -54,6 +54,20 @@ it('should return the correct maximum product when the input is [-2,3,-4,5]', ()
   expect(maxProduct1([-2, 3, -4, 5])).toBe(120);
 });
 it('should return the correct maximum product when the input is [1]', () => {
-    expect(maxProduct1([1])).toBe(1);
-  });
- 
+  expect(maxProduct1([1])).toBe(1);
+});
+
+//   238. Product of Array Except Self
+import { productExceptSelf } from '../src/app3';
+it('should return the correct output when given a basic input', () => {
+  const nums = [1, 2, 3, 4];
+  const expected = [24, 12, 8, 6];
+  const result = productExceptSelf(nums);
+  expect(result).toEqual(expected);
+});
+it('should return an empty array when given an empty input', () => {
+  const nums: any = [];
+  const expected: any = [];
+  const result = productExceptSelf(nums);
+  expect(result).toEqual(expected);
+});
