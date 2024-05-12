@@ -71,3 +71,11 @@ it('should return an empty array when given an empty input', () => {
   const result = productExceptSelf(nums);
   expect(result).toEqual(expected);
 });
+
+  it('should return an array of 1s with the same length as the input array', () => {
+    const nums = [1, 1, 1, 1];
+    const expected = [1, 1, 1, 1];
+    const result = productExceptSelf(nums);
+    expect(result).toEqual(expected);
+  });
+
