@@ -72,10 +72,24 @@ it('should return an empty array when given an empty input', () => {
   expect(result).toEqual(expected);
 });
 
-  it('should return an array of 1s with the same length as the input array', () => {
-    const nums = [1, 1, 1, 1];
-    const expected = [1, 1, 1, 1];
-    const result = productExceptSelf(nums);
-    expect(result).toEqual(expected);
-  });
+it('should return an array of 1s with the same length as the input array', () => {
+  const nums = [1, 1, 1, 1];
+  const expected = [1, 1, 1, 1];
+  const result = productExceptSelf(nums);
+  expect(result).toEqual(expected);
+});
 
+// 53. Maximum Subarray
+import { maxSubArray1 } from '../src/app3';
+
+it('should return the correct maximum subarray sum when the array contains positive and negative integers', () => {
+  const nums = [-2, 1, -3, 4, -1, 2, 1, -5, 4];
+  const result = maxSubArray1(nums);
+  expect(result).toBe(6);
+});
+
+it('should return -Infinity when the array is empty', () => {
+  const nums: number[] = [];
+  const result = maxSubArray1(nums);
+  expect(result).toBe(-Infinity);
+});

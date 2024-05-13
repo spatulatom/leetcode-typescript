@@ -291,7 +291,7 @@ console.log('productExceptSelf', productExceptSelf([1, 2, 3, 4]));
 // the divide and conquer approach, which is more subtle.
 
 // sol 1, brute force O(n^2)
-function maxSubArray1(nums: number[]): number {
+export function maxSubArray1(nums: number[]): number {
   let max: number = -Infinity;
   if (nums.length === 1) return nums[0];
 
