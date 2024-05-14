@@ -93,3 +93,14 @@ it('should return -Infinity when the array is empty', () => {
   const result = maxSubArray1(nums);
   expect(result).toBe(-Infinity);
 });
+
+it('should return the correct maximum subarray sum when the array has length 1', () => {
+  const nums = [5];
+  const result = maxSubArray1(nums);
+  expect(result).toBe(5);
+});
+it('should return the correct maximum subarray sum when the array contains all negative integers', () => {
+  const nums = [-1, -2, -3, -4, -5];
+  const result = maxSubArray1(nums);
+  expect(result).toBe(-1);
+});
