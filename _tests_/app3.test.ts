@@ -104,3 +104,9 @@ it('should return the correct maximum subarray sum when the array contains all n
   const result = maxSubArray1(nums);
   expect(result).toBe(-1);
 });
+
+it('should return the correct maximum subarray sum for an array of length 2', () => {
+  const nums = [1, -2];
+  const result = maxSubArray1(nums);
+  expect(result).toBe(1);
+});
