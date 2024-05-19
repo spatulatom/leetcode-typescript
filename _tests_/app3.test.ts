@@ -110,3 +110,12 @@ it('should return the correct maximum subarray sum for an array of length 2', ()
   const result = maxSubArray1(nums);
   expect(result).toBe(1);
 });
+
+// 31. Next Permutation
+import { nextPermutation } from '../src/app3';
+it('should transform [1, 2, 3] to [1, 3, 2]', () => {
+  const nums = [1, 2, 3];
+  nextPermutation(nums);
+  expect(nums.join(',')).toEqual('1,3,2');
+});
+

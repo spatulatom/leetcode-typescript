@@ -374,7 +374,8 @@ console.log('maxSubArray', maxSubArray([-2, 1, -3, 4, -1, 2, 1, -5, 4]));
  */
 
 //  sol 1, brute force, time exceeds on bigger arrays
-function nextPermutation(nums: number[]): void {
+
+export function nextPermutation(nums: number[]): void {
   const results: string | any[] = [];
   const countMap = new Map();
   // Count the occurrences of each number in nums
