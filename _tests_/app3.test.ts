@@ -118,4 +118,13 @@ it('should transform [1, 2, 3] to [1, 3, 2]', () => {
   nextPermutation(nums);
   expect(nums.join(',')).toEqual('1,3,2');
 });
-
+it('should transform [3, 2, 1] to [1, 2, 3]', () => {
+  const nums = [3, 2, 1];
+  nextPermutation(nums);
+  expect(nums.join(',')).toEqual('1,2,3');
+});
+it('should transform [1, 1, 2] to [1, 2, 1]', () => {
+  const nums = [1, 1, 2];
+  nextPermutation(nums);
+  expect(nums.join(',')).toEqual('1,2,1');
+});
