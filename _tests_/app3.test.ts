@@ -129,6 +129,7 @@ it('should transform [1, 1, 2] to [1, 2, 1]', () => {
   expect(nums.join(',')).toEqual('1,2,1');
 });
 
+
 import { permute1 } from '../src/app3';
 it('should return all unique permutations for a given list of integers', () => {
   const nums = [1, 2, 2];
@@ -146,4 +147,24 @@ it('should handle large lists efficiently without stack overflow', () => {
   const nums = new Array(10).fill(1); // Large list of repeated elements
   const result = () => permute1(nums);
   expect(result).not.toThrow();
+});
+
+it('should return a list containing a single permutation when all elements in the input list are identical', () => {
+  const nums = [3, 3, 3];
+  const expected = [[3, 3, 3]];
+  const result = permute1(nums);
+  expect(result).toEqual(expect.arrayContaining(expected));
+  expect(result.length).toBe(expected.length);
+});
+
+it('should handle and return correct permutations when input list contains repeated elements', () => {
+  const nums = [1, 2, 2];
+  const expected = [
+    [1, 2, 2],
+    [2, 1, 2],
+    [2, 2, 1]
+  ];
+  const result = permute1(nums);
+  expect(result).toEqual(expect.arrayContaining(expected));
+  expect(result.length).toBe(expected.length);
 });
