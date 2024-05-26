@@ -168,3 +168,22 @@ it('should handle and return correct permutations when input list contains repea
   expect(result).toEqual(expect.arrayContaining(expected));
   expect(result.length).toBe(expected.length);
 });
+
+
+import { backtrack } from '../src/app3';
+it('should generate all permutations for unique numbers', () => {
+  const results:any = [];
+  const nums = [1, 2, 3];
+  const countMap = new Map();
+  nums.forEach(num => countMap.set(num, 1));
+  backtrack(results, [], nums.length, countMap);
+  expect(results).toEqual([[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]]);
+});
+it('should handle lists with identical elements correctly', () => {
+  const results:any = [];
+  const nums = [2, 2, 2];
+  const countMap = new Map();
+  nums.forEach(num => countMap.set(num, 3));
+  backtrack(results, [], nums.length, countMap);
+  expect(results).toEqual([[2, 2, 2]]);
+});

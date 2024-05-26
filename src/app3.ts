@@ -465,7 +465,7 @@ export var permute1 = function (nums: any) {
   return results;
 };
 
-function backtrack(results: any, current: any, remaining: any, countMap: any) {
+export function backtrack(results: any, current: any, remaining: any, countMap: any) {
   if (remaining === 0) {
     results.push([...current]);
     console.log('results', results);
