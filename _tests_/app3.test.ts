@@ -187,3 +187,12 @@ it('should handle lists with identical elements correctly', () => {
   backtrack(results, [], nums.length, countMap);
   expect(results).toEqual([[2, 2, 2]]);
 });
+
+it('should handle single-element list correctly', () => {
+  const results:any = [];
+  const nums = [1];
+  const countMap = new Map();
+  nums.forEach(num => countMap.set(num, 1));
+  backtrack(results, [], nums.length, countMap);
+  expect(results).toEqual([[1]]);
+});
