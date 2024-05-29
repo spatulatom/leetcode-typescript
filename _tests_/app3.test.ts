@@ -196,3 +196,12 @@ it('should handle single-element list correctly', () => {
   backtrack(results, [], nums.length, countMap);
   expect(results).toEqual([[1]]);
 });
+
+it('should work with negative numbers in the input list', () => {
+  const results:any = [];
+  const nums = [-1, -2, -3];
+  const countMap = new Map();
+  nums.forEach(num => countMap.set(num, 1));
+  backtrack(results, [], nums.length, countMap);
+  expect(results).toEqual([[-1, -2, -3], [-1, -3, -2], [-2, -1, -3], [-2, -3, -1], [-3, -1, -2], [-3, -2, -1]]);
+});
