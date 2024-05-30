@@ -29,7 +29,7 @@
 // s and wordDict[i] consist of only lowercase English letters.
 // All the strings of wordDict are unique.
 
-function wordBreak(s: string, wordDict: string[]): boolean {
+export function wordBreak(s: string, wordDict: string[]): boolean {
     let main: boolean = false;
   
     // this is how you stop a backctracking function:
