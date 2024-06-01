@@ -25,3 +25,9 @@ it('should return false when the string cannot be segmented using dictionary wor
     const wordDict = ["apple", "pen"];
     expect(wordBreak(s, wordDict)).toBe(true);
   });
+
+  it('should return true when the string is longer than any single dictionary word', () => {
+    const s = "leetcode";
+    const wordDict = ["leet", "code", "leetcode"];
+    expect(wordBreak(s, wordDict)).toBe(true);
+  });
