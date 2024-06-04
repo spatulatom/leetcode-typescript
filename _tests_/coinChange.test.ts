@@ -27,3 +27,10 @@ it('should return correct minimum number of coins when given a valid amount', ()
     const result = coinChange(coins, amount);
     expect(result).toBe(3);
   });
+
+  it('should handle large amount values', () => { 
+    const coins = [1, 2, 5];
+    const amount = 1000;
+    const result = coinChange(coins, amount);
+    expect(result).toBeGreaterThan(0);
+  });
