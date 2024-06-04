@@ -20,3 +20,10 @@ it('should return correct minimum number of coins when given a valid amount', ()
     const result = coinChange(coins, amount);
     expect(result).toBe(0);
   });
+
+  it('should handle cases where only one type of coin is needed', () => {
+    const coins = [2];
+    const amount = 6;
+    const result = coinChange(coins, amount);
+    expect(result).toBe(3);
+  });
