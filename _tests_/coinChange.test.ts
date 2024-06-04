@@ -8,8 +8,15 @@ it('should return correct minimum number of coins when given a valid amount', ()
   });
 
   it('should return -1 when coins array is empty', () => {
-    const coins = [];
+    const coins:any = [];
     const amount = 11;
     const result = coinChange(coins, amount);
     expect(result).toBe(-1);
+  });
+
+  it('should handle cases where amount is zero', () => {
+    const coins = [1, 2, 5];
+    const amount = 0;
+    const result = coinChange(coins, amount);
+    expect(result).toBe(0);
   });
