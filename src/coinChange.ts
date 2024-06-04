@@ -1,5 +1,5 @@
 // sol 2, backtracking, time complexity is O(n*n)
-function coinChange(coins: number[], amount: number): number {
+export function coinChange(coins: number[], amount: number): number {
   coins.sort((a, b) => b - a);
   // return coins
   let min = Infinity;
