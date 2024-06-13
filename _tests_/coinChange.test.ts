@@ -34,3 +34,15 @@ it('should return correct minimum number of coins when given a valid amount', ()
     const result = coinChange(coins, amount);
     expect(result).toBeGreaterThan(0);
   });
+  it('should handle coins array with duplicate values', () => {
+    const coins = [1, 2, 2, 5];
+    const amount = 7;
+    const result = coinChange(coins, amount);
+    expect(result).toBe(2);
+  });
+  it('should return correct minimum number of coins when given a single coin type', () => {
+    const coins = [1];
+    const amount = 5;
+    const result = coinChange(coins, amount);
+    expect(result).toBe(5);
+  });

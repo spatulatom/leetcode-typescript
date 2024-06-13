@@ -7,18 +7,17 @@
 let sth;
 sth = null;
 sth = 6;
-sth= 'hello'
+sth = 'hello';
 
-console.log(sth)
-
+console.log(sth);
 
 let user = {
-    name: 'John Doe',
-    // address: {
-    //   street: '123 Main St',
-    //   city: 'Anytown',
-    //   country: 'USA'
-    // }
-  };
-  
-  console.log(user.address?.city)
+  name: 'John Doe',
+  // address: {
+  //   street: '123 Main St',
+  //   city: 'Anytown',
+  //   country: 'USA'
+  // }
+};
+
+console.log(user.address?.city);
