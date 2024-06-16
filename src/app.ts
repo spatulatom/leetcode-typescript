@@ -556,15 +556,12 @@ function searchRange(nums: number[], target: number): number[] {
 
 console.log('searchRange', searchRange([5, 7, 8, 8, 8, 10], 7));
 
-
 // 4. Median of Two Sorted Arrays
 // Hard
-// Given two sorted arrays nums1 and nums2 of size m and n respectively, return 
+// Given two sorted arrays nums1 and nums2 of size m and n respectively, return
 // the median of the two sorted arrays.
 
 // The overall run time complexity should be O(log (m+n)).
-
- 
 
 // Example 1:
 
@@ -576,7 +573,6 @@ console.log('searchRange', searchRange([5, 7, 8, 8, 8, 10], 7));
 // Input: nums1 = [1,2], nums2 = [3,4]
 // Output: 2.50000
 // Explanation: merged array = [1,2,3,4] and median is (2 + 3) / 2 = 2.5.
- 
 
 // Constraints:
 
@@ -587,25 +583,24 @@ console.log('searchRange', searchRange([5, 7, 8, 8, 8, 10], 7));
 // 1 <= m + n <= 2000
 // -106 <= nums1[i], nums2[i] <= 106
 
-
 // sol 1, sort method and log (n log n)
 function findMedianSortedArrays(nums1: number[], nums2: number[]): number {
-   nums1.push(...nums2)
-   
-   nums1.sort((a,b)=>{return a-b})
-   
-   const mid = nums1.length/2
-   if(nums1.length%2===0){
-    // console.log('here',2+3/2,nums1[mid])
-    return (nums1[mid-1]+nums1[mid])/2
-   }else{
-    return nums1[Math.round(mid-1)]
-   }
-   
-};
+  nums1.push(...nums2);
 
+  nums1.sort((a, b) => {
+    return a - b;
+  });
+
+  const mid = nums1.length / 2;
+  if (nums1.length % 2 === 0) {
+    // console.log('here',2+3/2,nums1[mid])
+    return (nums1[mid - 1] + nums1[mid]) / 2;
+  } else {
+    return nums1[Math.round(mid - 1)];
+  }
+}
 
 // sol 2, attempt at O(log(m+n))
 // ?
 
-console.log('findMedianSortedArrays',findMedianSortedArrays([1,2], [3,4]))
+console.log('findMedianSortedArrays', findMedianSortedArrays([1, 2], [3, 4]));

@@ -170,11 +170,11 @@ function longestPalindrome(s: string): string {
 console.log('longestPalindrome', longestPalindrome('abcda'));
 
 // sol 2
-// Instead of using arrays (sub and all) to store substrings, you 
-// can keep track of the start and end indices of the longest palindrome 
+// Instead of using arrays (sub and all) to store substrings, you
+// can keep track of the start and end indices of the longest palindrome
 // found so far.
 
-function longestPalindrome2(s:string) {
+function longestPalindrome2(s: string) {
   if (s.length === 0) return '';
 
   let longestStart = 0;
@@ -208,6 +208,3 @@ function longestPalindrome2(s:string) {
 
   return s.substring(longestStart, longestEnd + 1);
 }
-
-
-

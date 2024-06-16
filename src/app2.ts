@@ -259,12 +259,11 @@ console.log('minWindow', minWindow('abc', 'ab'));
 // 1 <= n <= 2 * 104
 // 0 <= height[i] <= 105
 
-
 // sol 0, two pointers
 
 function trap(height: number[]): number {
   if (height.length === 0) {
-      return 0;
+    return 0;
   }
 
   let left = 0;
@@ -274,17 +273,17 @@ function trap(height: number[]): number {
   let result = 0;
 
   while (left < right) {
-      if (height[left] < height[right]) {
-          // Update leftMax and calculate trapped water on the left
-          leftMax = Math.max(leftMax, height[left]);
-          result += Math.max(0, leftMax - height[left]);
-          left++;
-      } else {
-          // Update rightMax and calculate trapped water on the right
-          rightMax = Math.max(rightMax, height[right]);
-          result += Math.max(0, rightMax - height[right]);
-          right--;
-      }
+    if (height[left] < height[right]) {
+      // Update leftMax and calculate trapped water on the left
+      leftMax = Math.max(leftMax, height[left]);
+      result += Math.max(0, leftMax - height[left]);
+      left++;
+    } else {
+      // Update rightMax and calculate trapped water on the right
+      rightMax = Math.max(rightMax, height[right]);
+      result += Math.max(0, rightMax - height[right]);
+      right--;
+    }
   }
 
   return result;
@@ -298,7 +297,7 @@ console.log(
     3,
   ])
 );
-console.log('trap',trap([4,2,0,3,2,5]))
+console.log('trap', trap([4, 2, 0, 3, 2, 5]));
 
 // sol 1, not working
 function trap1(height: number[]): number {
@@ -422,7 +421,17 @@ function trap2(height: number[]): number {
         let pointer = j - 1;
         while (pointer > i) {
           units = units + reverse[i] - reverse[pointer];
-          console.log('here','i:',i,  height[i], 'j:',j,height[j], 'units:', units);
+          console.log(
+            'here',
+            'i:',
+            i,
+            height[i],
+            'j:',
+            j,
+            height[j],
+            'units:',
+            units
+          );
           pointer--;
         }
 
@@ -435,7 +444,5 @@ function trap2(height: number[]): number {
     }
   }
 
-  return units
+  return units;
 }
-
-
