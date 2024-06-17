@@ -7,7 +7,7 @@
 // Let's discuss both concepts and then relate them to JavaScript.
 
 // Binary Search: 
-function binarySearch(arr:any, target:number) {
+export function binarySearch(arr:any, target:number) {
     // Base case: if the array is empty, the target is not present
     if (arr.length === 0) {
       return -1;
