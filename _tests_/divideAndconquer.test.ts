@@ -24,3 +24,16 @@ it('should return the index when target is present in the first half of the arra
     const result = binarySearch(arr, target);
     expect(result).toBe(0);
   });
+
+  // second suit
+  import { findMax } from '../src/divideAndconquer';
+  it('should find the maximum element when the array is sorted', () => {
+    const arr = [1, 2, 3, 4, 5];
+    const result = findMax(arr, 0, arr.length - 1);
+    expect(result).toBe(5);
+});
+it('should find the maximum element in an unsorted array', () => {
+  const arr = [3, 7, 1, 9, 5];
+  const result = findMax(arr, 0, arr.length - 1);
+  expect(result).toBe(9);
+});

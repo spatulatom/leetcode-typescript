@@ -43,7 +43,7 @@ export function binarySearch(arr:any, target:number) {
   
 
 // Divide and Conquer: finding the maximum element in an array
-function findMax(arr:any, start:any, end:any) :any{
+export function findMax(arr:any, start:any, end:any) :any{
     // Base case: if the array has only one element
     if (start === end) {
       return arr[start];
