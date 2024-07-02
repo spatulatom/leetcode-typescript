@@ -37,3 +37,14 @@ it('should find the maximum element in an unsorted array', () => {
   const result = findMax(arr, 0, arr.length - 1);
   expect(result).toBe(9);
 });
+
+it('should find the maximum element when the array has all identical values', () => {
+  const arr = [3, 3, 3, 3, 3];
+  const result = findMax(arr, 0, arr.length - 1);
+  expect(result).toBe(3);
+});
+it('should find the maximum element in an array with negative numbers', () => {
+  const arr = [-3, -7, -1, -9, -5];
+  const result = findMax(arr, 0, arr.length - 1);
+  expect(result).toBe(-1);
+});
