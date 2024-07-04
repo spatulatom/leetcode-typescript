@@ -25,6 +25,12 @@ it('should return the index when target is present in the first half of the arra
     expect(result).toBe(0);
   });
 
+  it('should return the index when array has only one element which is the target', () => {
+    const arr = [5];
+    const target = 5;
+    const result = binarySearch(arr, target);
+    expect(result).toBe(0);
+  });
   // second suit
   import { findMax } from '../src/divideAndconquer';
   it('should find the maximum element when the array is sorted', () => {
