@@ -330,7 +330,6 @@ function maxEvents(events: number[][]): number {
   //     });
   //   }
   // }
-  
 
   for (let i = 0; i < groups.length; i++) {
     if (groups[i].length > 1) {
@@ -408,7 +407,6 @@ console.log(
 // Expected
 // 5
 
-
 // sol 3, flails 42/44 on big input array
 function maxEvents3(events: [number, number][]): number {
   // Sort the events by end time, then by start time
@@ -418,17 +416,17 @@ function maxEvents3(events: [number, number][]): number {
   let days = new Array(100001).fill(false);
 
   for (let event of events) {
-      for (let day = event[0]; day <= event[1]; day++) {
-          if (!days[day]) {
-              days[day] = true;
-              count++;
-              break;
-          }
+    for (let day = event[0]; day <= event[1]; day++) {
+      if (!days[day]) {
+        days[day] = true;
+        count++;
+        break;
       }
+    }
   }
 
   return count;
 }
 // function maxEvents3(events: [number, number][]): number {
-// In this version, events is an array of tuples, where each tuple is a pair of numbers. 
-// The function returns a number. 
+// In this version, events is an array of tuples, where each tuple is a pair of numbers.
+// The function returns a number.
