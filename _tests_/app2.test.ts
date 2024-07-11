@@ -12,6 +12,9 @@ it('should return 0 when given an empty string', () => {
 it('should return the length of the string when all characters are the same', () => {
   expect(longestPalindrome('aaaaaa')).toBe(6);
 });
-it('should return the correct length of the longest palindrome when the string contains more than two different characters', () => {
-  expect(longestPalindrome('abccccdd')).toBe(7);
+it('should handle strings with both uppercase and lowercase letters correctly', () => {
+  expect(longestPalindrome('aAAbbb')).toEqual(5);
+});
+it('should process strings with all unique characters correctly', () => {
+  expect(longestPalindrome('abcdefg')).toEqual(1);
 });
