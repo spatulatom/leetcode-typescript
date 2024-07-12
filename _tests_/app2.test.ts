@@ -18,3 +18,9 @@ it('should handle strings with both uppercase and lowercase letters correctly', 
 it('should process strings with all unique characters correctly', () => {
   expect(longestPalindrome('abcdefg')).toEqual(1);
 });
+it('should return 7 for "abccccdd"', () => {
+  expect(longestPalindrome("abccccdd")).toEqual(7);
+});
+it('should return 4 for "aabb"', () => {
+  expect(longestPalindrome("aabb")).toEqual(4);
+});
