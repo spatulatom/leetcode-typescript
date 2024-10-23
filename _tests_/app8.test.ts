@@ -45,3 +45,4 @@ it('should return the correct length when given an array with some elements in i
   const result = lengthOfLIS(nums);
   expect(result).toBe(4);
 });
+

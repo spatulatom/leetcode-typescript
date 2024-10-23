@@ -24,6 +24,35 @@
 // 1 <= s.length <= 2000
 // s consists of lowercase and/or uppercase English letters only.
 
+
+function longestPalindromeBruteForce(s: string): number {
+  const isPalindrome = (str: string): boolean => {
+    let left = 0;
+    let right = str.length - 1;
+    while (left < right) {
+      if (str[left] !== str[right]) return false;
+      left++;
+      right--;
+    }
+    return true;
+  };
+
+  let maxLength = 0;
+
+  for (let i = 0; i < s.length; i++) {
+    for (let j = i; j < s.length; j++) {
+      const substr = s.slice(i, j + 1);
+      if (isPalindrome(substr)) {
+        maxLength = Math.max(maxLength, substr.length);
+      }
+    }
+  }
+
+  return maxLength;
+}
+
+
+console.log('longestPalindromeBruteForce', longestPalindromeBruteForce('abccccdd'));
 export function longestPalindrome(s: string): number {
   type hash = {
     [key: string]: number;
