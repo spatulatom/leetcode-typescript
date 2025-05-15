@@ -185,6 +185,19 @@
         </div>
 
         <div class="example-section">
+          <h2>Example 6: Callback Hell</h2>
+          <p>
+            Compare nested callbacks (callback hell) with clean Promise chains
+            for complex async operations.
+          </p>
+          <div class="button-group">
+            <button id="runCallback6">Run Callback Hell</button>
+            <button id="runPromise6">Run Promise Chain</button>
+          </div>
+          <div id="example6"></div>
+        </div>
+
+        <div class="example-section">
           <h2>Bonus: Async/Await Example</h2>
           <p>Modern JavaScript syntax built on top of promises.</p>
           <div class="button-group">
@@ -616,11 +629,122 @@
           modernApiCall("javascript")
             .then((results) => console.log("[Modern] Results:", results))
             .catch((error) => console.error("[Modern] Error:", error.message));
+        }); // ------------------------------------------------------------
+      // EXAMPLE 6: CALLBACK HELL VS. PROMISE CHAINS
+      // ------------------------------------------------------------
+
+      // Callback hell example functions
+      function getUser(id, callback) {
+        setTimeout(() => {
+          console.log("[Callback Hell] Fetched user");
+          callback({ id, name: "Tom" });
+        }, 1000);
+      }
+
+      function getOrders(userId, callback) {
+        setTimeout(() => {
+          console.log("[Callback Hell] Fetched orders");
+          callback([
+            { orderId: 1, item: "Laptop" },
+            { orderId: 2, item: "Phone" },
+          ]);
+        }, 1000);
+      }
+
+      function processPayment(orderId, callback) {
+        setTimeout(() => {
+          console.log("[Callback Hell] Processed payment for order", orderId);
+          callback(true);
+        }, 1000);
+      }
+
+         // Button event handlers for Example 6 callback hell
+      document
+        .getElementById("runCallback6")
+        .addEventListener("click", function () {
+          console.log("\nEXAMPLE 6: Callback Hell");
+          console.log("Starting nested callbacks sequence...");
+
+          // Callback Hell Example - deeply nested callbacks
+          getUser(123, (user) => {
+            console.log("[Callback Hell] Got user:", user);
+
+            getOrders(user.id, (orders) => {
+              console.log("[Callback Hell] Got orders:", orders);
+
+              processPayment(orders[0].orderId, (success) => {
+                if (success) {
+                  console.log("[Callback Hell] Payment Successful!");
+                  console.log(
+                    "[Callback Hell] Notice how deeply nested this code becomes with each additional callback!"
+                  );
+                }
+              });
+            });
+          });
         });
 
-      // ------------------------------------------------------------
-      // BONUS: ASYNC/AWAIT - BUILT ON PROMISES BUT WITH CLEANER SYNTAX
-      // ------------------------------------------------------------
+      // Promise-based versions of the same functions
+      function getUserPromise(id) {
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            console.log("[Promise Chain] Fetched user");
+            resolve({ id, name: "Tom" });
+          }, 1000);
+        });
+      }
+
+      function getOrdersPromise(userId) {
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            console.log("[Promise Chain] Fetched orders");
+            resolve([
+              { orderId: 1, item: "Laptop" },
+              { orderId: 2, item: "Phone" },
+            ]);
+          }, 1000);
+        });
+      }
+
+      function processPaymentPromise(orderId) {
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            console.log("[Promise Chain] Processed payment for order", orderId);
+            resolve(true);
+          }, 1000);
+        });
+      }
+
+   
+     // Button event handlers for Example 6 promise chain
+      document
+        .getElementById("runPromise6")
+        .addEventListener("click", function () {
+          console.log("\nEXAMPLE 6: Promise Chain");
+          console.log("Starting Promise chain sequence...");
+
+          // Same functionality with clean Promise chaining
+          getUserPromise(123)
+            .then((user) => {
+              console.log("[Promise Chain] Got user:", user);
+              return getOrdersPromise(user.id);
+            })
+            .then((orders) => {
+              console.log("[Promise Chain] Got orders:", orders);
+              return processPaymentPromise(orders[0].orderId);
+            })
+            .then((success) => {
+              if (success) {
+                console.log("[Promise Chain] Payment Successful!");
+                console.log(
+                  "[Promise Chain] Notice how flat and readable this code is!"
+                );
+              }
+            })
+            .catch((error) => {
+              console.error("[Promise Chain] Error in chain:", error);
+            });
+        });
 
       // Using async/await with our Promise-based functions
       async function fetchUserAndPosts() {
