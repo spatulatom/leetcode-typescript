@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Promises vs Callbacks Demo</title>
+    <style>
+      body {
+        font-family: system-ui, -apple-system, sans-serif;
+        line-height: 1.5;
+        padding: 1rem;
+        margin: 0;
+        background-color: #f5f5f5;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
+      h1 {
+        color: #333;
+        border-bottom: 2px solid #ddd;
+        padding-bottom: 0.5rem;
+        margin-bottom: 1.5rem;
+        width: 100%;
+      }
+
+      .container {
+        display: flex;
+        flex: 1;
+        gap: 1.5rem;
+      }
+
+      .left-column {
+        flex: 1;
+        overflow-y: auto;
+        padding-right: 1rem;
+      }
+
+      .right-column {
+        width: 40%;
+        min-width: 350px;
+        position: sticky;
+        top: 1rem;
+        align-self: flex-start;
+      }
+
+      .console-container {
+        background-color: white;
+        border-radius: 4px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        padding: 1rem;
+        height: calc(100vh - 120px);
+        display: flex;
+        flex-direction: column;
+      }
+
+      pre {
+        background-color: #f8f8f8;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 1rem;
+        overflow: auto;
+        flex: 1;
+      }
+
+      .log {
+        background-color: white;
+        border-left: 3px solid #2ecc71;
+        padding: 0.5rem 1rem;
+        margin: 0.5rem 0;
+      }
+
+      .error {
+        background-color: #fff0f0;
+        border-left: 3px solid #e74c3c;
+        padding: 0.5rem 1rem;
+        margin: 0.5rem 0;
+      }
+
+      .example-section {
+        margin-bottom: 1.5rem;
+        padding: 1rem;
+        background-color: white;
+        border-radius: 4px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+
+      .button-group {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+        flex-wrap: wrap;
+      }
+
+      button {
+        background-color: #3498db;
+        color: white;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+      }
+
+      button:hover {
+        background-color: #2980b9;
+      }
+
+      button:active {
+        background-color: #1f6dad;
+      }
+
+      #clearConsole {
+        margin-top: 1rem;
+        width: 100%;
+      }
+
+      h2 {
+        margin-top: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>JavaScript Promises vs. Callbacks</h1>
+
+    <div class="container">
+      <!-- Left column with interactive examples -->
+      <div class="left-column">
+        <div class="example-section">
+          <h2>Example 1: Simple Async Operation</h2>
+          <p>
+            Compare how a simple async operation works with callbacks vs
+            promises.
+          </p>
+          <div class="button-group">
+            <button id="runCallback1">Run Callback Version</button>
+            <button id="runPromise1">Run Promise Version</button>
+            <button id="runInvalid1">Test Error Handling</button>
+          </div>
+          <div id="example1"></div>
+        </div>
+
+        <div class="example-section">
+          <h2>Example 2: Chaining Operations</h2>
+          <p>See how multiple sequential operations can be chained together.</p>
+          <div class="button-group">
+            <button id="runCallback2">Run Callback Chain</button>
+            <button id="runPromise2">Run Promise Chain</button>
+          </div>
+          <div id="example2"></div>
+        </div>
+
+        <div class="example-section">
+          <h2>Example 3: Error Handling</h2>
+          <p>
+            Compare error handling approaches between callbacks and promises.
+          </p>
+          <div class="button-group">
+            <button id="runCallbackSuccess3">Callback (Success)</button>
+            <button id="runCallbackError3">Callback (Error)</button>
+            <button id="runPromiseSuccess3">Promise (Success)</button>
+            <button id="runPromiseError3">Promise (Error)</button>
+          </div>
+          <div id="example3"></div>
+        </div>
+
+        <div class="example-section">
+          <h2>Example 4: Parallel Operations</h2>
+          <p>See how to run multiple operations in parallel.</p>
+          <div class="button-group">
+            <button id="runCallback4">Run Parallel Callbacks</button>
+            <button id="runPromise4">Run Parallel Promises</button>
+          </div>
+          <div id="example4"></div>
+        </div>
+
+        <div class="example-section">
+          <h2>Example 5: Converting Callbacks to Promises</h2>
+          <p>See how legacy callback APIs can be wrapped with promises.</p>
+          <div class="button-group">
+            <button id="runCallback5">Run Legacy API</button>
+            <button id="runPromise5">Run Promise Wrapper</button>
+          </div>
+          <div id="example5"></div>
+        </div>
+
+        <div class="example-section">
+          <h2>Bonus: Async/Await Example</h2>
+          <p>Modern JavaScript syntax built on top of promises.</p>
+          <div class="button-group">
+            <button id="runAsyncAwait">Run Async/Await Example</button>
+          </div>
+          <div id="asyncAwaitExample"></div>
+        </div>
+      </div>
+
+      <!-- Right column with console output -->
+      <div class="right-column">
+        <div class="console-container">
+          <h2>Console Output</h2>
+          <pre id="console"></pre>
+          <button id="clearConsole">Clear Console</button>
+        </div>
+      </div>
+    </div>
+    <script>
+      // Custom console for display in the webpage
+      const consoleOutput = document.getElementById("console");
+      const originalConsole = {
+        log: console.log,
+        error: console.error,
+      };
+
+      // Override console methods
+      console.log = function (...args) {
+        originalConsole.log(...args);
+        const msg = args
+          .map((arg) =>
+            typeof arg === "object" ? JSON.stringify(arg, null, 2) : String(arg)
+          )
+          .join(" ");
+        const logEntry = document.createElement("div");
+        logEntry.className = "log";
+        logEntry.textContent = msg;
+        consoleOutput.appendChild(logEntry);
+
+        // Auto-scroll to the bottom
+        consoleOutput.scrollTop = consoleOutput.scrollHeight;
+      };
+
+      console.error = function (...args) {
+        originalConsole.error(...args);
+        const msg = args
+          .map((arg) =>
+            typeof arg === "object" ? JSON.stringify(arg, null, 2) : String(arg)
+          )
+          .join(" ");
+        const logEntry = document.createElement("div");
+        logEntry.className = "error";
+        logEntry.textContent = msg;
+        consoleOutput.appendChild(logEntry);
+
+        // Auto-scroll to the bottom
+        consoleOutput.scrollTop = consoleOutput.scrollHeight;
+      };
+
+      document
+        .getElementById("clearConsole")
+        .addEventListener("click", function () {
+          consoleOutput.innerHTML = "";
+        });
+      // ------------------------------------------------------------
+      // EXAMPLE 1: Simple Async Operation
+      // ------------------------------------------------------------
+
+      // Callback style
+      function fetchDataWithCallback(id, onSuccess, onError) {
+        console.log(`[Callback] Fetching data for id: ${id}...`);
+        setTimeout(() => {
+          if (id === "invalid") {
+            onError(new Error("Invalid ID"));
+          } else {
+            onSuccess({ id: id, name: "Example Item" });
+          }
+        }, 1000);
+      }
+
+      // Promise style - same functionality
+      function fetchDataWithPromise(id) {
+        console.log(`[Promise] Fetching data for id: ${id}...`);
+        return new Promise((resolve, reject) => {
+          setTimeout(() => {
+            if (id === "invalid") {
+              reject(new Error("Invalid ID"));
+            } else {
+              resolve({ id: id, name: "Example Item" });
+            }
+          }, 1000);
+        });
+      }
+
+      // Button event handlers for Example 1
+      document
+        .getElementById("runCallback1")
+        .addEventListener("click", function () {
+          console.log("EXAMPLE 1: Simple async operation (Callback)");
+          console.log("Starting callback version...");
+          fetchDataWithCallback(
+            "123",
+            (data) => console.log("[Callback] Success:", data),
+            (error) => console.error("[Callback] Error:", error.message)
+          );
+        });
+
+      document
+        .getElementById("runPromise1")
+        .addEventListener("click", function () {
+          console.log("EXAMPLE 1: Simple async operation (Promise)");
+          console.log("Starting Promise version...");
+          fetchDataWithPromise("123")
+            .then((data) => console.log("[Promise] Success:", data))
+            .catch((error) => console.error("[Promise] Error:", error.message));
+        });
+
+      document
+        .getElementById("runInvalid1")
+        .addEventListener("click", function () {
+          console.log("EXAMPLE 1: Error handling comparison");
+
+          console.log("Testing callback error handling...");
+          fetchDataWithCallback(
+            "invalid",
+            (data) =>
+              console.log("[Callback] Success (shouldn't see this):", data),
+            (error) => console.error("[Callback] Error caught:", error.message)
+          );
+
+          console.log("Testing promise error handling...");
+          fetchDataWithPromise("invalid")
+            .then((data) =>
+              console.log("[Promise] Success (shouldn't see this):", data)
+            )
+            .catch((error) =>
+              console.error("[Promise] Error caught:", error.message)
+            );
+        });
+
+      // ------------------------------------------------------------
+      // EXAMPLE 2: Chaining Operations
+      // ------------------------------------------------------------
+
+      // Callback style - multiple operations in sequence
+      function getUserByIdCallback(userId, callback) {
+        console.log(`[Callback] Getting user ${userId}`);
+        setTimeout(() => {
+          callback({ id: userId, name: "John Doe" });
+        }, 1000);
+      }
+
+      function getPostsByUserCallback(user, callback) {
+        console.log(`[Callback] Getting posts for user: ${user.name}`);
+        setTimeout(() => {
+          callback([
+            { id: "post1", title: "First Post", userId: user.id },
+            { id: "post2", title: "Second Post", userId: user.id },
+          ]);
+        }, 1000);
+      }
+
+      // Promise style - same operations
+      function getUserByIdPromise(userId) {
+        console.log(`[Promise] Getting user ${userId}`);
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            resolve({ id: userId, name: "John Doe" });
+          }, 1000);
+        });
+      }
+
+      function getPostsByUserPromise(user) {
+        console.log(`[Promise] Getting posts for user: ${user.name}`);
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            resolve([
+              { id: "post1", title: "First Post", userId: user.id },
+              { id: "post2", title: "Second Post", userId: user.id },
+            ]);
+          }, 1000);
+        });
+      }
+
+      // Button event handlers for Example 2
+      document
+        .getElementById("runCallback2")
+        .addEventListener("click", function () {
+          console.log("\nEXAMPLE 2: Chaining async operations (Callback)");
+          console.log("Starting callback chain...");
+          getUserByIdCallback("user123", (user) => {
+            console.log("[Callback] Got user:", user);
+
+            getPostsByUserCallback(user, (posts) => {
+              console.log("[Callback] Got posts:", posts);
+            });
+          });
+        });
+
+      document
+        .getElementById("runPromise2")
+        .addEventListener("click", function () {
+          console.log("\nEXAMPLE 2: Chaining async operations (Promise)");
+          console.log("Starting Promise chain...");
+          getUserByIdPromise("user123")
+            .then((user) => {
+              console.log("[Promise] Got user:", user);
+              return getPostsByUserPromise(user);
+            })
+            .then((posts) => {
+              console.log("[Promise] Got posts:", posts);
+            });
+        });
+
+      // ------------------------------------------------------------
+      // EXAMPLE 3: Error Handling
+      // ------------------------------------------------------------
+
+      // Callback style with error handling
+      function processDataCallback(data, onSuccess, onError) {
+        console.log("[Callback] Processing data...");
+        setTimeout(() => {
+          try {
+            if (data === "") {
+              throw new Error("Empty data");
+            }
+            const result = `Processed: ${data.toUpperCase()}`;
+            onSuccess(result);
+          } catch (error) {
+            onError(
+              error instanceof Error ? error : new Error("Unknown error")
+            );
+          }
+        }, 1000);
+      }
+
+      // Promise style with error handling
+      function processDataPromise(data) {
+        console.log("[Promise] Processing data...");
+        return new Promise((resolve, reject) => {
+          setTimeout(() => {
+            try {
+              if (data === "") {
+                throw new Error("Empty data");
+              }
+              const result = `Processed: ${data.toUpperCase()}`;
+              resolve(result);
+            } catch (error) {
+              reject(
+                error instanceof Error ? error : new Error("Unknown error")
+              );
+            }
+          }, 1000);
+        });
+      }
+
+      // Button event handlers for Example 3
+      document
+        .getElementById("runCallbackSuccess3")
+        .addEventListener("click", function () {
+          console.log("\nEXAMPLE 3: Error handling (Callback - Success)");
+          console.log("Starting callback success example...");
+          processDataCallback(
+            "hello",
+            (result) => console.log("[Callback] Process success:", result),
+            (error) => console.error("[Callback] Process error:", error.message)
+          );
+        });
+
+      document
+        .getElementById("runCallbackError3")
+        .addEventListener("click", function () {
+          console.log("\nEXAMPLE 3: Error handling (Callback - Error)");
+          console.log("Starting callback error example...");
+          processDataCallback(
+            "",
+            (result) => console.log("[Callback] This won't run"),
+            (error) => console.error("[Callback] Caught error:", error.message)
+          );
+        });
+
+      document
+        .getElementById("runPromiseSuccess3")
+        .addEventListener("click", function () {
+          console.log("\nEXAMPLE 3: Error handling (Promise - Success)");
+          console.log("Starting Promise success example...");
+          processDataPromise("hello")
+            .then((result) => console.log("[Promise] Process success:", result))
+            .catch((error) =>
+              console.error("[Promise] Process error:", error.message)
+            );
+        });
+
+      document
+        .getElementById("runPromiseError3")
+        .addEventListener("click", function () {
+          console.log("\nEXAMPLE 3: Error handling (Promise - Error)");
+          console.log("Starting Promise error example...");
+          processDataPromise("")
+            .then((result) => console.log("[Promise] This won't run"))
+            .catch((error) =>
+              console.error("[Promise] Caught error:", error.message)
+            );
+        });
+
+      // ------------------------------------------------------------
+      // EXAMPLE 4: Parallel Operations
+      // ------------------------------------------------------------
+
+      // Helper functions
+      function fetchItem1(callback) {
+        setTimeout(() => callback("Item 1 data"), 1000);
+      }
+
+      function fetchItem2(callback) {
+        setTimeout(() => callback("Item 2 data"), 800);
+      }
+
+      function fetchItem1Promise() {
+        return new Promise((resolve) => {
+          setTimeout(() => resolve("Item 1 data"), 1000);
+        });
+      }
+
+      function fetchItem2Promise() {
+        return new Promise((resolve) => {
+          setTimeout(() => resolve("Item 2 data"), 800);
+        });
+      }
+
+      // Button event handlers for Example 4
+      document
+        .getElementById("runCallback4")
+        .addEventListener("click", function () {
+          console.log("\nEXAMPLE 4: Parallel operations (Callback)");
+          console.log("Starting parallel callbacks...");
+
+          // Reset the variables for demo purposes
+          let item1Data = null;
+          let item2Data = null;
+
+          function checkAllDone() {
+            if (item1Data !== null && item2Data !== null) {
+              console.log("[Callback] All items fetched:", {
+                item1: item1Data,
+                item2: item2Data,
+              });
+            }
+          }
+
+          fetchItem1((data) => {
+            item1Data = data;
+            console.log("[Callback] Item 1 fetched");
+            checkAllDone();
+          });
+
+          fetchItem2((data) => {
+            item2Data = data;
+            console.log("[Callback] Item 2 fetched");
+            checkAllDone();
+          });
+        });
+
+      document
+        .getElementById("runPromise4")
+        .addEventListener("click", function () {
+          console.log("\nEXAMPLE 4: Parallel operations (Promise)");
+          console.log("Starting parallel Promises...");
+          Promise.all([fetchItem1Promise(), fetchItem2Promise()]).then(
+            ([item1, item2]) => {
+              console.log("[Promise] All items fetched:", { item1, item2 });
+            }
+          );
+        });
+
+      // ------------------------------------------------------------
+      // EXAMPLE 5: Converting from callbacks to Promises
+      // ------------------------------------------------------------
+
+      // Original callback-based API
+      function legacyApiCall(query, callback) {
+        console.log(`[Legacy API] Searching for: ${query}`);
+        setTimeout(() => {
+          if (query.length < 3) {
+            callback(new Error("Query too short"));
+          } else {
+            callback(null, [`Result 1 for ${query}`, `Result 2 for ${query}`]);
+          }
+        }, 1000);
+      }
+
+      // Converting to Promise-based API
+      function modernApiCall(query) {
+        return new Promise((resolve, reject) => {
+          legacyApiCall(query, (error, results) => {
+            if (error) {
+              reject(error);
+            } else {
+              resolve(results);
+            }
+          });
+        });
+      }
+
+      // Button event handlers for Example 5
+      document
+        .getElementById("runCallback5")
+        .addEventListener("click", function () {
+          console.log(
+            "\nEXAMPLE 5: Converting callback API to Promise (Legacy)"
+          );
+          console.log("Using legacy callback API...");
+          legacyApiCall("javascript", (error, results) => {
+            if (error) {
+              console.error("[Legacy] Error:", error.message);
+            } else {
+              console.log("[Legacy] Results:", results);
+            }
+          });
+        });
+
+      document
+        .getElementById("runPromise5")
+        .addEventListener("click", function () {
+          console.log(
+            "\nEXAMPLE 5: Converting callback API to Promise (Modern)"
+          );
+          console.log("Using modern Promise API...");
+          modernApiCall("javascript")
+            .then((results) => console.log("[Modern] Results:", results))
+            .catch((error) => console.error("[Modern] Error:", error.message));
+        });
+
+      // ------------------------------------------------------------
+      // BONUS: ASYNC/AWAIT - BUILT ON PROMISES BUT WITH CLEANER SYNTAX
+      // ------------------------------------------------------------
+
+      // Using async/await with our Promise-based functions
+      async function fetchUserAndPosts() {
+        console.log("Starting async/await example...");
+
+        try {
+          // Await pauses execution until the Promise resolves
+          const user = await getUserByIdPromise("user123");
+          console.log("[Async/Await] Got user:", user);
+
+          // This doesn't execute until the previous await completes
+          const posts = await getPostsByUserPromise(user);
+          console.log("[Async/Await] Got posts:", posts);
+
+          return { user, posts };
+        } catch (error) {
+          console.error(
+            "[Async/Await] Error:",
+            error instanceof Error ? error.message : String(error)
+          );
+          return null;
+        }
+      }
+
+      // Button event handler for Async/Await example
+      document
+        .getElementById("runAsyncAwait")
+        .addEventListener("click", function () {
+          console.log("\n--- ASYNC/AWAIT EXAMPLE ---");
+
+          // Run the async/await example
+          fetchUserAndPosts().then((result) => {
+            console.log("[Async/Await] Example completed with result:", result);
+          });
+        });
+    </script>
+  </body>
+</html>
