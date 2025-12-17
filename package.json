@@ -9,7 +9,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "test": "jest",
-    "node": "nodemon ./src/app.ts"
+    "node": "nodemon ./src/app15.ts"
   },
   "keywords": [],
   "author": "",
